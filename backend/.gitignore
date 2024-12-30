@@ -22,3 +22,6 @@ Thumbs.db
 
 # npm package lock files (optional)
 package-lock.json
+
+#.env file
+.env

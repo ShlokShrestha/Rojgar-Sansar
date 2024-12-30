@@ -1,13 +1,16 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import globalErrorHandler from "./controller/errorController";
+import authRoutes from "./routes/authRoute";
+
+import dotenv from "dotenv";
+dotenv.config();
+
 const server = express();
+server.use(express.json());
 
-server.get("/", (req: Request, res: Response) => {
-  res.status(200).json({
-    status: "success",
-    message: "Api is running",
-  });
-});
+server.use("/api/v1/auth", authRoutes);
+server.use(globalErrorHandler);
 
-server.listen(3000, () => {
-  console.log("Server is running in port 3000");
+server.listen(process.env.SERVER_PORT, () => {
+  console.log("Server is running in port ", process.env.SERVER_PORT);
 });
