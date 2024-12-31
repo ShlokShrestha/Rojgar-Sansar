@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { catchAsync } from "../utils/catchAsync";
+import { catchAsync } from "../middleware/catchAsync";
 import prisma from "../prisma/prismaClient";
-import ErrorHandler from "../utils/ErrorHandler";
+import ErrorHandler from "../utils/errorHandler";
 import bcrypt from "bcrypt";
 import sendEmail from "../utils/sendEmail";
 import { generateResetToken, generateToken } from "../utils/generateToken";
