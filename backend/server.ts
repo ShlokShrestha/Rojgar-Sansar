@@ -1,6 +1,6 @@
 import express from "express";
 import globalErrorHandler from "./controller/errorController";
-import authRoutes from "./routes/authRoute";
+import userRoutes from "./routes/userRoute";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -8,7 +8,7 @@ dotenv.config();
 const server = express();
 server.use(express.json());
 
-server.use("/api/v1/auth", authRoutes);
+server.use("/api/v1/auth", userRoutes);
 server.use(globalErrorHandler);
 
 server.listen(process.env.SERVER_PORT, () => {
