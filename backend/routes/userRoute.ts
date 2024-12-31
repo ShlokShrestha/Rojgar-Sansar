@@ -1,20 +1,13 @@
 import express from "express";
 import {
-  forgotPassword,
   getAllUser,
   getSingleUser,
-  login,
-  resetPassword,
-  signUp,
   userProfile,
 } from "../controller/userController";
 import { isAuthenitcatedUser, isAuthorizedRoles } from "../middleware/auth";
 const userRoutes = express.Router();
 
-userRoutes.post("/signup", signUp);
-userRoutes.post("/login", login);
-userRoutes.post("/forgotPassword", forgotPassword);
-userRoutes.post("/resetPassword", resetPassword);
+//user route
 userRoutes.get(
   "/getAllUser",
   isAuthenitcatedUser,

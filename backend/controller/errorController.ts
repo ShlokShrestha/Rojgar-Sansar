@@ -1,16 +1,18 @@
 import { ErrorRequestHandler, Response } from "express";
 
-interface FunctionType {
-  error: {
-    statusCode: number;
-    status: string;
-    stack: string;
-    message: string;
-  };
-  res: Response;
+interface sendErrorFn {
+  (
+    error: {
+      statusCode: number;
+      status: string;
+      stack: string;
+      message: string;
+    },
+    res: Response
+  ): void;
 }
 
-const sendErrorDev = ({ error, res }: FunctionType) => {
+const sendErrorDev: sendErrorFn = (error, res) => {
   const statusCode = error.statusCode || 500;
   const status = error.status || "error";
   const message = error.message;
@@ -19,7 +21,7 @@ const sendErrorDev = ({ error, res }: FunctionType) => {
 };
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  sendErrorDev({ error, res });
+  sendErrorDev(error, res);
 };
 
 export default globalErrorHandler;
