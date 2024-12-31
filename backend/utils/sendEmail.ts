@@ -6,7 +6,7 @@ interface Options {
   resetToken: string;
 }
 
-const sendEmail = (options: Options) => {
+const sendEmail = async (options: Options): Promise<void> => {
   const transporter = nodemailer.createTransport({
     port: 465,
     host: "smtp.gmail.com",
@@ -154,11 +154,13 @@ const sendEmail = (options: Options) => {
 
 `,
   };
-  transporter.sendMail(mailData, function (err, info) {
-    if (err) {
-      return console.log(err);
-    }
-  });
+  try {
+    const info = await transporter.sendMail(mailData);
+    console.log("Email sent successfully:", info.response);
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send email.");
+  }
 };
 
 export default sendEmail;

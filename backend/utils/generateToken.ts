@@ -14,7 +14,7 @@ export const generateToken = (payload: string | null): string | null => {
   }
   try {
     const token = jwt.sign(
-      { data: payload },
+      { id: payload },
       secret,
       { expiresIn: process.env.JWT_EXPIRES_IN || "1h" } // Default to 1 hour if not specified
     );
