@@ -4,7 +4,7 @@ import {
   login,
   resetPassword,
   signUp,
-} from "../controller/authController";
+} from "../controller/userController";
 const authRoutes = epxress.Router();
 
 authRoutes.post("/signup", signUp);
