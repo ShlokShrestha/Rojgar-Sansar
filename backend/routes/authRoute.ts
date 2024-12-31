@@ -1,8 +1,15 @@
 import epxress from "express";
-import { login, signUp } from "../controller/authController";
+import {
+  forgotPassword,
+  login,
+  resetPassword,
+  signUp,
+} from "../controller/authController";
 const authRoutes = epxress.Router();
 
 authRoutes.post("/signup", signUp);
 authRoutes.post("/login", login);
+authRoutes.post("/forgotPassword", forgotPassword);
+authRoutes.post("/resetPassword", resetPassword);
 
 export default authRoutes;

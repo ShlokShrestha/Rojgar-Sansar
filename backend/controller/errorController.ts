@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, Request, Response, NextFunction } from "express";
+import { ErrorRequestHandler, Response } from "express";
 
 interface FunctionType {
   error: {
