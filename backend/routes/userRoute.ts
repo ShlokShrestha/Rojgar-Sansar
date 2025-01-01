@@ -8,8 +8,8 @@ import { isAuthorizedRoles } from "../middleware/auth";
 const userRoutes = express.Router();
 
 //user route
-userRoutes.get("/getAllUser", isAuthorizedRoles("ADMIN"), getAllUser);
-userRoutes.get("/getSingleUser/:id", isAuthorizedRoles("ADMIN"), getSingleUser);
+userRoutes.get("/getAllUser", getAllUser);
+userRoutes.get("/getSingleUser/:id", isAuthorizedRoles("admin"), getSingleUser);
 userRoutes.get("/profile", userProfile);
 
 export default userRoutes;

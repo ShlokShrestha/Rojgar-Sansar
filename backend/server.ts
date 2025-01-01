@@ -9,6 +9,7 @@ dotenv.config();
 
 const server = express();
 server.use(express.json());
+server.use('/uploads', express.static('public/uploads'));
 
 server.use("/api/v1/auth", authRoutes);
 server.use("/api/v1/user", isAuthenitcatedUser, userRoutes);

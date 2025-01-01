@@ -10,6 +10,7 @@ import crypto from "crypto";
 export const signUp = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { fullName, email, password } = req.body;
+    const filename = `uploads/${req.file?.filename ?? ""}`;
     if (!fullName || !email || !password) {
       return next(new ErrorHandler("Please fill form properly", 400));
     }
@@ -23,14 +24,15 @@ export const signUp = catchAsync(
         fullName: fullName,
         email: email,
         password: hashPassword,
+        profileUrl: filename,
       },
     });
     if (!newUser) {
-      return new ErrorHandler("Signup unsuccessfull", 400);
+      return new ErrorHandler("Signup unsuccessful", 400);
     }
     res.status(200).json({
       status: "success",
-      message: "Sign up successfull",
+      message: "Sign up successful",
     });
   }
 );

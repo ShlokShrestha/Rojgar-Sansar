@@ -8,8 +8,9 @@ datasource db {
 }
 
 enum Role {
-  USER
-  ADMIN
+  user
+  reecruiter
+  admin
 }
 
 model user {
@@ -17,7 +18,8 @@ model user {
   fullName            String
   email               String
   password            String
-  role                Role      @default(USER)
+  role                Role      @default(user)
+  profileUrl          String
   resetPasswordToken  String?
   resetPasswordExpire DateTime?
   createdAt           DateTime  @default(now())

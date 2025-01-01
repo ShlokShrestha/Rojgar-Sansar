@@ -14,7 +14,7 @@ interface DecodedToken {
   iat: number;
   exp: number;
 }
-type Role = "ADMIN" | "USER";
+type Role = "admin" | "user" | "reecruiter";
 
 export const isAuthenitcatedUser = catchAsync(
   async (

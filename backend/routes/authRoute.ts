@@ -5,10 +5,11 @@ import {
   resetPassword,
   signUp,
 } from "../controller/authController";
+import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
 const authRoutes = express.Router();
 
 //auth route
-authRoutes.post("/signup", signUp);
+authRoutes.post("/signup", uploadImageMiddleWare.single("profileImage"), signUp);
 authRoutes.post("/login", login);
 authRoutes.post("/forgotPassword", forgotPassword);
 authRoutes.post("/resetPassword", resetPassword);
