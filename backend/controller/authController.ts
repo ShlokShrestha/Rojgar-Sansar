@@ -10,7 +10,8 @@ import crypto from "crypto";
 export const signUp = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { fullName, email, password } = req.body;
-    const filename = `uploads/${req.file?.filename ?? ""}`;
+    const filename: string | null = req.file?.filename ?? null;
+
     if (!fullName || !email || !password) {
       return next(new ErrorHandler("Please fill form properly", 400));
     }

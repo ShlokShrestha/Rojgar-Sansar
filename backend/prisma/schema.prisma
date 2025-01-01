@@ -19,7 +19,7 @@ model user {
   email               String
   password            String
   role                Role      @default(user)
-  profileUrl          String
+  profileUrl          String? 
   resetPasswordToken  String?
   resetPasswordExpire DateTime?
   createdAt           DateTime  @default(now())
