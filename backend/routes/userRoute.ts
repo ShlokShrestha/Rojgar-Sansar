@@ -4,17 +4,12 @@ import {
   getSingleUser,
   userProfile,
 } from "../controller/userController";
-import { isAuthenitcatedUser, isAuthorizedRoles } from "../middleware/auth";
+import { isAuthorizedRoles } from "../middleware/auth";
 const userRoutes = express.Router();
 
 //user route
-userRoutes.get(
-  "/getAllUser",
-  isAuthenitcatedUser,
-  isAuthorizedRoles("ADMIN"),
-  getAllUser
-);
-userRoutes.get("/getSingleUser/:id", isAuthenitcatedUser, getSingleUser);
-userRoutes.get("/profile", isAuthenitcatedUser, userProfile);
+userRoutes.get("/getAllUser", isAuthorizedRoles("ADMIN"), getAllUser);
+userRoutes.get("/getSingleUser/:id", isAuthorizedRoles("ADMIN"), getSingleUser);
+userRoutes.get("/profile", userProfile);
 
 export default userRoutes;

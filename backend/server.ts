@@ -4,13 +4,14 @@ import userRoutes from "./routes/userRoute";
 
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoute";
+import { isAuthenitcatedUser } from "./middleware/auth";
 dotenv.config();
 
 const server = express();
 server.use(express.json());
 
 server.use("/api/v1/auth", authRoutes);
-server.use("/api/v1/user", userRoutes);
+server.use("/api/v1/user", isAuthenitcatedUser, userRoutes);
 server.use(globalErrorHandler);
 
 server.listen(process.env.SERVER_PORT, () => {

@@ -37,10 +37,13 @@ export const isAuthenitcatedUser = catchAsync(
         )
       );
     }
-    const decode = jwt.verify(token, secret) as DecodedToken;
+    const verifyToken = jwt.verify(token, secret) as DecodedToken;
+    if (!verifyToken) {
+      return next(new ErrorHandler("Token is expired", 403));
+    }
     const user = await prisma.user.findFirst({
       where: {
-        id: decode.id,
+        id: verifyToken.id,
       },
     });
     req.user = user ?? undefined;
