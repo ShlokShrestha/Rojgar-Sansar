@@ -36,14 +36,7 @@ export const signUp = catchAsync(
         folder: "/profile",
         useUniqueFileName: true,
       };
-      try {
-        imageUrl = await uploadImageKit(uploadParams);
-        if (!imageUrl?.url || !imageUrl?.fileId) {
-          return next(new ErrorHandler("Image upload failed", 500));
-        }
-      } catch (error) {
-        return next(new ErrorHandler("Image upload failed", 500));
-      }
+      imageUrl = await uploadImageKit(uploadParams);
     }
     if (imageUrl) {
       userData.profile = {

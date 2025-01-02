@@ -9,21 +9,30 @@ datasource db {
 
 enum Role {
   user
-  reecruiter
+  recruiter
   admin
 }
 
+enum status {
+  pending
+  accepted
+  rejected
+}
+
 model user {
-  id                  String    @id @default(uuid())
+  id                  String        @id @default(uuid())
   fullName            String
-  email               String    @unique
+  email               String        @unique
   password            String
-  role                Role      @default(user)
+  role                Role          @default(user)
   resetPasswordToken  String?
   resetPasswordExpire DateTime?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
   profile             profile?
+  jobPosts            job[]
+  applications        application[]
+  company             company[]
 }
 
 model profile {
@@ -31,4 +40,46 @@ model profile {
   profileId  String
   user       user   @relation(fields: [userId], references: [id])
   userId     String @unique
+}
+
+model company {
+  id       String @id @default(uuid())
+  name     String
+  location String
+  logoUrl  String
+  logoId   String
+  jobs     job[]
+  user     user   @relation(fields: [userId], references: [id])
+  userId   String
+}
+
+model job {
+  id            String        @id @default(uuid())
+  title         String
+  description   String
+  location      String
+  salary        String
+  createdBy     user          @relation(fields: [createdId], references: [id])
+  createdId     String
+  jobCategory   jobCategory   @relation(fields: [jobCategoryId], references: [id])
+  jobCategoryId String
+  application   application[]
+  company       company       @relation(fields: [companyId], references: [id])
+  companyId     String
+}
+
+model jobCategory {
+  id    String @id @default(uuid())
+  title String
+  jobs  job[]
+}
+
+model application {
+  id        String   @id @default(uuid())
+  appliedAt DateTime @default(now())
+  status    status   @default(pending)
+  job       job      @relation(fields: [jobId], references: [id])
+  jobId     String
+  user      user     @relation(fields: [userId], references: [id])
+  userId    String
 }
