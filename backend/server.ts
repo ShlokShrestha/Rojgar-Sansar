@@ -4,7 +4,7 @@ import userRoutes from "./routes/userRoute";
 
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoute";
-import { isAuthenitcatedUser } from "./middleware/auth";
+import { isAuthenitcatedUser } from "./middleware/authMiddleware";
 dotenv.config();
 
 const server = express();

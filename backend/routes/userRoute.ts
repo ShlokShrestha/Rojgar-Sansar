@@ -7,7 +7,7 @@ import {
   updateUser,
   userProfile,
 } from "../controller/userController";
-import { isAuthorizedRoles } from "../middleware/auth";
+import { isAuthorizedRoles } from "../middleware/authMiddleware";
 import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
 const userRoutes = express.Router();
 

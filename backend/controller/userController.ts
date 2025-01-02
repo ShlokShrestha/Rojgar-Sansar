@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../middleware/catchAsync";
 import prisma from "../prisma/prismaClient";
-import { ExpressRequest } from "../middleware/auth";
+import { ExpressRequest } from "../middleware/authMiddleware";
 import ErrorHandler from "../utils/errorHandler";
 import path from "path";
 const fs = require("fs").promises;
