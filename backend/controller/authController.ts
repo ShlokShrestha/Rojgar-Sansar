@@ -6,32 +6,62 @@ import bcrypt from "bcrypt";
 import sendEmail from "../utils/sendEmail";
 import { generateResetToken, generateToken } from "../utils/generateToken";
 import crypto from "crypto";
+import { uploadImageKit } from "../utils/imageKitUpload";
 
 export const signUp = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { fullName, email, password } = req.body;
-    const filename: string | null = req.file?.filename ?? null;
+    const file = req.file ?? null;
 
     if (!fullName || !email || !password) {
       return next(new ErrorHandler("Please fill form properly", 400));
     }
-    const existanceUser = await prisma.user.findFirst({ where: { email } });
-    if (existanceUser) {
-      return next(new ErrorHandler("User with email already exist", 400));
+
+    const existingUser = await prisma.user.findFirst({ where: { email } });
+    if (existingUser) {
+      return next(new ErrorHandler("User with email already exists", 400));
     }
-    const hashPassword = bcrypt.hashSync(password, 10);
+
+    const hashPassword = await bcrypt.hash(password, 10);
+    const userData: any = {
+      fullName,
+      email,
+      password: hashPassword,
+    };
+    let imageUrl: { url: string; fileId: string } | undefined;
+    if (file) {
+      const uploadParams = {
+        file: file?.buffer,
+        fileName: file?.originalname,
+        folder: "/profile",
+        useUniqueFileName: true,
+      };
+      try {
+        imageUrl = await uploadImageKit(uploadParams);
+        if (!imageUrl?.url || !imageUrl?.fileId) {
+          return next(new ErrorHandler("Image upload failed", 500));
+        }
+      } catch (error) {
+        return next(new ErrorHandler("Image upload failed", 500));
+      }
+    }
+    if (imageUrl) {
+      userData.profile = {
+        create: {
+          profileUrl: imageUrl.url,
+          profileId: imageUrl.fileId,
+        },
+      };
+    }
     const newUser = await prisma.user.create({
-      data: {
-        fullName: fullName,
-        email: email,
-        password: hashPassword,
-        profileUrl: filename,
-      },
+      data: userData,
     });
+
     if (!newUser) {
-      return new ErrorHandler("Signup unsuccessful", 400);
+      return next(new ErrorHandler("Signup unsuccessful", 400));
     }
-    res.status(200).json({
+
+    res.status(201).json({
       status: "success",
       message: "Sign up successful",
     });
@@ -41,6 +71,9 @@ export const signUp = catchAsync(
 export const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return next(new ErrorHandler("Enter a valid email and password", 400));
+    }
     const result = await prisma.user.findFirst({ where: { email } });
     if (!result) {
       return next(new ErrorHandler("User with email doesnot exist", 401));
@@ -57,38 +90,40 @@ export const login = catchAsync(
 export const forgotPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email } = req.body;
+    if (!email) {
+      return next(new ErrorHandler("Enter a valid email", 400));
+    }
     const user = await prisma.user.findFirst({ where: { email } });
     if (!user) {
       return next(new ErrorHandler("User doesnot exist with this email", 400));
     }
     const { resetToken, resetPasswordToken, resetPasswordExpire } =
       generateResetToken();
-    try {
-      sendEmail({
-        email: user.email,
-        subject: `Rojgar Sansar Password Recovery`,
-        resetToken,
-      });
-      await prisma.user.update({
-        where: { id: user.id },
-        data: {
-          resetPasswordToken: resetPasswordToken,
-          resetPasswordExpire: resetPasswordExpire,
-        },
-      });
-      res.status(200).json({
-        status: "success",
-        message: `Email sent to ${user.email} successfully`,
-      });
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 400));
-    }
+    sendEmail({
+      email: user.email,
+      subject: `Rojgar Sansar Password Recovery`,
+      resetToken,
+    });
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordToken: resetPasswordToken,
+        resetPasswordExpire: resetPasswordExpire,
+      },
+    });
+    res.status(200).json({
+      status: "success",
+      message: `Email sent to ${user.email} successfully`,
+    });
   }
 );
 
 export const resetPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { token, password } = req.body;
+    if (!token || !password) {
+      return next(new ErrorHandler("Enter a valid token and password", 400));
+    }
     const resetPasswordToken = crypto
       .createHash("sha256")
       .update(token)

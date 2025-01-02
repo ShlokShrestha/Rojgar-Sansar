@@ -4,6 +4,7 @@ import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
 import ErrorHandler from "../utils/errorHandler";
 import path from "path";
+import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
 const fs = require("fs").promises;
 
 //user profile
@@ -17,59 +18,61 @@ export const userProfile = catchAsync(
         fullName: true,
         email: true,
         role: true,
-        profileUrl: true,
+        profile: true,
       },
     });
     if (!userProfile) {
       return next(new ErrorHandler("User not found", 404));
     }
-    const baseUrl = "http://localhost:5000";
-    (userProfile.profileUrl = `${baseUrl}/uploads/${userProfile?.profileUrl}`),
-      res.status(200).json({ status: "success", data: userProfile });
+    res.status(200).json({ status: "success", data: userProfile });
   }
 );
 //user update profile
 export const updateProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const userId = req.body.id || req.user?.id;
+    const userId = req.user?.id;
     const { email, fullName } = req.body;
-    const updateProfileData: any = {
-      email,
-      fullName,
-    };
     const user = await prisma.user.findUnique({
       where: { id: userId },
+      include: { profile: true },
     });
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
     if (req.file) {
-      if (user.profileUrl) {
-        const cleanedPath = __dirname.replace(
-          /\\controller$/,
-          "/public/uploads"
-        );
-        const oldFilePath = path.join(cleanedPath, user.profileUrl);
-        try {
-          await fs.unlink(oldFilePath);
-        } catch (err: any) {
-          return next(
-            new ErrorHandler(
-              `Failed to delete old profile: ${err?.message}`,
-              500
-            )
-          );
-        }
+      if (user.profile?.profileId) {
+        await deleteImageKit(user.profile?.profileId);
       }
-      updateProfileData.profileUrl = req.file?.filename ?? null;
+      const uploadParams = {
+        file: req.file?.buffer,
+        fileName: req.file?.originalname,
+        folder: "/profile",
+        useUniqueFileName: true,
+      };
+      const imageUrl = await uploadImageKit(uploadParams);
+      const profileData = user.profile?.profileId
+        ? { update: { profileUrl: imageUrl.url, profileId: imageUrl.fileId } }
+        : { create: { profileUrl: imageUrl.url, profileId: imageUrl.fileId } };
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          email,
+          fullName,
+          profile: profileData,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          email,
+          fullName,
+        },
+      });
     }
-    await prisma.user.update({
-      where: { id: userId },
-      data: updateProfileData,
-    });
     res.status(200).json({
       status: "success",
-      message: "Update profile succesful",
+      message: "Update profile successful",
     });
   }
 );
@@ -82,6 +85,7 @@ export const getAllUser = catchAsync(
         fullName: true,
         email: true,
         role: true,
+        profile: true,
       },
     });
     res.status(200).json({ status: "success", data: getAllUser });
@@ -98,17 +102,12 @@ export const getSingleUser = catchAsync(
         fullName: true,
         email: true,
         role: true,
-        profileUrl: true,
-        updatedAt: true,
-        createdAt: true,
       },
     });
     if (!getSingleUser) {
       return next(new ErrorHandler("User not found", 404));
     }
-    const baseUrl = `http://localhost:${process.env.SERVER_PORT}`;
-    (getSingleUser.profileUrl = `${baseUrl}/uploads/${getSingleUser?.profileUrl}`),
-      res.status(200).json({ status: "success", data: getSingleUser });
+    res.status(200).json({ status: "success", data: getSingleUser });
   }
 );
 //Update user - Admin

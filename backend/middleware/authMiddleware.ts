@@ -41,7 +41,7 @@ export const isAuthenitcatedUser = catchAsync(
     if (!verifyToken) {
       return next(new ErrorHandler("Token is expired", 403));
     }
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: {
         id: verifyToken.id,
       },
