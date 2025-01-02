@@ -5,7 +5,7 @@ import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
 import { uploadImageKit } from "../utils/imageKitUpload";
 
-//Create job category
+//CRUD JobCategory -- Admin /Recuiter
 export const createJobCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { title } = req.body;
@@ -21,13 +21,41 @@ export const createJobCategory = catchAsync(
       .json({ status: "success", message: "category create successful" });
   }
 );
-//Get job category -- User / Admin /Recuiter
 export const getJobCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const newJobCategory = await prisma.jobCategory.findMany();
     res.status(201).json({
       status: "success",
       data: newJobCategory,
+    });
+  }
+);
+export const updateJobCategory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { title, id } = req.body;
+    const newJobCategory = await prisma.jobCategory.update({
+      where: { id: id },
+      data: { title },
+    });
+    if (!newJobCategory) {
+      return next(new ErrorHandler("update category unsuccesful", 400));
+    }
+    res
+      .status(201)
+      .json({ status: "success", message: "category update successful" });
+  }
+);
+export const deletejobCategory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.body;
+    const category = await prisma.jobCategory.findUnique({ where: { id: id } });
+    if (!category) {
+      return next(new ErrorHandler("Category doesnot exist with this id", 400));
+    }
+    await prisma.jobCategory.delete({ where: { id: id } });
+    res.status(200).json({
+      status: "success",
+      message: "delete category successful",
     });
   }
 );

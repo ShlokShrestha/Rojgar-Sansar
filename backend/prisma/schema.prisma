@@ -59,12 +59,12 @@ model job {
   description   String
   location      String
   salary        String
-  createdBy     user          @relation(fields: [createdId], references: [id])
+  createdBy     user          @relation(fields: [createdId], references: [id], onDelete: Cascade)
   createdId     String
-  jobCategory   jobCategory   @relation(fields: [jobCategoryId], references: [id])
-  jobCategoryId String
+  jobCategory   jobCategory?  @relation(fields: [jobCategoryId], references: [id], onDelete: SetNull)
+  jobCategoryId String?
   application   application[]
-  company       company       @relation(fields: [companyId], references: [id])
+  company       company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId     String
 }
 

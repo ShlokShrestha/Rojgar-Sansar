@@ -34,7 +34,8 @@ CREATE TABLE "company" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "location" TEXT NOT NULL,
-    "logo" TEXT NOT NULL,
+    "logoUrl" TEXT NOT NULL,
+    "logoId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "company_pkey" PRIMARY KEY ("id")
@@ -48,7 +49,7 @@ CREATE TABLE "job" (
     "location" TEXT NOT NULL,
     "salary" TEXT NOT NULL,
     "createdId" TEXT NOT NULL,
-    "jobCategoryId" TEXT NOT NULL,
+    "jobCategoryId" TEXT,
     "companyId" TEXT NOT NULL,
 
     CONSTRAINT "job_pkey" PRIMARY KEY ("id")
@@ -86,13 +87,13 @@ ALTER TABLE "profile" ADD CONSTRAINT "profile_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "company" ADD CONSTRAINT "company_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "job" ADD CONSTRAINT "job_createdId_fkey" FOREIGN KEY ("createdId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "job" ADD CONSTRAINT "job_createdId_fkey" FOREIGN KEY ("createdId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "job" ADD CONSTRAINT "job_jobCategoryId_fkey" FOREIGN KEY ("jobCategoryId") REFERENCES "jobCategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "job" ADD CONSTRAINT "job_jobCategoryId_fkey" FOREIGN KEY ("jobCategoryId") REFERENCES "jobCategory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "job" ADD CONSTRAINT "job_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "company"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "job" ADD CONSTRAINT "job_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "application" ADD CONSTRAINT "application_jobId_fkey" FOREIGN KEY ("jobId") REFERENCES "job"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

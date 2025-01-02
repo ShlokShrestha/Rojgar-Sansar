@@ -6,6 +6,8 @@ import {
   createCompany,
   getCompany,
   getAllJobs,
+  deletejobCategory,
+  updateJobCategory
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -14,19 +16,7 @@ import {
 import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
 const jobRoute = express.Router();
 
-jobRoute.post(
-  "/createJobCategory",
-  isAuthenitcatedUser,
-  isAuthorizedRoles("admin", "recruiter"),
-  createJobCategory
-);
-jobRoute.get(
-  "/jobCategory",
-  isAuthenitcatedUser,
-  isAuthorizedRoles("admin", "recruiter"),
-  getJobCategory
-);
-
+//Route for Company
 jobRoute.post(
   "/createCompany",
   isAuthenitcatedUser,
@@ -41,6 +31,33 @@ jobRoute.get(
   getCompany
 );
 
+//Route for JobCategory
+jobRoute.post(
+  "/createJobCategory",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  createJobCategory
+);
+jobRoute.get(
+  "/jobCategory",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  getJobCategory
+);
+jobRoute.put(
+  "/updateJobCategory",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  updateJobCategory
+);
+jobRoute.delete(
+  "/deleteJobCategory",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  deletejobCategory
+);
+
+//Route for Job
 jobRoute.post(
   "/createJob",
   isAuthenitcatedUser,
