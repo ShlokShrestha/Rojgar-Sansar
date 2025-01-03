@@ -7,7 +7,8 @@ import {
   getCompany,
   getAllJobs,
   deletejobCategory,
-  updateJobCategory
+  updateJobCategory,
+  updateCompany,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -29,6 +30,13 @@ jobRoute.get(
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
   getCompany
+);
+jobRoute.patch(
+  "/updateCompany/:id",
+  isAuthenitcatedUser,
+  uploadImageMiddleWare.single("companyLogo"),
+  isAuthorizedRoles("admin", "recruiter"),
+  updateCompany
 );
 
 //Route for JobCategory
