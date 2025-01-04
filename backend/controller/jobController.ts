@@ -3,7 +3,7 @@ import { catchAsync } from "../middleware/catchAsync";
 import ErrorHandler from "../utils/errorHandler";
 import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
-import { uploadImageKit } from "../utils/imageKitUpload";
+import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
 
 //CRUD JobCategory -- Admin /Recuiter
 export const createJobCategory = catchAsync(
@@ -60,7 +60,7 @@ export const deletejobCategory = catchAsync(
   }
 );
 
-//Get company category -- User / Admin /Recuiter
+//CRUD company category -- User / Admin /Recuiter
 export const getCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const allCompany = await prisma.company.findMany({
@@ -72,7 +72,6 @@ export const getCompany = catchAsync(
     });
   }
 );
-//Create company -- Admin /Recuiter
 export const createCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { name, location } = req.body;
@@ -88,7 +87,7 @@ export const createCompany = catchAsync(
       useUniqueFileName: true,
     };
     const imageUrl = await uploadImageKit(uploadParams);
-    const newJobCategory = await prisma.company.create({
+    const newCompany = await prisma.company.create({
       data: {
         name: name,
         location: location,
@@ -97,16 +96,72 @@ export const createCompany = catchAsync(
         userId: userId,
       },
     });
-    if (!newJobCategory) {
-      return next(new ErrorHandler("create category unsuccesful", 400));
+    if (!newCompany) {
+      return next(new ErrorHandler("create company unsuccesful", 400));
     }
     res
       .status(201)
       .json({ status: "success", message: "company create successful" });
   }
 );
+export const updateCompany = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    let { name, location, logoUrl, logoId } = req.body;
+    const userId = req.user?.id ?? "";
+    const company = await prisma.company.findUnique({ where: { id: id } });
+    if (!company) {
+      return next(new ErrorHandler("Company doesnot exist", 400));
+    }
+    if (req?.file) {
+      if (logoId) {
+        await deleteImageKit(logoId);
+      }
+      const uploadParams = {
+        file: req.file?.buffer,
+        fileName: req.file?.originalname,
+        folder: "/CompanyLogo",
+        useUniqueFileName: true,
+      };
+      let imageUrl = await uploadImageKit(uploadParams);
+      logoUrl = imageUrl.url;
+      logoId = imageUrl.fileId;
+    }
+    const data = await prisma.company.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: name,
+        location: location,
+        logoUrl: logoUrl,
+        logoId: logoId,
+        userId: userId,
+      },
+    });
+    res.status(200).json({
+      status: "success",
+      message: "company update successful",
+      data: data,
+    });
+  }
+);
+export const deleteCompany = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.body;
+    const company = await prisma.company.findUnique({ where: { id: id } });
+    if (!company) {
+      return next(new ErrorHandler("Company doesnot exist with this id", 400));
+    }
+    await deleteImageKit(company.logoId);
+    await prisma.company.delete({ where: { id: id } });
+    res.status(200).json({
+      status: "success",
+      message: "delete company successful",
+    });
+  }
+);
 
-//Create job -- Admin /Recuiter
 export const createJob = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { title, description, location, salary, jobCategoryId, companyId } =

@@ -9,6 +9,7 @@ import {
   deletejobCategory,
   updateJobCategory,
   updateCompany,
+  deleteCompany,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -37,6 +38,13 @@ jobRoute.patch(
   uploadImageMiddleWare.single("companyLogo"),
   isAuthorizedRoles("admin", "recruiter"),
   updateCompany
+);
+jobRoute.delete(
+  "/deleteCompany",
+  isAuthenitcatedUser,
+  uploadImageMiddleWare.single("companyLogo"),
+  isAuthorizedRoles("admin", "recruiter"),
+  deleteCompany
 );
 
 //Route for JobCategory
