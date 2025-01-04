@@ -32,7 +32,8 @@ export const getJobCategory = catchAsync(
 );
 export const updateJobCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { title, id } = req.body;
+    const id = req.params.id;
+    const { title } = req.body;
     const newJobCategory = await prisma.jobCategory.update({
       where: { id: id },
       data: { title },
@@ -162,6 +163,18 @@ export const deleteCompany = catchAsync(
   }
 );
 
+//CRUD job -- User / Admin /Recuiter
+export const getAllJobs = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const allCompany = await prisma.job.findMany({
+      include: { company: true, jobCategory: true },
+    });
+    res.status(201).json({
+      status: "success",
+      data: allCompany,
+    });
+  }
+);
 export const createJob = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { title, description, location, salary, jobCategoryId, companyId } =
@@ -196,16 +209,47 @@ export const createJob = catchAsync(
       .json({ status: "success", message: "job create successful" });
   }
 );
-
-//Get company category -- User / Admin /Recuiter
-export const getAllJobs = catchAsync(
+export const updateJob = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const allCompany = await prisma.job.findMany({
-      include: { company: true, jobCategory: true },
+    const id = req.params.id;
+    const { title, description, location, salary, jobCategoryId, companyId } =
+      req.body;
+    const job = await prisma.job.findUnique({ where: { id: id } });
+    if (!job) {
+      return next(new ErrorHandler("job doesnot exist", 400));
+    }
+    const createdId = req.user?.id ?? "";
+    const updateJob = await prisma.job.update({
+      where: { id: id },
+      data: {
+        title: title,
+        description: description,
+        location: location,
+        salary: salary,
+        createdId: createdId,
+        jobCategoryId: jobCategoryId,
+        companyId: companyId,
+      },
     });
-    res.status(201).json({
+    if (!updateJob) {
+      return next(new ErrorHandler("update job unsuccesful", 400));
+    }
+    res
+      .status(201)
+      .json({ status: "success", message: "job update successful" });
+  }
+);
+export const deleteJob = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.body;
+    const job = await prisma.job.findUnique({ where: { id: id } });
+    if (!job) {
+      return next(new ErrorHandler("Job doesnot exist with this id", 400));
+    }
+    await prisma.job.delete({ where: { id: id } });
+    res.status(200).json({
       status: "success",
-      data: allCompany,
+      message: "delete company successful",
     });
   }
 );
