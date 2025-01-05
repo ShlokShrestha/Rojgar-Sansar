@@ -61,6 +61,7 @@ export const deletejobCategory = catchAsync(
   }
 );
 
+
 //CRUD company category -- User / Admin /Recuiter
 export const getCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {

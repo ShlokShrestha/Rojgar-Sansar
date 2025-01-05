@@ -27,6 +27,7 @@ export const userProfile = catchAsync(
     res.status(200).json({ status: "success", data: userProfile });
   }
 );
+
 //user update profile
 export const updateProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
@@ -136,6 +137,7 @@ export const updateUser = catchAsync(
     });
   }
 );
+
 //admin delete user  - Admin
 export const deleteUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
