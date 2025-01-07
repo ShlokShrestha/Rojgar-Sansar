@@ -1,5 +1,4 @@
-import JobListing from "../../components/Job/Job";
-
+import JobListing from "../../components/JobList/Joblist";
 
 const Job = () => {
   return (

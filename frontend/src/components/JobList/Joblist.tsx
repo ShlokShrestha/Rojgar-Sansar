@@ -10,7 +10,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import CheckBox from "../resuable/CheckBox";
+import CheckBox from "../resuable/Forms/CheckBox";
 
 const JobListing = () => {
 

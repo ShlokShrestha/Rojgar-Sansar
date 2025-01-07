@@ -18,7 +18,14 @@ import { Link } from "react-router";
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
   return (
-    <Box bg="purple.500" px={4} position={"sticky"} top={"0"} width={"100%"} zIndex={1}>
+    <Box
+      bg="purple.500"
+      px={4}
+      position={"sticky"}
+      top={"0"}
+      width={"100%"}
+      zIndex={1}
+    >
       <Flex
         h={14}
         alignItems="center"
@@ -54,12 +61,12 @@ const Navbar = () => {
           </Link>
           <Link to={"/jobList"}>
             <Button color="white" mr={4} variant="plain">
-              Find Work
+              Jobs List
             </Button>
           </Link>
-          <Link to={"/about"}>
+          <Link to={"/addJobs"}>
             <Button color="white" mr={4} variant="plain">
-              About
+              Add Jobs
             </Button>
           </Link>
         </Flex>
