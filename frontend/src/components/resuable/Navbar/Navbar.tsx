@@ -64,9 +64,9 @@ const Navbar = () => {
               Jobs List
             </Button>
           </Link>
-          <Link to={"/addJobs"}>
+          <Link to={"/dashboard"}>
             <Button color="white" mr={4} variant="plain">
-              Add Jobs
+              Dashboard
             </Button>
           </Link>
         </Flex>

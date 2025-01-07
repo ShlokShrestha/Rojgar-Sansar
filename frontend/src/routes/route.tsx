@@ -1,18 +1,26 @@
 import { Route, Routes } from "react-router";
 import Home from "../pages/Home/Home";
-import DashboardLayout from "../Layout/DashboardLayout";
+import MainLayout from "../Layout/MainLayout";
 import Job from "../pages/JobList/JobList";
-import AddJobs from "../pages/Dashboard/AddJobs";
+import DashboardLayout from "../Layout/DashboardLayout";
 
-type Props = {};
+import Dashboard from "../pages/Dashboard/Dashboard";
+import JobList from "../pages/Dashboard/Job/Job";
+import Company from "../pages/Dashboard/Company/Company";
+import Category from "../pages/Dashboard/Category/Category";
 
-const AllRoutes = (props: Props) => {
+const AllRoutes = () => {
   return (
     <Routes>
-      <Route element={<DashboardLayout />}>
+      <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/jobList" element={<Job />} />
-        <Route path="/addJobs" element={<AddJobs />} />
+      </Route>
+      <Route element={<DashboardLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/company" element={<Company />} />
+        <Route path="/dashboard/job" element={<JobList />} />
+        <Route path="/dashboard/category" element={<Category />} />
       </Route>
     </Routes>
   );
