@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import CategoryForm from "./CompanyForm";
+import CompanyForm from "./CompanyForm";
 import FormCard from "../../resuable/FormCard";
 import PrimaryButton from "../../resuable/Button/PrimaryButton";
 import { Stack } from "@chakra-ui/react";
@@ -25,7 +25,7 @@ const CompanyAdd = () => {
     <FormCard title="Add Company">
       <form onSubmit={onSubmit}>
         <Stack gap="4" align="flex-start" maxW="sm" pt={3}>
-          <CategoryForm register={register} errors={errors} />
+          <CompanyForm register={register} errors={errors} />
           <PrimaryButton text={"Add"} />
         </Stack>
       </form>

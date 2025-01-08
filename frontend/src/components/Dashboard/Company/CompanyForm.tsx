@@ -11,14 +11,22 @@ const CategoryForm: React.FC<IReactFormProps<ICompanyValues>> = (props) => {
         invalid={!!errors.name}
         errorText={errors.name?.message}
       >
-        <Input {...register("name")} type="text" />
+        <Input
+          {...register("name")}
+          type="text"
+          placeholder="Enter company name"
+        />
       </Field>
       <Field
         label="Location"
         invalid={!!errors.location}
         errorText={errors.location?.message}
       >
-        <Input {...register("location")} type="text" />
+        <Input
+          {...register("location")}
+          type="text"
+          placeholder="Enter location"
+        />
       </Field>
       <Field
         label="companyLogo"

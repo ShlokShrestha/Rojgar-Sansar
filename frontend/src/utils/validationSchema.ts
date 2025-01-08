@@ -6,12 +6,11 @@ export const categoryValidationSchema = Yup.object().shape({
     .min(3, "Category must be at least 3 characters")
     .max(22, "Category must not exceed 22 characters"),
 });
-const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 const validFileExtensions: any = {
   image: ["jpg", "gif", "png", "jpeg", "svg", "webp"],
 };
-
 function isValidFileType(fileName: any, fileType: any) {
   return (
     fileName &&
@@ -36,4 +35,20 @@ export const companyValidationSchema = Yup.object().shape({
       "Max allowed size is 2MB",
       (value: any) => value && value?.[0].size <= MAX_FILE_SIZE
     ),
+});
+
+export const JobValidationSchema = Yup.object().shape({
+  title: Yup.string()
+    .required("Job Name field is required")
+    .min(3, "Job Name  must be at least 3 characters")
+    .max(22, "Job Name must not exceed 22 characters"),
+  description: Yup.string()
+    .required("Job Name field is required")
+    .min(15, "Job Name  must be at least 3 characters"),
+  location: Yup.string()
+    .required("Job Name field is required")
+    .min(3, "Job Name  must be at least 3 characters"),
+  salary: Yup.string().required("Salary field is required"),
+  jobCategoryId: Yup.string().required("Job Category field is required"),
+  companyId: Yup.string().required("Company field is required"),
 });

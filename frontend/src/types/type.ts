@@ -22,6 +22,15 @@ export interface ICompanyValues {
   companyLogo: any;
 }
 
+export interface IJobValues {
+  title: string;
+  description: string;
+  location: string;
+  salary: string;
+  jobCategoryId: string;
+  companyId: string;
+}
+
 export interface IReactFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
