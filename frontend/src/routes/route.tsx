@@ -7,7 +7,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import JobList from "../pages/Dashboard/Job/Job";
 import Company from "../pages/Dashboard/Company/Company";
-import Category from "../pages/Dashboard/Category/Category";
+import Category from "../pages/Dashboard/Category/CategoryList";
 
 const AllRoutes = () => {
   return (

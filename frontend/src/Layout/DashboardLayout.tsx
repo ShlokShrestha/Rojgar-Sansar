@@ -6,7 +6,7 @@ import DashboardSidebar from "../components/Dashboard/DashboardSidebar";
 const DashboardLayout = () => {
   return (
     <>
-      <Flex minH="100vh" bg="gray.50">
+      <Flex minH="100vh" bg="gray.100">
         <DashboardSidebar />
         <Flex flex={1} direction="column">
           <DashboardNavbar />
