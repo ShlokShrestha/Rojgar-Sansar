@@ -17,7 +17,7 @@ const SearchFilter = () => {
   const initalQuery = searchParams.get("search") || "";
   const [input, setInput] = useState(initalQuery);
   const debounceValue = useDebounceHook(input);
-  
+
   useEffect(() => {
     const updatedParams = new URLSearchParams(searchParams);
     updatedParams.set("search", debounceValue);
@@ -30,7 +30,15 @@ const SearchFilter = () => {
 
   return (
     <>
-      <Input onChange={onChangeInput} value={input} width={200} />
+      <Input
+        onChange={onChangeInput}
+        value={input}
+        width={200}
+        placeholder="Search"
+        bg={"white"}
+        outline={"none"}
+        border={"none"}
+      />
     </>
   );
 };
@@ -83,7 +91,6 @@ const Table = (props: any) => {
             overflow: "auto",
             borderRadius: "0.375rem",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12)",
-            borderColor: "#F8F9FA",
             backgroundColor: "white",
           }}
         >
@@ -103,7 +110,7 @@ const Table = (props: any) => {
                   <th
                     key={index}
                     style={{
-                      padding: "0.5rem",
+                      padding: "0.6rem",
                       textAlign: "left",
                       fontWeight: "500",
                       color: "black",

@@ -1,16 +1,15 @@
 import {
   Box,
   Flex,
-  Text,
+  Link,
   Button,
-  Stack,
   MenuRoot,
   MenuTrigger,
   MenuContent,
   MenuItem,
   Image,
 } from "@chakra-ui/react";
-import { Link } from "react-router";
+import defaultUser from "../../assets/defaultUser.png";
 
 const DashboardNavbar = () => {
   return (
@@ -28,9 +27,16 @@ const DashboardNavbar = () => {
           alignItems="center"
           justifyContent={{ base: "space-between" }}
         >
-          <Text fontSize="xl" color="white" fontWeight="bold">
-            My Website
-          </Text>
+          <Link
+            href="/"
+            fontSize="xl"
+            color="white"
+            fontWeight="bold"
+            outline="none"
+            textDecoration="none"
+          >
+            Rojgar Sansar
+          </Link>
           <Flex
             alignItems="center"
             display={{ base: "none", md: "flex" }}
@@ -40,8 +46,8 @@ const DashboardNavbar = () => {
               <MenuTrigger asChild>
                 <Button variant="plain" size="sm" outline={"none"}>
                   <Image
-                    src="https://bit.ly/naruto-sage"
-                    boxSize="40px"
+                    src={defaultUser}
+                    boxSize="30px"
                     borderRadius="full"
                     fit="cover"
                     alt="Naruto Uzumaki"
@@ -53,12 +59,33 @@ const DashboardNavbar = () => {
                   Account Name
                 </MenuItem>
                 <MenuItem value="new-file">
-                  <Link to={"/profile-setting"}>Profile Setting</Link>
+                  <Link
+                    href={"/profile-setting"}
+                    border="none"
+                    outline="none"
+                    textDecoration="none"
+                  >
+                    Profile Setting
+                  </Link>
                 </MenuItem>
                 <MenuItem value="new-file">
-                  <Link to={"/update-password"}>Update Password</Link>
+                  <Link
+                    href={"/update-password"}
+                    border="none"
+                    outline="none"
+                    textDecoration="none"
+                  >
+                    Update Password
+                  </Link>
                 </MenuItem>
-                <MenuItem value="new-file">Logout</MenuItem>
+                <MenuItem
+                  value="new-file"
+                  border="none"
+                  outline="none"
+                  textDecoration="none"
+                >
+                  Logout
+                </MenuItem>
               </MenuContent>
             </MenuRoot>
           </Flex>

@@ -1,40 +1,64 @@
-import { Flex, VStack, Button } from "@chakra-ui/react";
-import { Link } from "react-router";
+import { VStack, Text, Box } from "@chakra-ui/react";
+import { useLocation, useNavigate } from "react-router";
+
+interface NavigateValue {
+  name: string;
+  path: string;
+}
 
 const DashboardSidebar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const recuiterRouter: NavigateValue[] = [
+    {
+      name: "My Dashboard",
+      path: "/dashboard",
+    },
+    {
+      name: "Company",
+      path: "/dashboard/company",
+    },
+    {
+      name: "Category",
+      path: "/dashboard/category",
+    },
+    {
+      name: "Job",
+      path: "/dashboard/job",
+    },
+  ];
   return (
     <>
-      <Flex
-        as="aside"
-        w="20%"
-        bg="gray.300"
-        color="black"
-        direction="column"
-        p={5}
-      >
+      <Box w="250px" h="100vh" bg="white" borderRight="1px solid #e0e0e0" p="5">
+        <Text
+          fontSize="xl"
+          fontWeight="bold"
+          mb="8"
+          textAlign={"center"}
+          color="purple.500"
+        >
+          Recuiter Dashboard
+        </Text>
         <VStack align="start" gap={4}>
-          <Link to={"/dashboard"}>
-            <Button variant="ghost" colorScheme="whiteAlpha">
-              My Dashboard
-            </Button>
-          </Link>
-          <Link to={"/dashboard/company"}>
-            <Button variant="ghost" colorScheme="whiteAlpha">
-              Company
-            </Button>
-          </Link>
-          <Link to={"/dashboard/category"}>
-            <Button variant="ghost" colorScheme="whiteAlpha">
-              Category
-            </Button>
-          </Link>
-          <Link to={"/dashboard/job"}>
-            <Button variant="ghost" colorScheme="whiteAlpha">
-              Jobs
-            </Button>
-          </Link>
+          {recuiterRouter?.map((item: NavigateValue) => (
+            <Text
+              w="100%"
+              p="3"
+              borderRadius="md"
+              bg={location.pathname === item?.path ? "purple.500" : ""}
+              color={location.pathname === item?.path ? "white" : "black"}
+              _hover={{
+                bg: "purple.500",
+                color: "white",
+              }}
+              cursor={"pointer"}
+              onClick={() => navigate(item?.path)}
+            >
+              {item.name}
+            </Text>
+          ))}
         </VStack>
-      </Flex>
+      </Box>
     </>
   );
 };
