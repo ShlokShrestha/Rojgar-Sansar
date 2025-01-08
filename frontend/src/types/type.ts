@@ -16,7 +16,13 @@ export interface ICategoryValues {
   category: string;
 }
 
-export interface IReactFormProps<T extends FieldValues>  {
+export interface ICompanyValues {
+  name: string;
+  location: string;
+  companyLogo: any;
+}
+
+export interface IReactFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
 }
