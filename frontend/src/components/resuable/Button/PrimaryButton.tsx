@@ -25,8 +25,8 @@ const PrimaryButton: React.FC<IButtonProps> = (props) => {
     <Button
       size="sm"
       colorPalette={buttonType === "primary" ? "purple" : "red"}
+      type={type}
       {...other}
-      width={20}
       disabled={disable}
     >
       {text}

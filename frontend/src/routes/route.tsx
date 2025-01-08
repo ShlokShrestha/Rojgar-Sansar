@@ -7,7 +7,9 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import JobList from "../pages/Dashboard/Job/Job";
 import Company from "../pages/Dashboard/Company/Company";
-import Category from "../pages/Dashboard/Category/CategoryList";
+import CategoryList from "../pages/Dashboard/Category/CategoryList";
+import CategoryEdit from "../pages/Dashboard/Category/CategoryEdit";
+import CategoryAdd from "../pages/Dashboard/Category/CategoryAdd";
 
 const AllRoutes = () => {
   return (
@@ -20,7 +22,9 @@ const AllRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/company" element={<Company />} />
         <Route path="/dashboard/job" element={<JobList />} />
-        <Route path="/dashboard/category" element={<Category />} />
+        <Route path="/dashboard/category" element={<CategoryList />} />
+        <Route path="/dashboard/category/add" element={<CategoryAdd />} />
+        <Route path="/dashboard/category/edit/:id" element={<CategoryEdit />} />
       </Route>
     </Routes>
   );

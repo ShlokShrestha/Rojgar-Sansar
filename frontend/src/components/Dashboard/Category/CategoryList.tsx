@@ -2,6 +2,8 @@ import React from "react";
 import Table from "../../resuable/Table";
 import ActionButtons from "../../resuable/Button/Actions";
 import { ITableProps } from "../../../types/type";
+import PrimaryButton from "../../resuable/Button/PrimaryButton";
+import { useNavigate } from "react-router";
 
 interface ICategoryProps extends ITableProps {
   categoryData: {
@@ -19,6 +21,7 @@ const Category: React.FC<ICategoryProps> = (props) => {
     categoryData,
     handleDeleteCategory,
   } = props;
+  const navigate = useNavigate();
   const columns = [
     {
       header: "S/N",
@@ -42,7 +45,7 @@ const Category: React.FC<ICategoryProps> = (props) => {
               value={props.getValue()}
               deleteFunction={handleDeleteCategory}
               deleteLoading={false}
-              editPageLink={`/promotions/edit/${props.row?.original?.id}`}
+              editPageLink={`/dashboard/category/edit/${props.row?.original?.id}`}
             />
           </>
         );
@@ -58,6 +61,14 @@ const Category: React.FC<ICategoryProps> = (props) => {
         pageSize={pageSize}
         setOffset={setOffset}
         loading={false}
+        AddButton={
+          <>
+            <PrimaryButton
+              text="Add Category"
+              onClick={() => navigate("/dashboard/category/add")}
+            />
+          </>
+        }
       />
     </>
   );
