@@ -16,7 +16,7 @@ export interface ICategoryValues {
   category: string;
 }
 
-export interface IReactFormProps {
-  register: UseFormRegister<ICategoryValues>;
-  errors: FieldErrors<ICategoryValues>;
+export interface IReactFormProps<T extends FieldValues>  {
+  register: UseFormRegister<T>;
+  errors: FieldErrors<T>;
 }

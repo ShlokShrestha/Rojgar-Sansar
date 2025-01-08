@@ -1,8 +1,8 @@
 import { Field } from "../../ui/field";
 import { Input } from "@chakra-ui/react";
-import { IReactFormProps } from "../../../types/type";
+import { ICategoryValues, IReactFormProps } from "../../../types/type";
 
-const CategoryForm: React.FC<IReactFormProps> = (props) => {
+const CategoryForm: React.FC<IReactFormProps<ICategoryValues>> = (props) => {
   const { errors, register } = props;
   return (
     <Field
