@@ -30,7 +30,22 @@ export interface IJobValues {
   jobCategoryId: string;
   companyId: string;
 }
-
+export interface ILoginValues {
+  email: string;
+  password: string;
+}
+export interface ISignUpValues {
+  fullName: string;
+  email: string;
+  password: string;
+}
+export interface IForgotPasswordValues {
+  email: string;
+}
+export interface IResetPasswordValues {
+  token: string;
+  password: string;
+}
 export interface IReactFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;

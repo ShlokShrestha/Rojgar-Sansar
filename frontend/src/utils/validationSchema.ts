@@ -36,7 +36,6 @@ export const companyValidationSchema = Yup.object().shape({
       (value: any) => value && value?.[0].size <= MAX_FILE_SIZE
     ),
 });
-
 export const JobValidationSchema = Yup.object().shape({
   title: Yup.string()
     .required("Job Name field is required")
@@ -51,4 +50,29 @@ export const JobValidationSchema = Yup.object().shape({
   salary: Yup.string().required("Salary field is required"),
   jobCategoryId: Yup.string().required("Job Category field is required"),
   companyId: Yup.string().required("Company field is required"),
+});
+export const loginValidationSchema = Yup.object().shape({
+  email: Yup.string().required("Email field is required"),
+  password: Yup.string()
+    .min(8, "Password must have atleast 8 Charaters.")
+    .required("Password field is required"),
+});
+export const signUpValidationSchema = Yup.object().shape({
+  fullName: Yup.string().required("FullName field is required"),
+  email: Yup.string().required("Email field is required"),
+  password: Yup.string()
+    .min(8, "Password must have atleast 8 Charaters.")
+    .required("Password field is required"),
+});
+
+export const forgotValidationSchema = Yup.object().shape({
+  email: Yup.string().required("Email field is required"),
+});
+export const resetPasswordValidationSchema = Yup.object().shape({
+  token: Yup.string()
+    .required("Token field is required")
+    .min(6, "Token must have atleast 6 Charaters."),
+  password: Yup.string()
+    .min(8, "Password must have atleast 8 Charaters.")
+    .required("Password field is required"),
 });

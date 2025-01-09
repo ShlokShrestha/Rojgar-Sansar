@@ -14,10 +14,18 @@ import CategoryEdit from "../pages/Dashboard/Category/CategoryEdit";
 import CategoryAdd from "../pages/Dashboard/Category/CategoryAdd";
 import JobAdd from "../pages/Dashboard/Job/JobAdd";
 import JobEdit from "../pages/Dashboard/Job/JobEdit";
+import Login from "../components/auth/Login";
+import SignUp from "../components/auth/Signup";
+import ForgotPassword from "../components/auth/ForgotPassword";
+import ResetPassword from "../components/auth/ResetPassword";
 
 const AllRoutes = () => {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/jobList" element={<Job />} />
