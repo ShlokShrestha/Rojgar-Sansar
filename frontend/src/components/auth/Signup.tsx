@@ -3,6 +3,9 @@ import {
   Box,
   Button,
   Center,
+  Flex,
+  HStack,
+  Image,
   Input,
   Link,
   Stack,
@@ -17,11 +20,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpValidationSchema } from "../../utils/validationSchema";
 import APIS from "../../constants/EndPoint";
 import { useFilePostHook } from "../../customhooks/useFileUploadApiHook";
+import defaultUser from "../../assets/defaultUserBlack.svg";
 
 const SignUp = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { mutateAsync: login } = useFilePostHook({
-    queryKey: ["login"],
+  const [file, setFile] = useState("");
+  const { mutateAsync: signup, status } = useFilePostHook({
+    queryKey: ["signup"],
     navigateURL: "/login",
   });
   const {
@@ -33,18 +38,24 @@ const SignUp = () => {
       fullName: "",
       email: "",
       password: "",
+      profileImage: null,
+      role: "",
     },
     resolver: yupResolver(signUpValidationSchema),
   });
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: ISignUpValues) => {
     const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    console.log(formData, "formData");
+    formData.append("fullName", data.fullName);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("role", data.role);
+    formData.append(
+      "profileImage",
+      data.profileImage ? data.profileImage[0] : null
+    );
     try {
-      await login({
+      await signup({
         url: `${APIS.SIGNUP}`,
         formData: formData,
       });
@@ -52,7 +63,13 @@ const SignUp = () => {
       console.log(err);
     }
   });
-
+  const handleUploadImage = (data: any) => {
+    const file = data.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setFile(imageUrl);
+    }
+  };
   return (
     <Center minH="100vh" bg="gray.50">
       <Box w="full" maxW="sm" p={6} borderRadius="lg" boxShadow="lg" bg="white">
@@ -107,7 +124,50 @@ const SignUp = () => {
                 {isOpen ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               </Box>
             </Field>
-            <PrimaryButton text={"Continue"} />
+            <Field
+              label="Role"
+              invalid={!!errors.role}
+              errorText={errors.role?.message}
+            >
+              <HStack gap={5}>
+                <label htmlFor="user">
+                  <input
+                    {...register("role")}
+                    type="radio"
+                    value="user"
+                    id="user"
+                  />
+                  User
+                </label>
+                <label htmlFor="recruiter">
+                  <input
+                    {...register("role")}
+                    type="radio"
+                    value="recruiter"
+                    id="recruiter"
+                  />
+                  Recruiter
+                </label>
+              </HStack>
+            </Field>
+            <Flex gap={4} alignItems={"center"}>
+              <Image
+                src={file ? file : defaultUser}
+                boxSize="30px"
+                borderRadius="full"
+                fit="cover"
+                alt="Naruto Uzumaki"
+              />
+              <Input
+                {...register("profileImage")}
+                type="file"
+                onChange={handleUploadImage}
+              />
+            </Flex>
+            <PrimaryButton
+              text={"Continue"}
+              disable={status === "pending" ? true : false}
+            />
           </Stack>
         </form>
         <Stack gap={4}>

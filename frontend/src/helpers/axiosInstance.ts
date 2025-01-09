@@ -62,7 +62,7 @@ export const postApiFormData = async (fileData) => {
     });
   } catch (e) {
     const error = e.response || {};
-    return error;
+    throw error;
   }
   return response;
 };
@@ -87,8 +87,8 @@ export const postApiData = async (data) => {
       ],
     });
   } catch (e) {
-    const error = e.response || {};
-    return error;
+    const error = e.response || "Something went wrong!!";
+    throw error;
   }
   return response;
 };

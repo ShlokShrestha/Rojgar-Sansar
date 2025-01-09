@@ -2,10 +2,13 @@ import { Box, Text } from "@chakra-ui/react";
 
 type Props = {
   label: String;
+  register?: any;
+  name?: String;
+  value?: String;
 };
 
 const CheckBox = (props: Props) => {
-  const { label } = props;
+  const { label, register, name, value } = props;
   return (
     <div>
       <Box
@@ -17,6 +20,7 @@ const CheckBox = (props: Props) => {
       >
         <Box
           as="input"
+          value={value}
           type="checkbox"
           marginRight={2}
           cursor="pointer"
@@ -32,6 +36,7 @@ const CheckBox = (props: Props) => {
           _focus={{
             outline: "none",
           }}
+          {...register(name)}
         />
         <Text>{label}</Text>
       </Box>

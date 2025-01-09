@@ -5,8 +5,14 @@ import { IForgotPasswordValues } from "../../types/type";
 import PrimaryButton from "../resuable/Button/PrimaryButton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { forgotValidationSchema } from "../../utils/validationSchema";
+import { usePostHook } from "../../customhooks/useApiHook";
+import APIS from "../../constants/EndPoint";
 
 const ForgotPassword = () => {
+  const { mutateAsync: forgotPassword } = usePostHook({
+    queryKey: ["forgotPassword"],
+    navigateURL: "/resetPassword",
+  });
   const {
     register,
     handleSubmit,
@@ -17,7 +23,16 @@ const ForgotPassword = () => {
     },
     resolver: yupResolver(forgotValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit(async (data: IForgotPasswordValues) => {
+    try {
+      await forgotPassword({
+        url: `${APIS.FORGOTPASSWORD}`,
+        formData: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
     <Center minH="100vh" bg="gray.50">

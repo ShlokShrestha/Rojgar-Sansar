@@ -38,6 +38,8 @@ export interface ISignUpValues {
   fullName: string;
   email: string;
   password: string;
+  role: string;
+  profileImage?: any;
 }
 export interface IForgotPasswordValues {
   email: string;

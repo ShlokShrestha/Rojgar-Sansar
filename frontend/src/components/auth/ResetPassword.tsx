@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Center,  Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Center, Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import { useForm } from "react-hook-form";
 import { IResetPasswordValues } from "../../types/type";
@@ -7,9 +7,15 @@ import PrimaryButton from "../resuable/Button/PrimaryButton";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { resetPasswordValidationSchema } from "../../utils/validationSchema";
+import { usePostHook } from "../../customhooks/useApiHook";
+import APIS from "../../constants/EndPoint";
 
 const ResetPassword = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { mutateAsync: forgotPassword } = usePostHook({
+    queryKey: ["resetPassword"],
+    navigateURL: "/login",
+  });
   const {
     register,
     handleSubmit,
@@ -21,7 +27,16 @@ const ResetPassword = () => {
     },
     resolver: yupResolver(resetPasswordValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit(async (data: IResetPasswordValues) => {
+    try {
+      await forgotPassword({
+        url: `${APIS.RESETPASSWORD}`,
+        formData: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
     <Center minH="100vh" bg="gray.50">

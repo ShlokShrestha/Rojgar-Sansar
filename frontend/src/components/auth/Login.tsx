@@ -37,15 +37,11 @@ const Login = () => {
     },
     resolver: yupResolver(loginValidationSchema),
   });
-  const onSubmit = handleSubmit(async (data) => {
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+  const onSubmit = handleSubmit(async (data: ILoginValues) => {
     try {
       const response = await login({
         url: `${APIS.LOGIN}`,
-        formData: formData,
+        formData: data,
       });
       setLocalKey("token", response.data.token);
     } catch (err) {
