@@ -10,7 +10,7 @@ import { uploadImageKit } from "../utils/imageKitUpload";
 
 export const signUp = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, role } = req.body;
     const file = req.file ?? null;
 
     if (!fullName || !email || !password) {
@@ -27,6 +27,7 @@ export const signUp = catchAsync(
       fullName,
       email,
       password: hashPassword,
+      role,
     };
     let imageUrl: { url: string; fileId: string } | undefined;
     if (file) {
