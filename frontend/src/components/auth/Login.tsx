@@ -16,13 +16,13 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidationSchema } from "../../utils/validationSchema";
 import { FaGoogle } from "react-icons/fa6";
-import usePostHook from "../../customhooks/usePostHook";
+import { usePostHook } from "../../customhooks/useApiHook";
 import { setLocalKey } from "../../helpers/sessionKey";
+import APIS from "../../constants/EndPoint";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { mutateAsync: login} =
-  usePostHook({
+  const { mutateAsync: login } = usePostHook({
     queryKey: ["login"],
     navigateURL: "/",
   });
@@ -37,13 +37,17 @@ const Login = () => {
     },
     resolver: yupResolver(loginValidationSchema),
   });
-  const onSubmit = handleSubmit(async(data) => {
+  const onSubmit = handleSubmit(async (data) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
     try {
       const response = await login({
-        url: `/auth/login`,
-        formData: data,
+        url: `${APIS.LOGIN}`,
+        formData: formData,
       });
-      setLocalKey("token",response.data.token )
+      setLocalKey("token", response.data.token);
     } catch (err) {
       console.log(err);
     }

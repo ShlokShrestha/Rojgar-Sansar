@@ -15,8 +15,15 @@ import PrimaryButton from "../resuable/Button/PrimaryButton";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signUpValidationSchema } from "../../utils/validationSchema";
+import APIS from "../../constants/EndPoint";
+import { useFilePostHook } from "../../customhooks/useFileUploadApiHook";
+
 const SignUp = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { mutateAsync: login } = useFilePostHook({
+    queryKey: ["login"],
+    navigateURL: "/login",
+  });
   const {
     register,
     handleSubmit,
@@ -29,7 +36,22 @@ const SignUp = () => {
     },
     resolver: yupResolver(signUpValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+
+  const onSubmit = handleSubmit(async (data) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log(formData, "formData");
+    try {
+      await login({
+        url: `${APIS.SIGNUP}`,
+        formData: formData,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
   return (
     <Center minH="100vh" bg="gray.50">

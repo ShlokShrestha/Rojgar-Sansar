@@ -21,30 +21,6 @@ export const formDataInstance = Axios.create({
     Authorization: `JWT ${getAccessToken()}`,
   },
 });
-
-// create form data to upload files
-export const postApiFormData = async (fileData) => {
-  const { url, formData, formikProps } = fileData;
-  let response;
-  try {
-    response = await formDataInstance({
-      method: "POST",
-      url: `${url}`,
-      data: formData,
-      transformResponse: [
-        function (responseData) {
-          return JSON.parse(responseData);
-        },
-      ],
-    });
-  } catch (e) {
-    const error = e.response || {};
-    formikProps?.setErrors(error.data || {});
-    return Promise.reject(error);
-  }
-  return response;
-};
-
 //get data from api
 export const getApiData = async (url, param = null) => {
   let response;
@@ -69,9 +45,31 @@ export const getApiData = async (url, param = null) => {
   return response;
 };
 
+// create form data to upload files
+export const postApiFormData = async (fileData) => {
+  const { url, formData } = fileData;
+  let response;
+  try {
+    response = await formDataInstance({
+      method: "POST",
+      url: `${url}`,
+      data: formData,
+      transformResponse: [
+        function (responseData) {
+          return JSON.parse(responseData);
+        },
+      ],
+    });
+  } catch (e) {
+    const error = e.response || {};
+    return error;
+  }
+  return response;
+};
+
 //post data to api
 export const postApiData = async (data) => {
-  const { url, formData, formikProps } = data;
+  const { url, formData } = data;
   let response;
   try {
     response = await instance({
@@ -90,40 +88,14 @@ export const postApiData = async (data) => {
     });
   } catch (e) {
     const error = e.response || {};
-    formikProps?.setErrors(error.data || {});
-    return Promise.reject(error);
-  }
-  return response;
-};
-
-//post data to api
-export const postApiDataNoAuth = async (data) => {
-  const { url, formData } = data;
-  let response;
-  try {
-    response = await instance({
-      method: "POST",
-      url: `${url}`,
-      data: formData,
-      headers: {
-        // Authorization: `Bearer ${getAccessToken()}`,
-      },
-      transformResponse: [
-        function (responseData) {
-          //Do whatever you want to transform the data
-          return JSON.parse(responseData);
-        },
-      ],
-    });
-  } catch (e) {
-    return e.response;
+    return error;
   }
   return response;
 };
 
 //update data
 export const putApiData = async (data) => {
-  const { url, formData, formikProps } = data;
+  const { url, formData } = data;
   let response;
   try {
     response = await instance({
@@ -141,19 +113,18 @@ export const putApiData = async (data) => {
     });
   } catch (e) {
     const error = e.response || {};
-    formikProps?.setErrors(error.data || {});
-    return Promise.reject(error);
+    return error;
   }
   return response;
 };
 
-//update data
-export const patchApiData = async (data) => {
-  const { url, formData } = data;
+//update form data
+export const putApiFormData = async (data) => {
+  const { url, formData, formikProps } = data;
   let response;
   try {
-    response = await instance({
-      method: "PATCH",
+    response = await formDataInstance({
+      method: "PUT",
       url: `${url}`,
       data: formData,
       headers: {
@@ -161,14 +132,13 @@ export const patchApiData = async (data) => {
       },
       transformResponse: [
         function (responseData) {
-          //Do whatever you want to transform the data
           return JSON.parse(responseData);
         },
       ],
     });
   } catch (e) {
     const error = e.response || {};
-    return Promise.reject(error);
+    return error;
   }
   return response;
 };
