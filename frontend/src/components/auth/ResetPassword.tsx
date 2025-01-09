@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Center, Icon, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Center,  Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import { useForm } from "react-hook-form";
 import { IResetPasswordValues } from "../../types/type";
@@ -55,7 +55,7 @@ const ResetPassword = () => {
                 type={isOpen ? "text" : "password"}
                 placeholder="Enter your password"
               />
-              <Icon
+              <Box
                 position={"absolute"}
                 right={3}
                 top={9}
@@ -64,7 +64,7 @@ const ResetPassword = () => {
                 onClick={() => setIsOpen((pre: boolean) => !pre)}
               >
                 {isOpen ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-              </Icon>
+              </Box>
             </Field>
             <PrimaryButton text={"Continue"} />
           </Stack>

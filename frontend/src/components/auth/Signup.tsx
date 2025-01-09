@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   Center,
-  Icon,
   Input,
   Link,
   Stack,
@@ -75,7 +74,7 @@ const SignUp = () => {
                 type={isOpen ? "text" : "password"}
                 placeholder="Enter your password"
               />
-              <Icon
+              <Box
                 position={"absolute"}
                 right={3}
                 top={9}
@@ -84,7 +83,7 @@ const SignUp = () => {
                 onClick={() => setIsOpen((pre: boolean) => !pre)}
               >
                 {isOpen ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-              </Icon>
+              </Box>
             </Field>
             <PrimaryButton text={"Continue"} />
           </Stack>

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   Center,
-  Icon,
   Input,
   Link,
   Stack,
@@ -17,8 +16,16 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidationSchema } from "../../utils/validationSchema";
 import { FaGoogle } from "react-icons/fa6";
+import usePostHook from "../../customhooks/usePostHook";
+import { setLocalKey } from "../../helpers/sessionKey";
+
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { mutateAsync: login} =
+  usePostHook({
+    queryKey: ["login"],
+    navigateURL: "/",
+  });
   const {
     register,
     handleSubmit,
@@ -30,7 +37,17 @@ const Login = () => {
     },
     resolver: yupResolver(loginValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit(async(data) => {
+    try {
+      const response = await login({
+        url: `/auth/login`,
+        formData: data,
+      });
+      setLocalKey("token",response.data.token )
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
   return (
     <Center minH="100vh" bg="gray.50">
@@ -64,7 +81,7 @@ const Login = () => {
                 type={isOpen ? "text" : "password"}
                 placeholder="Enter your password"
               />
-              <Icon
+              <Box
                 position={"absolute"}
                 right={3}
                 top={9}
@@ -73,7 +90,7 @@ const Login = () => {
                 onClick={() => setIsOpen((pre: boolean) => !pre)}
               >
                 {isOpen ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
-              </Icon>
+              </Box>
             </Field>
             <Link
               color="purple.500"

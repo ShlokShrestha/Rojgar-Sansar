@@ -6,10 +6,12 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoute";
 import { isAuthenitcatedUser } from "./middleware/authMiddleware";
 import jobRoute from "./routes/jobRoute";
+import cors from "cors";
 dotenv.config();
 
 const server = express();
 server.use(express.json());
+server.use(cors());
 server.use("/uploads", express.static("public/uploads"));
 
 server.use("/api/v1/auth", authRoutes);
