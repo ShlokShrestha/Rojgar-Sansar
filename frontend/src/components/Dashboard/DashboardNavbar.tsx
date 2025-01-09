@@ -9,7 +9,7 @@ import {
   MenuItem,
   Image,
 } from "@chakra-ui/react";
-import defaultUser from "../../assets/defaultUser.png";
+import defaultUser from "../../assets/defaultUser.svg";
 
 const DashboardNavbar = () => {
   return (

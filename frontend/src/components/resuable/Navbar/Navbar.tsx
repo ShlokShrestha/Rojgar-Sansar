@@ -15,6 +15,8 @@ import {
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router";
+import defaultUser from "../../../assets/defaultUser.svg";
+
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
   return (
@@ -32,7 +34,7 @@ const Navbar = () => {
         justifyContent={{ base: "space-between" }}
       >
         <Text fontSize="xl" color="white" fontWeight="bold">
-          My Website
+          Rojgar Sansar
         </Text>
         {isOpen ? (
           <IconButton
@@ -79,11 +81,11 @@ const Navbar = () => {
             <MenuTrigger asChild>
               <Button variant="plain" size="sm" outline={"none"}>
                 <Image
-                  src="https://bit.ly/naruto-sage"
-                  boxSize="40px"
+                  src={defaultUser}
+                  boxSize="30px"
                   borderRadius="full"
                   fit="cover"
-                  alt="Naruto Uzumaki"
+                  alt={defaultUser}
                 />
               </Button>
             </MenuTrigger>
@@ -92,10 +94,20 @@ const Navbar = () => {
                 Account Name
               </MenuItem>
               <MenuItem value="new-file">
-                <Link to={"/profile-setting"}>Profile Setting</Link>
+                <Link
+                  to={"/profile-setting"}
+                  style={{ border: "none", outline: "none" }}
+                >
+                  Profile Setting
+                </Link>
               </MenuItem>
               <MenuItem value="new-file">
-                <Link to={"/update-password"}>Update Password</Link>
+                <Link
+                  to={"/update-password"}
+                  style={{ border: "none", outline: "none" }}
+                >
+                  Update Password
+                </Link>
               </MenuItem>
               <MenuItem value="new-file">Logout</MenuItem>
             </MenuContent>
@@ -105,18 +117,21 @@ const Navbar = () => {
       {isOpen && (
         <Box pb={4} display={{ md: "none" }}>
           <Stack as="nav" textAlign="center">
-            <Button color="white" width="100%" variant="plain">
-              Home
-            </Button>
-            <Button color="white" width="100%" variant="plain">
-              About
-            </Button>
-            <Button color="white" width="100%" variant="plain">
-              Services
-            </Button>
-            <Button color="white" width="100%" variant="plain">
-              Contact
-            </Button>
+            <Link to={"/"}>
+              <Button color="white" mr={4} variant="plain">
+                Home
+              </Button>
+            </Link>
+            <Link to={"/jobList"}>
+              <Button color="white" mr={4} variant="plain">
+                Jobs List
+              </Button>
+            </Link>
+            <Link to={"/dashboard"}>
+              <Button color="white" mr={4} variant="plain">
+                Dashboard
+              </Button>
+            </Link>
           </Stack>
         </Box>
       )}
