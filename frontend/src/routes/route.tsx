@@ -18,6 +18,8 @@ import Login from "../components/auth/Login";
 import SignUp from "../components/auth/Signup";
 import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
+import PrivateRoute from "./privateRoute";
+import Unauthorized from "../pages/Unauthorized";
 
 const AllRoutes = () => {
   return (
@@ -26,11 +28,18 @@ const AllRoutes = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/jobList" element={<Job />} />
       </Route>
-      <Route element={<DashboardLayout />}>
+      <Route
+        element={
+          <PrivateRoute allowRole={"recruiter"}>
+            <DashboardLayout />
+          </PrivateRoute>
+        }
+      >
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/company" element={<CompanyList />} />
         <Route path="/dashboard/company/add" element={<CompanyAdd />} />

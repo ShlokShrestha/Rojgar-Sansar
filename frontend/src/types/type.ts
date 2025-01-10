@@ -21,7 +21,28 @@ export interface ICompanyValues {
   location: string;
   companyLogo: any;
 }
-
+export interface AuthContextType {
+  auth?: {
+    id?: string;
+    email?: string;
+    role?: string;
+  };
+  setAuth?: any;
+}
+export interface IUserProfileProps {
+  status: string;
+  data: {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+    profile: {
+      profileUrl: string;
+      profileId: string;
+      userId: string;
+    };
+  };
+}
 export interface IJobValues {
   title: string;
   description: string;

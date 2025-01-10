@@ -76,8 +76,15 @@ export const login = catchAsync(
     if (!comparePassword) {
       return next(new ErrorHandler("Password doesnot match", 401));
     }
+    const userData = {
+      id: result.id,
+      email: result.email,
+      role: result.role,
+    };
     const token = generateToken(result.id);
-    res.status(200).json({ token: token, message: "Successfully login" });
+    res
+      .status(200)
+      .json({ token: token, message: "Successfully login", data: userData });
   }
 );
 

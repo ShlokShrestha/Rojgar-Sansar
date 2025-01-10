@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "../ui/field";
 import { useForm } from "react-hook-form";
-import { ILoginValues } from "../../types/type";
+import { AuthContextType, ILoginValues } from "../../types/type";
 import PrimaryButton from "../resuable/Button/PrimaryButton";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,12 +19,16 @@ import { FaGoogle } from "react-icons/fa6";
 import { usePostHook } from "../../customhooks/useApiHook";
 import { setLocalKey } from "../../helpers/sessionKey";
 import APIS from "../../constants/EndPoint";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../context/authContext";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setAuth } = useAuth() as AuthContextType;
+  const navigate = useNavigate();
   const { mutateAsync: login } = usePostHook({
     queryKey: ["login"],
-    navigateURL: "/",
+    navigateURL: "",
   });
   const {
     register,
@@ -44,6 +48,8 @@ const Login = () => {
         formData: data,
       });
       setLocalKey("token", response.data.token);
+      setLocalKey("userInfo", JSON.stringify(response.data.data));
+      navigate("/", { replace: true });
     } catch (err) {
       console.log(err);
     }
