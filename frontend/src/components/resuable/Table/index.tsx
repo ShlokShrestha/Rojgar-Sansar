@@ -138,11 +138,7 @@ const Table = (props: any) => {
                     padding: "0.25rem",
                   }}
                 >
-                  <Skeleton
-                    height={40}
-                    count={pageSize}
-                    style={{ backgroundColor: "black" }}
-                  />
+                  <Skeleton height={40} count={pageSize} />
                 </td>
               </tr>
             </tbody>
