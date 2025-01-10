@@ -1,4 +1,5 @@
 import { VStack, Text, Box } from "@chakra-ui/react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router";
 
 interface NavigateValue {
@@ -40,22 +41,24 @@ const DashboardSidebar = () => {
           Recuiter Dashboard
         </Text>
         <VStack align="start" gap={4}>
-          {recuiterRouter?.map((item: NavigateValue) => (
-            <Text
-              w="100%"
-              p="3"
-              borderRadius="md"
-              bg={location.pathname === item?.path ? "purple.500" : ""}
-              color={location.pathname === item?.path ? "white" : "black"}
-              _hover={{
-                bg: "purple.500",
-                color: "white",
-              }}
-              cursor={"pointer"}
-              onClick={() => navigate(item?.path)}
-            >
-              {item.name}
-            </Text>
+          {recuiterRouter?.map((item: NavigateValue, index: number) => (
+            <React.Fragment key={index}>
+              <Text
+                w="100%"
+                p="3"
+                borderRadius="md"
+                bg={location.pathname === item?.path ? "purple.500" : ""}
+                color={location.pathname === item?.path ? "white" : "black"}
+                _hover={{
+                  bg: "purple.500",
+                  color: "white",
+                }}
+                cursor={"pointer"}
+                onClick={() => navigate(item?.path)}
+              >
+                {item.name}
+              </Text>
+            </React.Fragment>
           ))}
         </VStack>
       </Box>

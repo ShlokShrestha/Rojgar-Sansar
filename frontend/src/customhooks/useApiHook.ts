@@ -21,13 +21,7 @@ const useGetHook = ({
       try {
         const response = await getApiData(url, params);
         if (response?.status >= 400) {
-          toast.error(
-            response?.data?.group?.[0]
-              ? "Please select a group first"
-              : response?.data?.detail
-              ? "Group not found"
-              : "Something went wrong"
-          );
+          toast.error("Something went wrong");
         }
         return response.data;
       } catch (err) {
