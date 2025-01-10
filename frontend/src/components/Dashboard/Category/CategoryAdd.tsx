@@ -7,18 +7,23 @@ import { ICategoryValues } from "../../../types/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { categoryValidationSchema } from "../../../utils/validationSchema";
 
-const CategoryAdd = () => {
+interface ICategoryProps {
+  handleAddCategorySubmit: (data: ICategoryValues) => void;
+}
+
+const CategoryAdd = (props: ICategoryProps) => {
+  const { handleAddCategorySubmit } = props;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ICategoryValues>({
     defaultValues: {
-      category: "",
+      title: "",
     },
     resolver: yupResolver(categoryValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => handleAddCategorySubmit(data));
   return (
     <FormCard title="Add Category">
       <form onSubmit={onSubmit}>

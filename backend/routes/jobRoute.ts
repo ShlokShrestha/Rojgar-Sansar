@@ -12,6 +12,7 @@ import {
   deleteCompany,
   deleteJob,
   updateJob,
+  getSingleJobCategory,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -62,6 +63,12 @@ jobRoute.get(
   isAuthorizedRoles("admin", "recruiter"),
   getJobCategory
 );
+jobRoute.get(
+  "/singleCategory/:id",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  getSingleJobCategory
+);
 jobRoute.put(
   "/updateJobCategory/:id",
   isAuthenitcatedUser,
@@ -69,7 +76,7 @@ jobRoute.put(
   updateJobCategory
 );
 jobRoute.delete(
-  "/deleteJobCategory",
+  "/deleteJobCategory/:id",
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
   deletejobCategory

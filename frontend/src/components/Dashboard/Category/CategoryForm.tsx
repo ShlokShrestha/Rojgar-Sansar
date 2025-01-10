@@ -7,10 +7,10 @@ const CategoryForm: React.FC<IReactFormProps<ICategoryValues>> = (props) => {
   return (
     <Field
       label="Category name"
-      invalid={!!errors.category}
-      errorText={errors.category?.message}
+      invalid={!!errors.title}
+      errorText={errors.title?.message}
     >
-      <Input {...register("category")} type="text" placeholder="Enter category"/>
+      <Input {...register("title")} type="text" placeholder="Enter category"/>
     </Field>
   );
 };

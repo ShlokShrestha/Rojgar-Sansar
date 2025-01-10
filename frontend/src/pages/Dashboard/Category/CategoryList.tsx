@@ -1,14 +1,27 @@
 import CategoryListComponent from "../../../components/Dashboard/Category/CategoryList";
 import usePaginationHook from "../../../customhooks/usePaginationHook";
+import { useDeleteHook, useGetHook } from "../../../customhooks/useApiHook";
+import APIS from "../../../constants/EndPoint";
 
 const CategoryList = () => {
   const { offset, setOffset, pageSize, setPageSize } = usePaginationHook();
-  const categoryData: any = [
-    { id: "1", title: "Frontend Developer" },
-    { id: "2", title: "Backend Developer" },
-  ];
-  const handleDeleteCategory = (value: any) => {
-    console.log(value, "value");
+  const { data: categoryData, isLoading } = useGetHook({
+    queryKey: ["category"],
+    url: `${APIS.CATEGORYLIST}`,
+    params: {},
+  });
+  const { mutateAsync: deleteCategory } = useDeleteHook({
+    queryKey: ["category"],
+  });
+
+  const handleDeleteCategory = async (id: string) => {
+    try {
+      await deleteCategory({
+        url: `${APIS.DELETECATEGORY}${id}`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -16,7 +29,8 @@ const CategoryList = () => {
         setPageSize={setPageSize}
         pageSize={pageSize}
         setOffset={setOffset}
-        categoryData={categoryData}
+        categoryData={categoryData?.data}
+        isLoading={isLoading}
         handleDeleteCategory={handleDeleteCategory}
       />
     </>

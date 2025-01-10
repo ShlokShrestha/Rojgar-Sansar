@@ -24,7 +24,19 @@ export const createJobCategory = catchAsync(
 export const getJobCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const newJobCategory = await prisma.jobCategory.findMany();
-    res.status(201).json({
+    res.status(200).json({
+      status: "success",
+      data: newJobCategory,
+    });
+  }
+);
+export const getSingleJobCategory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const newJobCategory = await prisma.jobCategory.findUnique({
+      where: { id: id },
+    });
+    res.status(200).json({
       status: "success",
       data: newJobCategory,
     });
@@ -42,13 +54,14 @@ export const updateJobCategory = catchAsync(
       return next(new ErrorHandler("update category unsuccesful", 400));
     }
     res
-      .status(201)
+      .status(200)
       .json({ status: "success", message: "category update successful" });
   }
 );
 export const deletejobCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.body;
+    const { id } = req.params;
+
     const category = await prisma.jobCategory.findUnique({ where: { id: id } });
     if (!category) {
       return next(new ErrorHandler("Category doesnot exist with this id", 400));
@@ -60,7 +73,6 @@ export const deletejobCategory = catchAsync(
     });
   }
 );
-
 
 //CRUD company category -- User / Admin /Recuiter
 export const getCompany = catchAsync(

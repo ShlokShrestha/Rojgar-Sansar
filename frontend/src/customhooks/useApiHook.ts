@@ -15,12 +15,13 @@ const useGetHook = ({
   isEnabled = true,
   isKeepPrevious = true,
 }: any) => {
+  console.log(isKeepPrevious);
   const { isLoading, isError, data, isSuccess } = useQuery({
     queryKey: [queryKey],
     queryFn: async () => {
       try {
         const response = await getApiData(url, params);
-        if (response?.status >= 400) {
+        if (response?.status === 400) {
           toast.error("Something went wrong");
         }
         return response.data;
@@ -31,7 +32,6 @@ const useGetHook = ({
     },
     refetchOnWindowFocus: false,
     enabled: isEnabled,
-    placeholderData: isKeepPrevious,
   });
   return { isLoading, isError, data, isSuccess };
 };

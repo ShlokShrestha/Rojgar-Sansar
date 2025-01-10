@@ -13,7 +13,8 @@ export interface ITableProps {
 }
 
 export interface ICategoryValues {
-  category: string;
+  id?: string;
+  title: string;
 }
 
 export interface ICompanyValues {

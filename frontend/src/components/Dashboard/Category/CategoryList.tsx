@@ -11,6 +11,7 @@ interface ICategoryProps extends ITableProps {
     id: string;
   };
   handleDeleteCategory: (value: any) => void;
+  isLoading: boolean;
 }
 
 const Category: React.FC<ICategoryProps> = (props) => {
@@ -20,6 +21,7 @@ const Category: React.FC<ICategoryProps> = (props) => {
     setPageSize,
     categoryData,
     handleDeleteCategory,
+    isLoading,
   } = props;
   const navigate = useNavigate();
   const columns = [
@@ -60,7 +62,7 @@ const Category: React.FC<ICategoryProps> = (props) => {
         setPageSize={setPageSize}
         pageSize={pageSize}
         setOffset={setOffset}
-        loading={false}
+        loading={isLoading}
         AddButton={
           <>
             <PrimaryButton
