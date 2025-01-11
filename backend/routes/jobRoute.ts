@@ -19,6 +19,8 @@ import {
   isAuthorizedRoles,
 } from "../middleware/authMiddleware";
 import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
+import prisma from "../prisma/prismaClient";
+import { paginationFilterMiddleWare } from "../middleware/PaginationFilterMiddleware";
 const jobRoute = express.Router();
 
 //Route for Company
@@ -61,6 +63,7 @@ jobRoute.get(
   "/jobCategory",
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
+  paginationFilterMiddleWare(prisma.jobCategory),
   getJobCategory
 );
 jobRoute.get(

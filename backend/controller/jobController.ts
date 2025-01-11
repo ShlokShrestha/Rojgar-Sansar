@@ -22,11 +22,12 @@ export const createJobCategory = catchAsync(
   }
 );
 export const getJobCategory = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const newJobCategory = await prisma.jobCategory.findMany();
+  async (req: Request, res: any, next: NextFunction) => {
+    const { data, pagination } = res.paginatedResult;
     res.status(200).json({
       status: "success",
-      data: newJobCategory,
+      data: data,
+      pagination: pagination,
     });
   }
 );
@@ -88,9 +89,9 @@ export const getCompany = catchAsync(
 );
 export const createCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const { name, location } = req.body;
+    const { title, location } = req.body;
     const file = req.file;
-    if (!name && !location && !file) {
+    if (!title && !location && !file) {
       return next(new ErrorHandler("Please add category name", 400));
     }
     const userId = req.user?.id ?? "";
@@ -103,7 +104,7 @@ export const createCompany = catchAsync(
     const imageUrl = await uploadImageKit(uploadParams);
     const newCompany = await prisma.company.create({
       data: {
-        name: name,
+        title: title,
         location: location,
         logoUrl: imageUrl?.url,
         logoId: imageUrl?.fileId,
@@ -121,7 +122,7 @@ export const createCompany = catchAsync(
 export const updateCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    let { name, location, logoUrl, logoId } = req.body;
+    let { title, location, logoUrl, logoId } = req.body;
     const userId = req.user?.id ?? "";
     const company = await prisma.company.findUnique({ where: { id: id } });
     if (!company) {
@@ -146,7 +147,7 @@ export const updateCompany = catchAsync(
         id: id,
       },
       data: {
-        name: name,
+        title: title,
         location: location,
         logoUrl: logoUrl,
         logoId: logoId,

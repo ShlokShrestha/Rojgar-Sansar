@@ -13,9 +13,7 @@ const useGetHook = ({
   url,
   params,
   isEnabled = true,
-  isKeepPrevious = true,
 }: any) => {
-  console.log(isKeepPrevious);
   const { isLoading, isError, data, isSuccess } = useQuery({
     queryKey: [queryKey],
     queryFn: async () => {

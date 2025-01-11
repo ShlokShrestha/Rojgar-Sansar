@@ -2,7 +2,7 @@ import { useAuth } from "../context/authContext";
 import { getLocalKey } from "../helpers/sessionKey";
 import { Navigate } from "react-router";
 import { AuthContextType } from "../types/type";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface PrivateRouteProps {
   children: ReactNode;
@@ -13,10 +13,10 @@ const PrivateRoute = ({ children, allowRole }: PrivateRouteProps) => {
   const { auth } = useAuth() as AuthContextType;
   if (!token) {
     return <Navigate to="/login" />;
-  }
-  if (auth && auth.role !== allowRole) {
+  } else if (auth && auth.role !== allowRole) {
     return <Navigate to="/unauthorized" replace />;
   }
+
   return children;
 };
 

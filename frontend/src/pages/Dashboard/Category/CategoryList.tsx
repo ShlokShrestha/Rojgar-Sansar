@@ -2,14 +2,24 @@ import CategoryListComponent from "../../../components/Dashboard/Category/Catego
 import usePaginationHook from "../../../customhooks/usePaginationHook";
 import { useDeleteHook, useGetHook } from "../../../customhooks/useApiHook";
 import APIS from "../../../constants/EndPoint";
+import { useSearchParams } from "react-router";
 
 const CategoryList = () => {
   const { offset, setOffset, pageSize, setPageSize } = usePaginationHook();
+
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   const { data: categoryData, isLoading } = useGetHook({
-    queryKey: ["category"],
+    queryKey: ["category", offset, pageSize, searchQuery],
     url: `${APIS.CATEGORYLIST}`,
-    params: {},
+    params: {
+      skip: offset,
+      take: pageSize,
+      ...(searchParams && { search: searchQuery }),
+    },
   });
+
   const { mutateAsync: deleteCategory } = useDeleteHook({
     queryKey: ["category"],
   });
@@ -29,7 +39,7 @@ const CategoryList = () => {
         setPageSize={setPageSize}
         pageSize={pageSize}
         setOffset={setOffset}
-        categoryData={categoryData?.data}
+        categoryData={categoryData}
         isLoading={isLoading}
         handleDeleteCategory={handleDeleteCategory}
       />
