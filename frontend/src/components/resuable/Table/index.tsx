@@ -4,7 +4,6 @@ import {
   flexRender,
   getCoreRowModel,
   ColumnOrderState,
-  getPaginationRowModel,
 } from "@tanstack/react-table";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -57,16 +56,14 @@ const Table = (props: any) => {
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
 
   const table = useReactTable({
-    data: data ?? [],
+    data: data?.data ?? [],
     columns,
     state: {
       columnOrder,
     },
-    getPaginationRowModel: getPaginationRowModel(),
     onColumnOrderChange: setColumnOrder,
     getCoreRowModel: getCoreRowModel(),
   });
-
   return (
     <>
       <Box
@@ -88,7 +85,7 @@ const Table = (props: any) => {
         <table
           style={{
             width: "100%",
-            overflow: "auto",
+            overflowY: "auto",
             borderRadius: "0.375rem",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12)",
             backgroundColor: "white",
@@ -157,6 +154,7 @@ const Table = (props: any) => {
                         paddingLeft: "0.5rem",
                         paddingRight: "0.5rem",
                         wordBreak: "break-word",
+                        overflowY: "auto",
                       }}
                     >
                       {flexRender(
@@ -223,7 +221,7 @@ const Table = (props: any) => {
                   transition: "background-color 0.2s",
                 }}
                 onClick={() => setOffset((prev: any) => prev - 1)}
-                disabled={data?.previous === null}
+                disabled={data?.pagination?.hasPrevPage ? false : true}
               >
                 {"< Previous"}
               </button>
@@ -240,7 +238,7 @@ const Table = (props: any) => {
                   transition: "background-color 0.2s",
                 }}
                 onClick={() => setOffset((prev: any) => prev + 1)}
-                disabled={data?.next === null}
+                disabled={data?.pagination?.hasNextPage ? false : true}
               >
                 {"Next >"}
               </button>

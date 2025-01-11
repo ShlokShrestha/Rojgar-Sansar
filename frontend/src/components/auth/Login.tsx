@@ -49,6 +49,7 @@ const Login = () => {
       });
       setLocalKey("token", response.data.token);
       setLocalKey("userInfo", JSON.stringify(response.data.data));
+      setAuth(response.data.data);
       navigate("/", { replace: true });
     } catch (err) {
       console.log(err);
