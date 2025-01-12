@@ -6,11 +6,9 @@ import PrimaryButton from "../../resuable/Button/PrimaryButton";
 import { useNavigate } from "react-router";
 
 interface ICategoryProps extends ITableProps {
-  categoryData: {
-    title: string;
-    id: string;
-  };
+  companyData: any;
   handleDeleteCategory: (value: any) => void;
+  isLoading: boolean;
 }
 
 const CompanyList: React.FC<ICategoryProps> = (props) => {
@@ -18,8 +16,9 @@ const CompanyList: React.FC<ICategoryProps> = (props) => {
     setOffset,
     pageSize,
     setPageSize,
-    categoryData,
+    companyData,
     handleDeleteCategory,
+    isLoading,
   } = props;
   const navigate = useNavigate();
   const columns = [
@@ -55,12 +54,12 @@ const CompanyList: React.FC<ICategoryProps> = (props) => {
   return (
     <>
       <Table
-        data={categoryData}
+        data={companyData}
         columns={columns}
         setPageSize={setPageSize}
         pageSize={pageSize}
         setOffset={setOffset}
-        loading={false}
+        loading={isLoading}
         AddButton={
           <>
             <PrimaryButton

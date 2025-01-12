@@ -4,6 +4,7 @@ const APIS = {
   FORGOTPASSWORD: "/auth/forgotPassword/",
   RESETPASSWORD: "/auth/resetPassword/",
   CATEGORYLIST: "/job/jobCategory/",
+  COMPANYLIST: "/job/getCompany/",
   ADDCATEGORY: "/job/createJobCategory/",
   SINGLECATEGORY: "/job/singleCategory/",
   UPDATECATEGORY: "/job/updateJobCategory/",

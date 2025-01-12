@@ -92,7 +92,7 @@ export const createCompany = catchAsync(
     const { title, location } = req.body;
     const file = req.file;
     if (!title && !location && !file) {
-      return next(new ErrorHandler("Please add category name", 400));
+      return next(new ErrorHandler("Please add company name, logo, location", 400));
     }
     const userId = req.user?.id ?? "";
     const uploadParams = {
