@@ -44,7 +44,7 @@ model profile {
 
 model company {
   id       String @id @default(uuid())
-  name     String
+  title     String
   location String
   logoUrl  String
   logoId   String
