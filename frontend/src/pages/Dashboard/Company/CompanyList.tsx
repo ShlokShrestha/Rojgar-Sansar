@@ -14,9 +14,9 @@ const CompanyList = () => {
     queryKey: ["company", offset, pageSize, searchQuery],
     url: `${APIS.COMPANYLIST}`,
     params: {
-      // skip: offset,
-      // take: pageSize,
-      // ...(searchParams && { search: searchQuery }),
+      skip: offset,
+      take: pageSize,
+      ...(searchParams && { search: searchQuery }),
     },
   });
   const { mutateAsync: deleteCompany } = useDeleteHook({

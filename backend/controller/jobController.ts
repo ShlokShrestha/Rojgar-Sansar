@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorHandler";
 import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
 import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
+import { ExpressResponse } from "../middleware/PaginationFilterMiddleware";
 
 //CRUD JobCategory -- Admin /Recuiter
 export const createJobCategory = catchAsync(
@@ -22,7 +23,7 @@ export const createJobCategory = catchAsync(
   }
 );
 export const getJobCategory = catchAsync(
-  async (req: Request, res: any, next: NextFunction) => {
+  async (req: Request, res: ExpressResponse, next: NextFunction) => {
     const { data, pagination } = res.paginatedResult;
     res.status(200).json({
       status: "success",
@@ -77,13 +78,12 @@ export const deletejobCategory = catchAsync(
 
 //CRUD company category -- User / Admin /Recuiter
 export const getCompany = catchAsync(
-  async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const allCompany = await prisma.company.findMany({
-      where: { userId: req?.user?.id },
-    });
-    res.status(201).json({
+  async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
+    const { data, pagination } = res.paginatedResult;
+    res.status(200).json({
       status: "success",
-      data: allCompany,
+      data: data,
+      pagination: pagination,
     });
   }
 );

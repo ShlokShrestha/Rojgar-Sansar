@@ -35,6 +35,7 @@ jobRoute.post(
 jobRoute.get(
   "/getCompany",
   isAuthenitcatedUser,
+  paginationFilterMiddleWare(prisma.company),
   isAuthorizedRoles("admin", "recruiter"),
   getCompany
 );
