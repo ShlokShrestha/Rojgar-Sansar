@@ -1,9 +1,21 @@
 import { Field } from "../../ui/field";
 import { Input } from "@chakra-ui/react";
 import { ICompanyValues, IReactFormProps } from "../../../types/type";
+import { Image } from "@chakra-ui/react";
+import { useState } from "react";
+import { BiSolidImage } from "react-icons/bi";
 
 const CategoryForm: React.FC<IReactFormProps<ICompanyValues>> = (props) => {
-  const { errors, register } = props;
+  const { errors, register, getValues } = props;
+  const [previewImage, setPreviewImage] = useState("");
+  const value: string | any = getValues?.("companyLogo");
+  const handleUploadImage = (data: any) => {
+    const file = data.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewImage(imageUrl);
+    }
+  };
   return (
     <>
       <Field
@@ -33,7 +45,22 @@ const CategoryForm: React.FC<IReactFormProps<ICompanyValues>> = (props) => {
         invalid={!!errors.companyLogo}
         errorText={errors.companyLogo?.message as string | undefined}
       >
-        <Input {...register("companyLogo")} type="file" />
+        <label htmlFor="companyLogoInput">
+          {!previewImage && !value ? (
+            <BiSolidImage size={150} />
+          ) : previewImage ? (
+            <Image src={previewImage} width={40} fit="cover" alt="default" />
+          ) : (
+            <Image src={value} width={40} fit="cover" alt="Naruto Uzumaki" />
+          )}
+        </label>
+        <Input
+          {...register("companyLogo")}
+          type="file"
+          style={{ position: "absolute", opacity: 0 }}
+          id="companyLogoInput"
+          onChange={handleUploadImage}
+        />
       </Field>
     </>
   );

@@ -73,4 +73,5 @@ export interface IResetPasswordValues {
 export interface IReactFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
+  getValues?: (data: string) => T;
 }

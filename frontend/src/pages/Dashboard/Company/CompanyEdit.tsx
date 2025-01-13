@@ -5,7 +5,6 @@ import { useFilePutHook } from "../../../customhooks/useFileUploadApiHook";
 import { ICompanyValues } from "../../../types/type";
 import APIS from "../../../constants/EndPoint";
 import DataSpinner from "../../../components/resuable/Spinner";
-import { string } from "yup";
 
 const CompanyEdit = () => {
   const { id } = useParams<{ id: string | any }>();
@@ -15,7 +14,7 @@ const CompanyEdit = () => {
     params: {},
   });
 
-  const { mutateAsync: editCompany } = useFilePutHook({
+  const { mutateAsync: editCompany, status } = useFilePutHook({
     queryKey: ["editCategory", `${id}`],
     navigateURL: "/dashboard/company",
   });
@@ -36,12 +35,15 @@ const CompanyEdit = () => {
       console.log(error);
     }
   };
+  const loading = status === "pending";
+
   return (
     <>
       {isLoading ? (
         <DataSpinner />
       ) : (
         <CompanyEditComponent
+          loading={loading}
           singleCompanyData={singleCompanyData?.data}
           handleEditCompanySubmit={handleEditCompanySubmit}
         />

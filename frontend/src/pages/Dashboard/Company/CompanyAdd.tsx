@@ -4,7 +4,7 @@ import { useFilePostHook } from "../../../customhooks/useFileUploadApiHook";
 import { ICompanyValues } from "../../../types/type";
 
 const CompanyAdd = () => {
-  const { mutateAsync: addCompany } = useFilePostHook({
+  const { mutateAsync: addCompany, status } = useFilePostHook({
     queryKey: ["addCompany"],
     navigateURL: "/dashboard/company",
   });
@@ -23,10 +23,13 @@ const CompanyAdd = () => {
       console.log(error);
     }
   };
-
+  const loading = status === "pending";
   return (
     <>
-      <CompanyAddComponent handleAddCompanySubmit={handleAddCompanySubmit} />
+      <CompanyAddComponent
+        handleAddCompanySubmit={handleAddCompanySubmit}
+        loading={loading}
+      />
     </>
   );
 };

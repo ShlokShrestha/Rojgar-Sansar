@@ -9,10 +9,11 @@ import { companyValidationSchema } from "../../../utils/validationSchema";
 
 interface ICompanyProps {
   handleAddCompanySubmit: (data: ICompanyValues) => void;
+  loading: Boolean;
 }
 
 const CompanyAdd = (props: ICompanyProps) => {
-  const { handleAddCompanySubmit } = props;
+  const { handleAddCompanySubmit, loading } = props;
   const {
     register,
     handleSubmit,
@@ -31,7 +32,7 @@ const CompanyAdd = (props: ICompanyProps) => {
       <form onSubmit={onSubmit}>
         <Stack gap="4" align="flex-start" maxW="sm" pt={3}>
           <CompanyForm register={register} errors={errors} />
-          <PrimaryButton text={"Add"} />
+          <PrimaryButton text={"Add"} disable={loading ? true : false} />
         </Stack>
       </form>
     </FormCard>
