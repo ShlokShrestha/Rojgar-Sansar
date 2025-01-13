@@ -30,8 +30,22 @@ const CompanyList: React.FC<ICategoryProps> = (props) => {
       },
     },
     {
+      header: "Company Logo",
+      accessorKey: "logoUrl",
+      cell: (props: any) => (
+        <>
+          <img src={props.getValue()} alt="" style={{ width: "40px" }} />
+        </>
+      ),
+    },
+    {
       header: "Name",
       accessorKey: "title",
+      cell: (props: any) => <>{props.getValue() ? props.getValue() : "N/A"}</>,
+    },
+    {
+      header: "Location",
+      accessorKey: "location",
       cell: (props: any) => <>{props.getValue() ? props.getValue() : "N/A"}</>,
     },
     {

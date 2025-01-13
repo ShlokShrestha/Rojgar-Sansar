@@ -13,6 +13,7 @@ import {
   deleteJob,
   updateJob,
   getSingleJobCategory,
+  getSingleCompany,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -37,6 +38,12 @@ jobRoute.get(
   isAuthorizedRoles("admin", "recruiter"),
   getCompany
 );
+jobRoute.get(
+  "/singleCompany/:id",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  getSingleCompany
+);
 jobRoute.put(
   "/updateCompany/:id",
   isAuthenitcatedUser,
@@ -45,7 +52,7 @@ jobRoute.put(
   updateCompany
 );
 jobRoute.delete(
-  "/deleteCompany",
+  "/deleteCompany/:id",
   isAuthenitcatedUser,
   uploadImageMiddleWare.single("companyLogo"),
   isAuthorizedRoles("admin", "recruiter"),

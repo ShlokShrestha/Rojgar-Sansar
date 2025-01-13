@@ -16,11 +16,11 @@ export interface ICategoryValues {
   id?: string;
   title: string;
 }
-
 export interface ICompanyValues {
-  name: string;
+  title: string;
   location: string;
-  companyLogo: any;
+  companyLogo?: any;
+  logoUrl?: string;
 }
 export interface AuthContextType {
   auth?: {

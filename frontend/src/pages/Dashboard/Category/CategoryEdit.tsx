@@ -3,7 +3,6 @@ import CategoryEditComponent from "../../../components/Dashboard/Category/Catego
 import APIS from "../../../constants/EndPoint";
 import { useGetHook, usePutHook } from "../../../customhooks/useApiHook";
 import { ICategoryValues } from "../../../types/type";
-import { Spinner } from "@chakra-ui/react";
 import DataSpinner from "../../../components/resuable/Spinner";
 
 const CategoryEdit = () => {

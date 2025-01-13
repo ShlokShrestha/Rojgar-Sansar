@@ -11,22 +11,22 @@ const CompanyList = () => {
   const searchQuery = searchParams.get("search") || "";
 
   const { data: companyData, isLoading } = useGetHook({
-    queryKey: ["category", offset, pageSize, searchQuery],
+    queryKey: ["company", offset, pageSize, searchQuery],
     url: `${APIS.COMPANYLIST}`,
     params: {
-      skip: offset,
-      take: pageSize,
-      ...(searchParams && { search: searchQuery }),
+      // skip: offset,
+      // take: pageSize,
+      // ...(searchParams && { search: searchQuery }),
     },
   });
-  const { mutateAsync: deleteCategory } = useDeleteHook({
-    queryKey: ["category"],
+  const { mutateAsync: deleteCompany } = useDeleteHook({
+    queryKey: ["company"],
   });
 
   const handleDeleteCompany = async (id: string) => {
     try {
-      await deleteCategory({
-        url: `${APIS.DELETECATEGORY}${id}`,
+      await deleteCompany({
+        url: `${APIS.DELETECOMPANY}${id}`,
       });
     } catch (error) {
       console.log(error);

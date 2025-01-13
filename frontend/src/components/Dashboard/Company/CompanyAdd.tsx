@@ -7,20 +7,25 @@ import { ICompanyValues } from "../../../types/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { companyValidationSchema } from "../../../utils/validationSchema";
 
-const CompanyAdd = () => {
+interface ICompanyProps {
+  handleAddCompanySubmit: (data: ICompanyValues) => void;
+}
+
+const CompanyAdd = (props: ICompanyProps) => {
+  const { handleAddCompanySubmit } = props;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ICompanyValues>({
     defaultValues: {
-      name: "",
+      title: "",
       location: "",
       companyLogo: null,
     },
     resolver: yupResolver(companyValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => handleAddCompanySubmit(data));
   return (
     <FormCard title="Add Company">
       <form onSubmit={onSubmit}>

@@ -87,12 +87,26 @@ export const getCompany = catchAsync(
     });
   }
 );
+export const getSingleCompany = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const getSingleCompany = await prisma.company.findUnique({
+      where: { id: id },
+    });
+    res.status(200).json({
+      status: "success",
+      data: getSingleCompany,
+    });
+  }
+);
 export const createCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { title, location } = req.body;
     const file = req.file;
     if (!title && !location && !file) {
-      return next(new ErrorHandler("Please add company name, logo, location", 400));
+      return next(
+        new ErrorHandler("Please add company name, logo, location", 400)
+      );
     }
     const userId = req.user?.id ?? "";
     const uploadParams = {
@@ -122,15 +136,17 @@ export const createCompany = catchAsync(
 export const updateCompany = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    let { title, location, logoUrl, logoId } = req.body;
+    let { title, location } = req.body;
     const userId = req.user?.id ?? "";
     const company = await prisma.company.findUnique({ where: { id: id } });
     if (!company) {
       return next(new ErrorHandler("Company doesnot exist", 400));
     }
+    let logoUrl = company?.logoUrl;
+    let logoId = company?.logoId;
     if (req?.file) {
-      if (logoId) {
-        await deleteImageKit(logoId);
+      if (company.logoId) {
+        await deleteImageKit(company.logoId);
       }
       const uploadParams = {
         file: req.file?.buffer,
@@ -163,7 +179,7 @@ export const updateCompany = catchAsync(
 );
 export const deleteCompany = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const company = await prisma.company.findUnique({ where: { id: id } });
     if (!company) {
       return next(new ErrorHandler("Company doesnot exist with this id", 400));

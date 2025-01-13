@@ -8,33 +8,34 @@ export const categoryValidationSchema = Yup.object().shape({
 });
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
-const validFileExtensions: any = {
-  image: ["jpg", "gif", "png", "jpeg", "svg", "webp"],
+
+const isValidFileType = (filename: string) => {
+  const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+  const fileExtension = filename.split(".").pop()?.toLowerCase();
+  return allowedExtensions.includes(fileExtension ?? "");
 };
-function isValidFileType(fileName: any, fileType: any) {
-  return (
-    fileName &&
-    validFileExtensions[fileType].indexOf(fileName.split(".").pop()) > -1
-  );
-}
 export const companyValidationSchema = Yup.object().shape({
-  name: Yup.string()
+  title: Yup.string()
     .required("Company field is required")
     .min(3, "Company must be at least 3 characters")
     .max(22, "Company must not exceed 22 characters"),
   location: Yup.string().required("Company field is required"),
   companyLogo: Yup.mixed()
     .nullable()
-    .required("Company logo is required")
-    .test("is-valid-type", "Not a valid image type", (value: any) => {
-      console.log(value);
-      return isValidFileType(value && value[0].name.toLowerCase(), "image");
+    .test("is-url-or-file", "Company logo is required", (value: any) => {
+      return (
+        value &&
+        (typeof value === "string" ? value.startsWith("http") : value[0])
+      );
     })
-    .test(
-      "is-valid-size",
-      "Max allowed size is 2MB",
-      (value: any) => value && value?.[0].size <= MAX_FILE_SIZE
-    ),
+    .test("is-valid-type", "Not a valid image type", (value: any) => {
+      if (typeof value === "string") return true; // Skip if URL
+      return value?.[0] && isValidFileType(value[0].name);
+    })
+    .test("is-valid-size", "Max allowed size is 2MB", (value: any) => {
+      if (typeof value === "string") return true; // Skip if URL
+      return value?.[0] && value[0].size <= MAX_FILE_SIZE;
+    }),
 });
 export const JobValidationSchema = Yup.object().shape({
   title: Yup.string()

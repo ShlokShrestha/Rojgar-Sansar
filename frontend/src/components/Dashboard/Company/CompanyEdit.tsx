@@ -7,21 +7,27 @@ import { ICompanyValues } from "../../../types/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { companyValidationSchema } from "../../../utils/validationSchema";
 
-const CompanyEdit = () => {
+interface ICompanyProps {
+  singleCompanyData: ICompanyValues;
+  handleEditCompanySubmit: (data: ICompanyValues) => void;
+}
+
+const CompanyEdit = (props: ICompanyProps) => {
+  const { singleCompanyData, handleEditCompanySubmit } = props;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ICompanyValues>({
     defaultValues: {
-      name: "",
-      location: "",
-      companyLogo: null,
+      title: singleCompanyData?.title ?? "",
+      location: singleCompanyData?.location,
+      companyLogo: singleCompanyData?.logoUrl,
     },
     resolver: yupResolver(companyValidationSchema),
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => handleEditCompanySubmit(data));
   return (
     <FormCard title="Edit Company">
       <form onSubmit={onSubmit}>
