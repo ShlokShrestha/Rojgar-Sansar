@@ -17,6 +17,7 @@ export interface ICategoryValues {
   title: string;
 }
 export interface ICompanyValues {
+  id?: string;
   title: string;
   location: string;
   companyLogo?: any;

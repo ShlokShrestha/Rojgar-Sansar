@@ -2,12 +2,15 @@ import { useForm } from "react-hook-form";
 import JobForm from "./JobForm";
 import FormCard from "../../resuable/FormCard";
 import PrimaryButton from "../../resuable/Button/PrimaryButton";
-import { Grid, Stack } from "@chakra-ui/react";
 import { IJobValues } from "../../../types/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { JobValidationSchema } from "../../../utils/validationSchema";
 
-const JobAdd = () => {
+interface IJobProps {
+  handleAddCompanySubmit: (data: any) => void;
+}
+const JobAdd = (props: IJobProps) => {
+  const { handleAddCompanySubmit } = props;
   const {
     register,
     handleSubmit,
@@ -23,7 +26,7 @@ const JobAdd = () => {
     },
     resolver: yupResolver(JobValidationSchema),
   });
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => handleAddCompanySubmit(data));
 
   return (
     <FormCard title="Add Job">

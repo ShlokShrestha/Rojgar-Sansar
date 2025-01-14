@@ -13,7 +13,7 @@ const DashboardSidebar = () => {
   const recuiterRouter: NavigateValue[] = [
     {
       name: "My Dashboard",
-      path: "/dashboard",
+      path: "/dashboard/",
     },
     {
       name: "Company",
@@ -47,8 +47,18 @@ const DashboardSidebar = () => {
                 w="100%"
                 p="3"
                 borderRadius="md"
-                bg={location.pathname === item?.path ? "purple.500" : ""}
-                color={location.pathname === item?.path ? "white" : "black"}
+                bg={
+                  location.pathname === item?.path ||
+                  location.pathname.startsWith(item?.path + "/")
+                    ? "purple.500"
+                    : ""
+                }
+                color={
+                  location.pathname === item?.path ||
+                  location.pathname.startsWith(item?.path + "/")
+                    ? "white"
+                    : "black"
+                }
                 _hover={{
                   bg: "purple.500",
                   color: "white",

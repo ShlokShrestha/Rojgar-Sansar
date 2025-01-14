@@ -5,16 +5,28 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@chakra-ui/react";
-import { IJobValues, IReactFormProps } from "../../../types/type";
+import {
+  ICategoryValues,
+  ICompanyValues,
+  IJobValues,
+  IReactFormProps,
+} from "../../../types/type";
+import { useGetHook } from "../../../customhooks/useApiHook";
+import APIS from "../../../constants/EndPoint";
 
 const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
   const { errors, register } = props;
-  const frameworks = [
-    { label: "React.js", value: "react" },
-    { label: "Vue.js", value: "vue" },
-    { label: "Angular", value: "angular" },
-    { label: "Svelte", value: "svelte" },
-  ];
+  const { data: companyData } = useGetHook({
+    queryKey: ["company"],
+    url: `${APIS.COMPANYLIST}`,
+    params: {},
+  });
+  const { data: categoryData } = useGetHook({
+    queryKey: ["category"],
+    url: `${APIS.CATEGORYLIST}`,
+    params: {},
+  });
+
   return (
     <Grid gap="4" templateColumns="repeat(3, 1fr)" py={3}>
       <Field
@@ -38,9 +50,9 @@ const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
             <option disabled value="">
               Select company
             </option>
-            {frameworks?.map((item: any) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
+            {companyData?.data?.map((item: ICompanyValues, index: number) => (
+              <option key={index} value={item.id}>
+                {item.title}
               </option>
             ))}
           </NativeSelectField>
@@ -54,11 +66,11 @@ const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
         <NativeSelectRoot>
           <NativeSelectField {...register("jobCategoryId")}>
             <option disabled value="">
-              Select job category
+              Select company
             </option>
-            {frameworks?.map((item: any) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
+            {categoryData?.data?.map((item: ICategoryValues, index: number) => (
+              <option key={index} value={item.id}>
+                {item.title}
               </option>
             ))}
           </NativeSelectField>
@@ -91,7 +103,7 @@ const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
         invalid={!!errors.salary}
         errorText={errors.salary?.message}
       >
-        <Input {...register("salary")} type="text"  placeholder="Enter salary"  />
+        <Input {...register("salary")} type="text" placeholder="Enter salary" />
       </Field>
     </Grid>
   );
