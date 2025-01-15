@@ -4,20 +4,16 @@ import { usePostHook } from "../../../customhooks/useApiHook";
 import { ICompanyValues } from "../../../types/type";
 
 const JobAdd = () => {
-  const { mutateAsync: addCompany, status } = usePostHook({
-    queryKey: ["addCompany"],
-    navigateURL: "/dashboard/company",
+  const { mutateAsync: addCompany } = usePostHook({
+    queryKey: ["addJob"],
+    navigateURL: "/dashboard/job",
   });
 
-  const handleAddCompanySubmit = async (data: ICompanyValues) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("location", data.location);
-    formData.append("companyLogo", data.companyLogo[0]);
+  const handleAddJobSubmit = async (data: ICompanyValues) => {
     try {
       await addCompany({
-        url: `${APIS.ADDCOMPANY}`,
-        formData: formData,
+        url: `${APIS.ADDJOBS}`,
+        formData: data,
       });
     } catch (error) {
       console.log(error);
@@ -25,7 +21,7 @@ const JobAdd = () => {
   };
   return (
     <>
-      <JobAddComponent handleAddCompanySubmit={handleAddCompanySubmit} />
+      <JobAddComponent handleAddJobSubmit={handleAddJobSubmit} />
     </>
   );
 };

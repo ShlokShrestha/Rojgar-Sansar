@@ -40,8 +40,7 @@ export const companyValidationSchema = Yup.object().shape({
 export const JobValidationSchema = Yup.object().shape({
   title: Yup.string()
     .required("Job Name field is required")
-    .min(3, "Job Name  must be at least 3 characters")
-    .max(22, "Job Name must not exceed 22 characters"),
+    .min(3, "Job Name  must be at least 3 characters"),
   description: Yup.string()
     .required("Job Name field is required")
     .min(15, "Job Name  must be at least 3 characters"),

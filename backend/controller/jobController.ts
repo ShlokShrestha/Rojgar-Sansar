@@ -271,7 +271,7 @@ export const updateJob = catchAsync(
 );
 export const deleteJob = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const job = await prisma.job.findUnique({ where: { id: id } });
     if (!job) {
       return next(new ErrorHandler("Job doesnot exist with this id", 400));

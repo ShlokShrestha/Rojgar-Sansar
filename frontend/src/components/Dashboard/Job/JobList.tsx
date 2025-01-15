@@ -5,16 +5,20 @@ import { ITableProps } from "../../../types/type";
 import ActionButtons from "../../resuable/Button/Actions";
 
 interface ICategoryProps extends ITableProps {
-  categoryData: {
-    title: string;
-    id: string;
-  };
+  categoryData: any;
   handleDeleteJob: (value: any) => void;
+  isLoading: boolean;
 }
 
 const JobList: React.FC<ICategoryProps> = (props) => {
-  const { setOffset, pageSize, setPageSize, categoryData, handleDeleteJob } =
-    props;
+  const {
+    setOffset,
+    pageSize,
+    setPageSize,
+    categoryData,
+    handleDeleteJob,
+    isLoading,
+  } = props;
   const navigate = useNavigate();
 
   const columns = [
@@ -32,12 +36,22 @@ const JobList: React.FC<ICategoryProps> = (props) => {
     },
     {
       header: "Location",
-      accessorKey: "title",
+      accessorKey: "location",
       cell: (props: any) => <>{props.getValue() ? props.getValue() : "N/A"}</>,
     },
     {
       header: "Salary",
-      accessorKey: "title",
+      accessorKey: "salary",
+      cell: (props: any) => <>{props.getValue() ? props.getValue() : "N/A"}</>,
+    },
+    {
+      header: "Company",
+      accessorKey: "company.title",
+      cell: (props: any) => <>{props.getValue() ? props.getValue() : "N/A"}</>,
+    },
+    {
+      header: "Category",
+      accessorKey: "jobCategory.title",
       cell: (props: any) => <>{props.getValue() ? props.getValue() : "N/A"}</>,
     },
     {
@@ -66,6 +80,7 @@ const JobList: React.FC<ICategoryProps> = (props) => {
         pageSize={pageSize}
         setOffset={setOffset}
         loading={false}
+        isLoading={isLoading}
         AddButton={
           <>
             <PrimaryButton

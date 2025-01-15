@@ -108,7 +108,7 @@ jobRoute.put(
   updateJob
 );
 jobRoute.delete(
-  "/deleteJob",
+  "/deleteJob/:id",
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
   deleteJob

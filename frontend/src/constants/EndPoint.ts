@@ -13,6 +13,11 @@ const APIS = {
   SINGLECOMPANY: "/job/singleCompany/",
   UPDATECOMPANY: "/job/updateCompany/",
   DELETECOMPANY: "/job/deleteCompany/",
+  ADDJOBS: "/job/createJob/",
+  JOBLIST: "/job/getAllJobs/",
+  DELETEJOBS: "/job/deleteJob/",
+
+
   USERPROFILE: "/user/profile",
 };
 
