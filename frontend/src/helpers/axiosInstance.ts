@@ -1,6 +1,6 @@
 //@ts-nocheck
 import Axios from "axios";
-import { getAccessToken } from "./sessionKey";
+import { getAccessToken, removeLocalKey } from "./sessionKey";
 
 const API_ROOT = "http://localhost:5000/api/v1/";
 
@@ -21,6 +21,23 @@ export const formDataInstance = Axios.create({
     Authorization: `JWT ${getAccessToken()}`,
   },
 });
+
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // Show error notification
+    console.log(error);
+    if (error) {
+      window.location.href = "/login";
+      removeLocalKey("token");
+      removeLocalKey("userInfo")
+    }
+    return Promise.reject(error);
+  }
+);
+
 //get data from api
 export const getApiData = async (url, param = null) => {
   let response;

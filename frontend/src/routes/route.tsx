@@ -40,7 +40,7 @@ const AllRoutes = () => {
           </PrivateRoute>
         }
       >
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/" element={<Dashboard />} />
         <Route path="/dashboard/company" element={<CompanyList />} />
         <Route path="/dashboard/company/add" element={<CompanyAdd />} />
         <Route path="/dashboard/company/edit/:id" element={<CompanyEdit />} />
