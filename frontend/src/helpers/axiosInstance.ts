@@ -27,12 +27,25 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Show error notification
-    console.log(error);
-    if (error) {
+    console.log(error.status === 500);
+    if (error.status === 400) {
       window.location.href = "/login";
       removeLocalKey("token");
-      removeLocalKey("userInfo")
+      removeLocalKey("userInfo");
+    }
+    return Promise.reject(error);
+  }
+);
+formDataInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    console.log(error.status === 500);
+    if (error.status === 400) {
+      window.location.href = "/login";
+      removeLocalKey("token");
+      removeLocalKey("userInfo");
     }
     return Promise.reject(error);
   }

@@ -3,7 +3,6 @@ import Home from "../pages/Home/Home";
 import MainLayout from "../Layout/MainLayout";
 import Job from "../pages/JobList/JobList";
 import DashboardLayout from "../Layout/DashboardLayout";
-
 import Dashboard from "../pages/Dashboard/Dashboard";
 import JobList from "../pages/Dashboard/Job/JobList";
 import CompanyList from "../pages/Dashboard/Company/CompanyList";
@@ -18,7 +17,7 @@ import Login from "../components/auth/Login";
 import SignUp from "../components/auth/Signup";
 import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
-import PrivateRoute from "./privateRoute";
+import PrivateRoute from "./PrivateRoute";
 import Unauthorized from "../pages/Unauthorized";
 
 const AllRoutes = () => {

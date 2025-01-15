@@ -2,7 +2,7 @@ import { useAuth } from "../context/authContext";
 import { getLocalKey } from "../helpers/sessionKey";
 import { Navigate } from "react-router";
 import { AuthContextType } from "../types/type";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 interface PrivateRouteProps {
   children: ReactNode;
