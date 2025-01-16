@@ -46,6 +46,7 @@ export interface IUserProfileProps {
   };
 }
 export interface IJobValues {
+  id?: any;
   title: string;
   description: string;
   location: string;

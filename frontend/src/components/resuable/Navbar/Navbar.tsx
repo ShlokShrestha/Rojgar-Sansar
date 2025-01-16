@@ -61,7 +61,7 @@ const Navbar = () => {
               Home
             </Button>
           </Link>
-          <Link to={"/jobList"}>
+          <Link to={"/jobpage"}>
             <Button color="white" mr={4} variant="plain">
               Jobs List
             </Button>
@@ -122,7 +122,7 @@ const Navbar = () => {
                 Home
               </Button>
             </Link>
-            <Link to={"/jobList"}>
+            <Link to={"/jobpage"}>
               <Button color="white" mr={4} variant="plain">
                 Jobs List
               </Button>

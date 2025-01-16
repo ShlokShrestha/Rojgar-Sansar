@@ -1,18 +1,18 @@
 import { Route, Routes } from "react-router";
 import Home from "../pages/Home/Home";
 import MainLayout from "../Layout/MainLayout";
-import Job from "../pages/JobList/JobList";
+import JobPage from "../pages/JobPage/JobPage";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import JobList from "../pages/Dashboard/Job/JobList";
+import JobListPage from "../pages/Dashboard/JobList/JobListPage";
 import CompanyList from "../pages/Dashboard/Company/CompanyList";
 import CompanyAdd from "../pages/Dashboard/Company/CompanyAdd";
 import CompanyEdit from "../pages/Dashboard/Company/CompanyEdit";
 import CategoryList from "../pages/Dashboard/Category/CategoryList";
 import CategoryEdit from "../pages/Dashboard/Category/CategoryEdit";
 import CategoryAdd from "../pages/Dashboard/Category/CategoryAdd";
-import JobAdd from "../pages/Dashboard/Job/JobAdd";
-import JobEdit from "../pages/Dashboard/Job/JobEdit";
+import JobAdd from "../pages/Dashboard/JobList/JobAdd";
+import JobEdit from "../pages/Dashboard/JobList/JobEdit";
 import Login from "../components/auth/Login";
 import SignUp from "../components/auth/Signup";
 import ForgotPassword from "../components/auth/ForgotPassword";
@@ -30,7 +30,7 @@ const AllRoutes = () => {
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/jobList" element={<Job />} />
+        <Route path="/jobpage" element={<JobPage />} />
       </Route>
       <Route
         element={
@@ -46,7 +46,7 @@ const AllRoutes = () => {
         <Route path="/dashboard/category" element={<CategoryList />} />
         <Route path="/dashboard/category/add" element={<CategoryAdd />} />
         <Route path="/dashboard/category/edit/:id" element={<CategoryEdit />} />
-        <Route path="/dashboard/job" element={<JobList />} />
+        <Route path="/dashboard/job" element={<JobListPage />} />
         <Route path="/dashboard/job/add" element={<JobAdd />} />
         <Route path="/dashboard/job/edit/:id" element={<JobEdit />} />
       </Route>

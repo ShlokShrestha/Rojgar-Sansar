@@ -1,18 +1,18 @@
-import { useSearchParams } from "react-router";
-import JobListComponent from "../../../components/Dashboard/Job/JobList";
+import JobListComponent from "../../../components/Dashboard/Job/JobListComp";
 import usePaginationHook from "../../../customhooks/usePaginationHook";
 import { useDeleteHook, useGetHook } from "../../../customhooks/useApiHook";
 import APIS from "../../../constants/EndPoint";
+import { useSearchParams } from "react-router";
 
-const JobList = () => {
+const JobListPage = () => {
   const { offset, setOffset, pageSize, setPageSize } = usePaginationHook();
 
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
 
-  const { data: jobData, isLoading } = useGetHook({
-    queryKey: ["job", offset, pageSize, searchQuery],
-    url: `${APIS.JOBLIST}`,
+  const { data: joblistData, isLoading } = useGetHook({
+    queryKey: ["joblistpage", offset, pageSize, searchQuery],
+    url: `${APIS.JOBLISTS}`,
     params: {
       skip: offset,
       take: pageSize,
@@ -20,13 +20,13 @@ const JobList = () => {
     },
   });
 
-  const { mutateAsync: deleteJobs } = useDeleteHook({
-    queryKey: ["job"],
+  const { mutateAsync: deleteCategory } = useDeleteHook({
+    queryKey: ["joblistpage"],
   });
 
-  const handleDeleteJob = async (id: any) => {
+  const handleDeleteJob = async (id: string) => {
     try {
-      await deleteJobs({
+      await deleteCategory({
         url: `${APIS.DELETEJOBS}${id}`,
       });
     } catch (error) {
@@ -39,12 +39,12 @@ const JobList = () => {
         setPageSize={setPageSize}
         pageSize={pageSize}
         setOffset={setOffset}
-        categoryData={jobData}
-        handleDeleteJob={handleDeleteJob}
+        joblistData={joblistData}
         isLoading={isLoading}
+        handleDeleteJob={handleDeleteJob}
       />
     </>
   );
 };
 
-export default JobList;
+export default JobListPage;

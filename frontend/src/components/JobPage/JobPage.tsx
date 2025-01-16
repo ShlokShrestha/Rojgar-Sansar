@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import CheckBox from "../resuable/Forms/CheckBox";
 
-const JobListing = () => {
+const JobPage = () => {
 
   const jobData = Array(9).fill({
     title: "Full Stack Developer",
@@ -146,4 +146,4 @@ const JobListing = () => {
     </Box>
   );
 };
-export default JobListing;
+export default JobPage;

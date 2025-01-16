@@ -1,27 +1,34 @@
-import { useNavigate } from "react-router";
-import PrimaryButton from "../../resuable/Button/PrimaryButton";
+import React from "react";
 import Table from "../../resuable/Table";
-import { ITableProps } from "../../../types/type";
 import ActionButtons from "../../resuable/Button/Actions";
+import { IJobValues, ITableProps } from "../../../types/type";
+import PrimaryButton from "../../resuable/Button/PrimaryButton";
+import { useNavigate } from "react-router";
 
 interface ICategoryProps extends ITableProps {
-  categoryData: any;
+  joblistData: IJobValues;
   handleDeleteJob: (value: any) => void;
   isLoading: boolean;
 }
 
-const JobList: React.FC<ICategoryProps> = (props) => {
+const JobListComp: React.FC<ICategoryProps> = (props) => {
   const {
     setOffset,
     pageSize,
     setPageSize,
-    categoryData,
+    joblistData,
     handleDeleteJob,
     isLoading,
   } = props;
   const navigate = useNavigate();
-
   const columns = [
+    {
+      header: "S/N",
+      accessorKey: "",
+      cell: (props: any) => {
+        return props?.row?.index + 1;
+      },
+    },
     {
       header: "S/N",
       accessorKey: "",
@@ -74,13 +81,12 @@ const JobList: React.FC<ICategoryProps> = (props) => {
   return (
     <>
       <Table
-        data={categoryData}
+        data={joblistData}
         columns={columns}
         setPageSize={setPageSize}
         pageSize={pageSize}
         setOffset={setOffset}
-        loading={false}
-        isLoading={isLoading}
+        loading={isLoading}
         AddButton={
           <>
             <PrimaryButton
@@ -94,4 +100,4 @@ const JobList: React.FC<ICategoryProps> = (props) => {
   );
 };
 
-export default JobList;
+export default JobListComp;

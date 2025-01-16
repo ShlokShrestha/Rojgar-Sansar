@@ -5,24 +5,31 @@ import PrimaryButton from "../../resuable/Button/PrimaryButton";
 import { IJobValues } from "../../../types/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { JobValidationSchema } from "../../../utils/validationSchema";
-const JobEdit = () => {
+
+interface IJobProps {
+  singleJobData: IJobValues;
+  handleEditJobSubmit: (data: IJobValues) => void;
+}
+
+const JobEdit = (props: IJobProps) => {
+  const { handleEditJobSubmit, singleJobData } = props;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IJobValues>({
     defaultValues: {
-      title: "",
-      description: "",
-      location: "",
-      salary: "",
-      jobCategoryId: "",
-      companyId: "",
+      title: singleJobData.title ?? "",
+      description: singleJobData.description ?? "",
+      location: singleJobData.location ?? "",
+      salary: singleJobData?.salary ?? "",
+      jobCategoryId: singleJobData?.jobCategoryId ?? "",
+      companyId: singleJobData?.companyId ?? "",
     },
     resolver: yupResolver(JobValidationSchema),
   });
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = handleSubmit((data) => handleEditJobSubmit(data));
   return (
     <FormCard title="Edit Job">
       <form onSubmit={onSubmit}>
