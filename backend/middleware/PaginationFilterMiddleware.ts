@@ -24,7 +24,6 @@ export const paginationFilterMiddleWare = (
           },
         }
       : {};
-    console.log(filterOptions);
     try {
       const result = await paginationFilterHelper(
         model,

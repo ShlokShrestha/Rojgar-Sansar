@@ -196,12 +196,35 @@ export const deleteCompany = catchAsync(
 //CRUD job -- User / Admin /Recuiter
 export const getAllJobs = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { skip, take, search } = req.query;
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
     const allCompany = await prisma.job.findMany({
+      where: {
+        title: {
+          contains: search as string,
+          mode: "insensitive",
+        },
+      },
+      skip: skipInt,
+      take: takeInt,
       include: { company: true, jobCategory: true },
     });
     res.status(201).json({
       status: "success",
       data: allCompany,
+    });
+  }
+);
+export const getSingleJob = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const getSingleJob = await prisma.job.findUnique({
+      where: { id: id },
+    });
+    res.status(200).json({
+      status: "success",
+      data: getSingleJob,
     });
   }
 );
@@ -241,7 +264,7 @@ export const createJob = catchAsync(
 );
 export const updateJob = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const id = req.params.id;
+    const { id } = req.params;
     const { title, description, location, salary, jobCategoryId, companyId } =
       req.body;
     const job = await prisma.job.findUnique({ where: { id: id } });
