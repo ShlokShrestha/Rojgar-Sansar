@@ -6,14 +6,14 @@ import { ReactNode } from "react";
 
 interface PrivateRouteProps {
   children: ReactNode;
-  allowRole: String;
+  allowRole: string[];
 }
 const PrivateRoute = ({ children, allowRole }: PrivateRouteProps) => {
   const token = getLocalKey("token");
   const { auth } = useAuth() as AuthContextType;
   if (!token) {
     return <Navigate to="/login" />;
-  } else if (auth && auth.role !== allowRole) {
+  } else if (auth?.role && !allowRole.includes(auth?.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 

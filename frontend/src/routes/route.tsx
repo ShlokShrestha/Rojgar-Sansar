@@ -19,6 +19,7 @@ import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
 import PrivateRoute from "./PrivateRoute";
 import Unauthorized from "../pages/Unauthorized";
+import Profile from "../pages/Profile/Profile";
 
 const AllRoutes = () => {
   return (
@@ -31,10 +32,18 @@ const AllRoutes = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/jobpage" element={<JobPage />} />
+        <Route
+          path="/profile-setting"
+          element={
+            <PrivateRoute allowRole={["recruiter", "user"]}>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
       </Route>
       <Route
         element={
-          <PrivateRoute allowRole={"recruiter"}>
+          <PrivateRoute allowRole={["recruiter", "user"]}>
             <DashboardLayout />
           </PrivateRoute>
         }
