@@ -3,9 +3,7 @@ import { catchAsync } from "../middleware/catchAsync";
 import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
 import ErrorHandler from "../utils/errorHandler";
-import path from "path";
 import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
-const fs = require("fs").promises;
 
 //user profile
 export const userProfile = catchAsync(
@@ -19,6 +17,7 @@ export const userProfile = catchAsync(
         email: true,
         role: true,
         profile: true,
+        applications: true,
       },
     });
     if (!userProfile) {

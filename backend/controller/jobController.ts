@@ -306,3 +306,27 @@ export const deleteJob = catchAsync(
     });
   }
 );
+
+export const appliedJob = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { jobId } = req.body;
+    if (!jobId) {
+      return next(new ErrorHandler("Please add required field", 400));
+    }
+    const getSingleJob = await prisma.job.findUnique({
+      where: { id: jobId },
+      include: { company: true, jobCategory: true },
+    });
+    console.log(getSingleJob, "getSingleJob");
+    const userId = req.user?.id ?? "";
+    const appliedJob = await prisma.application.create({
+      data: {
+        jobId: jobId,
+        userId: userId,
+        companyTitle: getSingleJob?.company?.title ?? "",
+        jobTitle: getSingleJob?.title ?? "",
+      },
+    });
+    res.status(200).json({ status: "success", data: appliedJob });
+  }
+);
