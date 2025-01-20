@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
-import AppliedJobList from "./AppliedJobList";
 import ProfileDetails from "./ProfileDetails";
 import { ITableProps } from "../../types/type";
+import AppliedJobList from "./AppliedJobList";
 
 interface IProfile extends ITableProps {
   isLoading: boolean;
@@ -38,13 +38,13 @@ const Profile = (props: IProfile) => {
             />
           </Box>
           <Box mt="10px" bg="white" p="4" rounded="lg" shadow="lg">
-            {/* <AppliedJobList
+            <AppliedJobList
               setOffset={setOffset}
               pageSize={pageSize}
               setPageSize={setPageSize}
               isLoading={false}
-              userData={undefined}
-            /> */}
+              userData={userData?.data?.applications}
+            />
           </Box>
         </Box>
       </Box>

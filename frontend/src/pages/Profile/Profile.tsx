@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProfileComponent from "../../components/Profile/Profile";
 import { useGetHook } from "../../customhooks/useApiHook";
 import usePaginationHook from "../../customhooks/usePaginationHook";

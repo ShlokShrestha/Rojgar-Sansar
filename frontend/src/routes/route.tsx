@@ -43,7 +43,7 @@ const AllRoutes = () => {
       </Route>
       <Route
         element={
-          <PrivateRoute allowRole={["recruiter", "user"]}>
+          <PrivateRoute allowRole={["recruiter"]}>
             <DashboardLayout />
           </PrivateRoute>
         }

@@ -19,11 +19,15 @@ const ProfileDetails = (props: Props) => {
       <Box>
         <Box display="flex" alignItems="center" gap="10px">
           <Image
-            src={defaultUser}
+            src={
+              userData?.profile?.profileUrl
+                ? userData?.profile?.profileUrl
+                : defaultUser
+            }
             boxSize="80px"
             borderRadius="full"
             fit="cover"
-            alt="Default User Image"
+            alt="profile"
           />
           <Box>
             <Text fontWeight="bold">{userData?.fullName}</Text>

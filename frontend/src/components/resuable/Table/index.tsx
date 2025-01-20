@@ -57,7 +57,7 @@ const Table = (props: any) => {
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
 
   const table = useReactTable({
-    data: data?.data ?? [],
+    data: data?.data ? data?.data : data ? data : [],
     columns,
     state: {
       columnOrder,
