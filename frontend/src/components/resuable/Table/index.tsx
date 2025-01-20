@@ -10,6 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Box, Input } from "@chakra-ui/react";
 import { useSearchParams } from "react-router";
 import useDebounceHook from "../../../customhooks/useDebounceHook";
+import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 
 const SearchFilter = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,7 +35,7 @@ const SearchFilter = () => {
         value={input}
         width={200}
         placeholder="Search"
-        bg={"white"}
+        bg={"gray.200"}
         outline={"none"}
         border={"none"}
       />
@@ -86,14 +87,15 @@ const Table = (props: any) => {
           style={{
             width: "100%",
             overflowY: "auto",
-            borderRadius: "0.375rem",
+            borderRadius: "0.5rem",
             boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12)",
             backgroundColor: "white",
+            border: "2px solid rgb(221, 221, 221)",
           }}
         >
           <thead
             style={{
-              backgroundColor: "#DEE2E6",
+              backgroundColor: "#a855f7",
               position: "sticky",
               top: 0,
             }}
@@ -110,7 +112,7 @@ const Table = (props: any) => {
                       padding: "0.6rem",
                       textAlign: "left",
                       fontWeight: "500",
-                      color: "black",
+                      color: "white",
                       cursor: "pointer",
                     }}
                   >
@@ -172,8 +174,6 @@ const Table = (props: any) => {
           style={{
             marginTop: "0.5rem",
             width: "100%",
-            backgroundColor: "white",
-            padding: "0.5rem",
           }}
         >
           <div
@@ -197,7 +197,9 @@ const Table = (props: any) => {
                 style={{
                   border: "none",
                   outline: "none",
-                  backgroundColor: "transparent",
+                  backgroundColor: "rgb(236, 236, 236)",
+                  borderRadius: "0.2rem",
+                  padding: "4px",
                 }}
               >
                 {[5, 10, 20, 50, 100].map((pageSize) => (
@@ -207,40 +209,43 @@ const Table = (props: any) => {
                 ))}
               </select>
             </div>
-            <div style={{ marginLeft: "2.5rem" }}>
+            <div style={{ display: "flex", gap: "10px" }}>
               <button
                 style={{
                   opacity: data?.previous === null ? "0.6" : "1",
                   color: "light",
                   fontSize: "0.875rem",
-                  padding: "0.25rem 0.5rem",
-                  borderRadius: "0 0.375rem 0.375rem 0",
                   borderLeft: "none",
                   cursor: data?.previous === null ? "not-allowed" : "pointer",
-                  backgroundColor: "transparent",
+                  backgroundColor: "rgb(236, 236, 236)",
+                  borderRadius: "0.2rem",
+                  padding: "4px 10px",
                   transition: "background-color 0.2s",
+                  display: "flex",
+                  alignItems: "center",
                 }}
                 onClick={() => setOffset((prev: any) => prev - 1)}
                 disabled={data?.pagination?.hasPrevPage ? false : true}
               >
-                {"< Previous"}
+                <RiArrowLeftSLine /> Previous
               </button>
               <button
                 style={{
                   opacity: data?.next === null ? "0.6" : "1",
                   color: "light",
                   fontSize: "0.875rem",
-                  padding: "0.25rem 0.5rem",
-                  borderRadius: "0 0.375rem 0.375rem 0",
-                  borderRight: "none",
                   cursor: data?.next === null ? "not-allowed" : "pointer",
-                  backgroundColor: "transparent",
+                  borderRadius: "0.2rem",
+                  backgroundColor: "rgb(236, 236, 236)",
+                  padding: "6px 10px",
                   transition: "background-color 0.2s",
+                  display: "flex",
+                  alignItems: "center",
                 }}
                 onClick={() => setOffset((prev: any) => prev + 1)}
                 disabled={data?.pagination?.hasNextPage ? false : true}
               >
-                {"Next >"}
+                Next <RiArrowRightSLine />
               </button>
             </div>
           </div>
