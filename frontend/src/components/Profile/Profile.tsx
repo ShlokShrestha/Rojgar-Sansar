@@ -1,60 +1,54 @@
-import { Box, Image, Text } from "@chakra-ui/react";
-import defaultUser from "../../assets/defaultUserBlack.svg";
+import { Box } from "@chakra-ui/react";
+import AppliedJobList from "./AppliedJobList";
+import ProfileDetails from "./ProfileDetails";
+import { ITableProps } from "../../types/type";
 
-type Props = {};
+interface IProfile extends ITableProps {
+  isLoading: boolean;
+  openUpdateProfile: boolean;
+  setOpenUpdateProfile: (data: boolean) => void;
+  userData: any;
+}
 
-const Profile = (props: Props) => {
-  const skill = ["HTML", "CSS", "Javascript", "React"];
+const Profile = (props: IProfile) => {
+  const {
+    userData,
+    setOffset,
+    pageSize,
+    setPageSize,
+    openUpdateProfile,
+    setOpenUpdateProfile,
+  } = props;
   return (
-    <Box display={"flex"} justifyContent={"center"}>
-      <Box
-        bg="white"
-        p="4"
-        display="flex"
-        justifyContent="space-between"
-        width={{ base: "90%", md: "75%", lg: "50%" }}
-        rounded="lg"
-        shadow="lg"
-        mt="10"
-      >
-        <Box>
-          <Box display="flex" alignItems="center" gap="10px">
-            <Image
-              src={defaultUser}
-              boxSize="80px"
-              borderRadius="full"
-              fit="cover"
-              alt={defaultUser}
+    <>
+      <Box display="flex" justifyContent="center" mt="10">
+        <Box width={{ base: "90%", md: "75%", lg: "50%" }}>
+          <Box
+            bg="white"
+            p="4"
+            display="flex"
+            justifyContent="space-between"
+            rounded="lg"
+            shadow="lg"
+          >
+            <ProfileDetails
+              openUpdateProfile={openUpdateProfile}
+              setOpenUpdateProfile={setOpenUpdateProfile}
+              userData={userData?.data}
             />
-            <Box>
-              <Text>Shlok Shrestha</Text>
-              <Text>Experience Developer</Text>
-            </Box>
           </Box>
-          <Box my="10px">
-            <Text>abc.test@gmail.com</Text>
-            <Text>+9779812345678</Text>
-          </Box>
-          <Box my="10px">
-            <Text fontWeight={"bold"}>Skill</Text>
-            <Box display="flex" gap="2" mt="2">
-              {skill?.map((item: string, index: number) => (
-                <Text key={index} bg="black" px="2" py="1" color="white" rounded="md">
-                  {item}
-                </Text>
-              ))}
-            </Box>
+          <Box mt="10px" bg="white" p="4" rounded="lg" shadow="lg">
+            {/* <AppliedJobList
+              setOffset={setOffset}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              isLoading={false}
+              userData={undefined}
+            /> */}
           </Box>
         </Box>
-        <Image
-          src={defaultUser}
-          boxSize="50px"
-          borderRadius="full"
-          fit="cover"
-          alt={defaultUser}
-        />
       </Box>
-    </Box>
+    </>
   );
 };
 
