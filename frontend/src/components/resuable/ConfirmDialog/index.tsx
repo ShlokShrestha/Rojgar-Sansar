@@ -10,11 +10,6 @@ import { Box } from "@chakra-ui/react";
 
 export default function ConfirmDialog(props: any) {
   const { open, setOpen, handleDelete, deleteLoading, children } = props;
-
-  function close() {
-    setOpen(false);
-  }
-
   return (
     <DialogRoot
       role="alertdialog"
