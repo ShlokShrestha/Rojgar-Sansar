@@ -208,7 +208,7 @@ export const getAllJobs = catchAsync(
       },
       skip: skipInt,
       take: takeInt,
-      include: { company: true, jobCategory: true },
+      include: { company: true, jobCategory: true, application: true },
     });
     res.status(201).json({
       status: "success",
@@ -317,7 +317,6 @@ export const appliedJob = catchAsync(
       where: { id: jobId },
       include: { company: true, jobCategory: true },
     });
-    console.log(getSingleJob, "getSingleJob");
     const userId = req.user?.id ?? "";
     const appliedJob = await prisma.application.create({
       data: {

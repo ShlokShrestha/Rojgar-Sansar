@@ -18,6 +18,9 @@ export const userProfile = catchAsync(
         role: true,
         profile: true,
         applications: true,
+        resumeUrl: true,
+        bio: true,
+        phone: true,
       },
     });
     if (!userProfile) {
@@ -26,12 +29,10 @@ export const userProfile = catchAsync(
     res.status(200).json({ status: "success", data: userProfile });
   }
 );
-
-//user update profile
-export const updateProfile = catchAsync(
+//user update profile image
+export const updateProfileImage = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
-    const { email, fullName } = req.body;
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { profile: true },
@@ -56,17 +57,49 @@ export const updateProfile = catchAsync(
       await prisma.user.update({
         where: { id: userId },
         data: {
-          email,
-          fullName,
           profile: profileData,
         },
       });
-    } else {
+    }
+    res.status(200).json({
+      status: "success",
+      message: "Update profile successful",
+    });
+  }
+);
+//user update profile
+export const updateProfile = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const { email, fullName, bio, skills, phone } = req.body;
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { profile: true },
+    });
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+    if (req.file) {
+      if (user.resumeId) {
+        await deleteImageKit(user.resumeId);
+      }
+      const uploadParams = {
+        file: req.file?.buffer,
+        fileName: req.file?.originalname,
+        folder: "/resume",
+        useUniqueFileName: true,
+      };
+      const imageUrl = await uploadImageKit(uploadParams);
       await prisma.user.update({
         where: { id: userId },
         data: {
           email,
           fullName,
+          bio,
+          skills,
+          phone,
+          resumeUrl: imageUrl.url,
+          resumeId: imageUrl.fileId,
         },
       });
     }

@@ -13,13 +13,15 @@ import multer from "multer";
 const storage = multer.memoryStorage();
 
 const checkImageFilter = (req: any, file: { mimetype: string }, cb: any) => {
-  if (file.mimetype.startsWith("image")) {
+  if (
+    file.mimetype.startsWith("image") ||
+    file.mimetype === "application/pdf"
+  ) {
     cb(null, true);
   } else {
-    cb(new Error("Please upload only images"));
+    cb(new Error("Please upload only images or PDFs"));
   }
 };
-
 export const uploadImageMiddleWare = multer({
   storage: storage,
   fileFilter: checkImageFilter,

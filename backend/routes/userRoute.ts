@@ -4,6 +4,7 @@ import {
   getAllUser,
   getSingleUser,
   updateProfile,
+  updateProfileImage,
   updateUser,
   userProfile,
 } from "../controller/userController";
@@ -13,11 +14,17 @@ const userRoutes = express.Router();
 
 //user route
 userRoutes.get("/profile", userProfile);
-userRoutes.patch(
+userRoutes.put(
   "/updateProfile",
-  uploadImageMiddleWare.single("profileImage"),
+  uploadImageMiddleWare.single("resume"),
   updateProfile
 );
+userRoutes.put(
+  "/updateProfileImage",
+  uploadImageMiddleWare.single("profileImage"),
+  updateProfileImage
+);
+
 //admin route
 userRoutes.get("/getAllUser", isAuthorizedRoles("admin"), getAllUser);
 userRoutes.get("/getSingleUser/:id", isAuthorizedRoles("admin"), getSingleUser);

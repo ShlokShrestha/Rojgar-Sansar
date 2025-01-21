@@ -33,6 +33,11 @@ model user {
   jobPosts            job[]
   applications        application[]
   company             company[]
+  bio                 String?
+  skills              String?
+  phone               String?
+  resumeUrl           String?
+  resumeId            String?
 }
 
 model profile {
@@ -84,4 +89,5 @@ model application {
   userId       String
   jobTitle     String
   companyTitle String
+  resumeUrl    String
 }
