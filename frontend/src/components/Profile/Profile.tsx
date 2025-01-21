@@ -1,12 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import ProfileDetails from "./ProfileDetails";
-import { ITableProps } from "../../types/type";
+import { IProfileValue, ITableProps } from "../../types/type";
 import AppliedJobList from "./AppliedJobList";
 
 interface IProfile extends ITableProps {
   isLoading: boolean;
   openUpdateProfile: boolean;
+  updateLoading: boolean;
   setOpenUpdateProfile: (data: boolean) => void;
+  handleUpdateUserProfileSubmit: (data: IProfileValue) => void;
   userData: any;
 }
 
@@ -18,6 +20,8 @@ const Profile = (props: IProfile) => {
     setPageSize,
     openUpdateProfile,
     setOpenUpdateProfile,
+    handleUpdateUserProfileSubmit,
+    updateLoading,
   } = props;
   return (
     <>
@@ -35,6 +39,8 @@ const Profile = (props: IProfile) => {
               openUpdateProfile={openUpdateProfile}
               setOpenUpdateProfile={setOpenUpdateProfile}
               userData={userData?.data}
+              handleUpdateUserProfileSubmit={handleUpdateUserProfileSubmit}
+              updateLoading={updateLoading}
             />
           </Box>
           <Box mt="10px" bg="white" p="4" rounded="lg" shadow="lg">

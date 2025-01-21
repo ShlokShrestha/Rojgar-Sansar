@@ -21,6 +21,7 @@ export const userProfile = catchAsync(
         resumeUrl: true,
         bio: true,
         phone: true,
+        skills: true,
       },
     });
     if (!userProfile) {
@@ -79,8 +80,8 @@ export const updateProfile = catchAsync(
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
-    if (req.file) {
-      if (user.resumeId) {
+    if (req?.file) {
+      if (user.resumeId !== null) {
         await deleteImageKit(user.resumeId);
       }
       const uploadParams = {

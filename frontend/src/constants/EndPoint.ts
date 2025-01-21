@@ -19,6 +19,7 @@ const APIS = {
   SINGLEJOB: "/job/singleJob/",
   UPDATEJOB: "/job/updateJob/",
   USERPROFILE: "/user/profile",
+  UPDATEUSERPROFILE: "/user/updateProfile",
 };
 
 export default APIS;

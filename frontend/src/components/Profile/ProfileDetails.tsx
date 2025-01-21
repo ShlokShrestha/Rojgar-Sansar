@@ -1,18 +1,48 @@
-import { Box, Image, Text } from "@chakra-ui/react";
-
+import { Box, Grid, Image, Stack, Text } from "@chakra-ui/react";
 import defaultUser from "../../assets/defaultUserBlack.svg";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineEmail, MdPhoneIphone } from "react-icons/md";
 import Modal from "../resuable/Modal";
+import ProfileForm from "./ProfileForm";
+import { useForm } from "react-hook-form";
+import { IProfileValue } from "../../types/type";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { profileValidationSchema } from "../../utils/validationSchema";
+import PrimaryButton from "../resuable/Button/PrimaryButton";
+
 type Props = {
   openUpdateProfile: boolean;
+  updateLoading: boolean;
   setOpenUpdateProfile: (data: boolean) => void;
+  handleUpdateUserProfileSubmit: (data: IProfileValue) => void;
   userData: any;
 };
 
 const ProfileDetails = (props: Props) => {
-  const { openUpdateProfile, setOpenUpdateProfile, userData } = props;
+  const {
+    openUpdateProfile,
+    setOpenUpdateProfile,
+    userData,
+    handleUpdateUserProfileSubmit,
+    updateLoading,
+  } = props;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IProfileValue>({
+    defaultValues: {
+      fullName: userData?.fullName ?? "",
+      email: userData?.email ?? "",
+      bio: userData?.bio ?? "",
+      skills: userData?.skills ?? "",
+      phone: userData?.phone ?? "",
+      resume: userData?.resumeUrl ?? null,
+    },
+    resolver: yupResolver(profileValidationSchema),
+  });
   const skill = ["HTML", "CSS", "Javascript", "React"];
+  const onSubmit = handleSubmit((data) => handleUpdateUserProfileSubmit(data));
 
   return (
     <>
@@ -31,7 +61,7 @@ const ProfileDetails = (props: Props) => {
           />
           <Box>
             <Text fontWeight="bold">{userData?.fullName}</Text>
-            <Text color="gray.600">Experience Developer</Text>
+            <Text color="gray.600">{userData?.bio ?? "Add bio"}</Text>
           </Box>
         </Box>
 
@@ -43,7 +73,7 @@ const ProfileDetails = (props: Props) => {
           </Text>
           <Text display="flex" alignItems="center" gap="2px" mt="2">
             <MdPhoneIphone />
-            +9779812345678
+            {userData?.phone ?? "Add Contact"}
           </Text>
         </Box>
 
@@ -66,7 +96,6 @@ const ProfileDetails = (props: Props) => {
           </Box>
         </Box>
       </Box>
-      {/* Edit Icon */}
       <FiEdit
         style={{
           width: "1.2rem",
@@ -80,8 +109,17 @@ const ProfileDetails = (props: Props) => {
         open={openUpdateProfile}
         title="Update Profile"
         setOpen={setOpenUpdateProfile}
+        size="lg"
       >
-        asd
+        <form onSubmit={onSubmit}>
+          <Grid templateColumns="repeat(2, 1fr)" gap="4" mb="5">
+            <ProfileForm register={register} errors={errors} />
+          </Grid>
+          <PrimaryButton
+            text={"Update"}
+            disable={updateLoading ? true : false}
+          />
+        </form>
       </Modal>
     </>
   );

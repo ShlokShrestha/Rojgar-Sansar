@@ -9,7 +9,7 @@ import {
 } from "../../ui/dialog";
 
 export default function Modal(props: any) {
-  const { open, setOpen, title, children } = props;
+  const { open, setOpen, title, children, size = "md" } = props;
   return (
     <DialogRoot
       role="alertdialog"
@@ -17,9 +17,10 @@ export default function Modal(props: any) {
       onOpenChange={(e) => setOpen(e.open)}
       placement={"center"}
       motionPreset="slide-in-bottom"
+      size={size}
     >
       <DialogContent>
-        <DialogHeader >
+        <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <DialogBody>{children}</DialogBody>

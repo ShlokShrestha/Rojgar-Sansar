@@ -65,6 +65,14 @@ export interface ISignUpValues {
   role: string;
   profileImage?: any;
 }
+export interface IProfileValue {
+  fullName: string;
+  email: string;
+  bio: string;
+  phone: string;
+  skills: string;
+  resume: any;
+}
 export interface IForgotPasswordValues {
   email: string;
 }

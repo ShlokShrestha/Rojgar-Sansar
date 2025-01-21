@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import parsePhoneNumberFromString from "libphonenumber-js";
 
 export const categoryValidationSchema = Yup.object().shape({
   title: Yup.string()
@@ -36,6 +37,27 @@ export const companyValidationSchema = Yup.object().shape({
       if (typeof value === "string") return true; // Skip if URL
       return value?.[0] && value[0].size <= MAX_FILE_SIZE;
     }),
+});
+export const profileValidationSchema = Yup.object().shape({
+  fullName: Yup.string()
+    .required("Full Name field is required")
+    .min(3, "Full Name must be at least 3 characters")
+    .max(22, "Full Name must not exceed 22 characters"),
+  email: Yup.string().required("Email field is required"),
+  phone: Yup.string()
+    .required("Phone number is required")
+    .test(
+      "is-valid-phone",
+      "Invalid contact number with country code",
+      (value) => {
+        if (!value) return false;
+        const phoneNumber = parsePhoneNumberFromString(value);
+        return phoneNumber && phoneNumber.isValid();
+      }
+    ),
+  bio: Yup.string().required("Bio field is required"),
+  skills: Yup.string().required("Skills field is required"),
+  resume: Yup.mixed().nullable().required("Resume field is required"),
 });
 export const JobValidationSchema = Yup.object().shape({
   title: Yup.string()
