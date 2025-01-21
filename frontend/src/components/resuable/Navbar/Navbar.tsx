@@ -14,11 +14,17 @@ import {
 } from "@chakra-ui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
-import { Link } from "react-router";
+import { Link, replace, useNavigate } from "react-router";
 import defaultUser from "../../../assets/defaultUser.svg";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    navigate("/login", { replace: true });
+  };
   return (
     <Box
       bg="purple.500"
@@ -66,7 +72,7 @@ const Navbar = () => {
               Jobs List
             </Button>
           </Link>
-          <Link to={"/dashboard"}>
+          <Link to={"/dashboard/"}>
             <Button color="white" mr={4} variant="plain">
               Dashboard
             </Button>
@@ -109,7 +115,9 @@ const Navbar = () => {
                   Update Password
                 </Link>
               </MenuItem>
-              <MenuItem value="new-file">Logout</MenuItem>
+              <MenuItem value="new-file" onClick={() => handleLogout}>
+                Logout
+              </MenuItem>
             </MenuContent>
           </MenuRoot>
         </Flex>

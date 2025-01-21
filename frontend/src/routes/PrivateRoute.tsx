@@ -11,7 +11,6 @@ interface PrivateRouteProps {
 const PrivateRoute = ({ children, allowRole }: PrivateRouteProps) => {
   const token = getLocalKey("token");
   const { auth } = useAuth() as AuthContextType;
-  console.log(allowRole, auth);
   if (!token) {
     return <Navigate to="/login" />;
   } else if (auth?.role && !allowRole.includes(auth?.role)) {

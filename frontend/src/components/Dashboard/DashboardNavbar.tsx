@@ -10,8 +10,15 @@ import {
   Image,
 } from "@chakra-ui/react";
 import defaultUser from "../../assets/defaultUser.svg";
+import { useNavigate } from "react-router";
 
 const DashboardNavbar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    navigate("/login", { replace: true });
+  };
   return (
     <>
       <Box
@@ -55,14 +62,12 @@ const DashboardNavbar = () => {
                 </Button>
               </MenuTrigger>
               <MenuContent position={"absolute"} right={0} top={11} width={200}>
-                <MenuItem value="new-txt" textSizeAdjust={"24px"}>
-                  Account Name
-                </MenuItem>
                 <MenuItem value="new-file">
                   <Link
                     href={"/profile-setting"}
                     border="none"
                     outline="none"
+                    cursor="pointer"
                     textDecoration="none"
                   >
                     Profile Setting
@@ -74,6 +79,7 @@ const DashboardNavbar = () => {
                     border="none"
                     outline="none"
                     textDecoration="none"
+                    cursor="pointer"
                   >
                     Update Password
                   </Link>
@@ -83,6 +89,8 @@ const DashboardNavbar = () => {
                   border="none"
                   outline="none"
                   textDecoration="none"
+                  cursor="pointer"
+                  onClick={() => handleLogout}
                 >
                   Logout
                 </MenuItem>
