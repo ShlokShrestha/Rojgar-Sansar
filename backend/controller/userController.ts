@@ -80,6 +80,8 @@ export const updateProfile = catchAsync(
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
+    let resumeUrl = user?.resumeUrl ?? "";
+    let resumeId = user?.resumeId ?? "";
     if (req?.file) {
       if (user.resumeId !== null) {
         await deleteImageKit(user.resumeId);
@@ -91,19 +93,21 @@ export const updateProfile = catchAsync(
         useUniqueFileName: true,
       };
       const imageUrl = await uploadImageKit(uploadParams);
-      await prisma.user.update({
-        where: { id: userId },
-        data: {
-          email,
-          fullName,
-          bio,
-          skills,
-          phone,
-          resumeUrl: imageUrl.url,
-          resumeId: imageUrl.fileId,
-        },
-      });
+      resumeUrl = imageUrl.url;
+      resumeId = imageUrl.fileId;
     }
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        email,
+        fullName,
+        bio,
+        skills,
+        phone,
+        resumeUrl: resumeUrl,
+        resumeId: resumeId,
+      },
+    });
     res.status(200).json({
       status: "success",
       message: "Update profile successful",

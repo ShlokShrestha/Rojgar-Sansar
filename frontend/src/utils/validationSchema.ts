@@ -55,8 +55,16 @@ export const profileValidationSchema = Yup.object().shape({
         return phoneNumber && phoneNumber.isValid();
       }
     ),
-  bio: Yup.string().required("Bio field is required"),
-  skills: Yup.string().required("Skills field is required"),
+  bio: Yup.string()
+    .required("Bio field is required")
+    .min(10, "Full Name must be at least 10 characters")
+    .max(150, "Full Name must not exceed 150 characters"),
+  skills: Yup.string()
+    .matches(
+      /^[a-zA-Z]+(, ([a-zA-Z]+))*$/,
+      "Please enter valid skills separated by commas"
+    )
+    .required("Skills field is required"),
   resume: Yup.mixed().nullable().required("Resume field is required"),
 });
 export const JobValidationSchema = Yup.object().shape({

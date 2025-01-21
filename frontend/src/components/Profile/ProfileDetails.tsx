@@ -1,4 +1,4 @@
-import { Box, Grid, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Grid, Image, Link, Stack, Text } from "@chakra-ui/react";
 import defaultUser from "../../assets/defaultUserBlack.svg";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineEmail, MdPhoneIphone } from "react-icons/md";
@@ -9,6 +9,7 @@ import { IProfileValue } from "../../types/type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileValidationSchema } from "../../utils/validationSchema";
 import PrimaryButton from "../resuable/Button/PrimaryButton";
+import { LuExternalLink } from "react-icons/lu";
 
 type Props = {
   openUpdateProfile: boolean;
@@ -29,6 +30,7 @@ const ProfileDetails = (props: Props) => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<IProfileValue>({
     defaultValues: {
@@ -41,13 +43,18 @@ const ProfileDetails = (props: Props) => {
     },
     resolver: yupResolver(profileValidationSchema),
   });
-  const skill = ["HTML", "CSS", "Javascript", "React"];
+  const skills = userData?.skills.split(",");
   const onSubmit = handleSubmit((data) => handleUpdateUserProfileSubmit(data));
 
   return (
     <>
       <Box>
-        <Box display="flex" alignItems="center" gap="10px">
+        <Box
+          display="flex"
+          flexDirection={{ base: "column", lg: "row" }}
+          alignItems="center"
+          gap="10px"
+        >
           <Image
             src={
               userData?.profile?.profileUrl
@@ -61,7 +68,9 @@ const ProfileDetails = (props: Props) => {
           />
           <Box>
             <Text fontWeight="bold">{userData?.fullName}</Text>
-            <Text color="gray.600">{userData?.bio ?? "Add bio"}</Text>
+            <Text color="gray.600" width="5/6">
+              {userData?.bio ?? "Add bio"}
+            </Text>
           </Box>
         </Box>
 
@@ -79,9 +88,11 @@ const ProfileDetails = (props: Props) => {
 
         {/* Skills Section */}
         <Box my="4">
-          <Text fontWeight="bold">Skills</Text>
+          <Text fontWeight="bold" textDecoration="underline">
+            Skills
+          </Text>
           <Box display="flex" gap="2" mt="2" flexWrap="wrap">
-            {skill?.map((item: string, index: number) => (
+            {skills?.map((item: string, index: number) => (
               <Text
                 key={index}
                 bg="black"
@@ -95,16 +106,31 @@ const ProfileDetails = (props: Props) => {
             ))}
           </Box>
         </Box>
+        <Box my="4">
+          <Text fontWeight="bold" textDecoration="underline">
+            Resume
+          </Text>
+          <Link href={userData?.resumeUrl} target="_black" outline="none">
+            View my resume
+            <LuExternalLink />
+          </Link>
+        </Box>
       </Box>
-      <FiEdit
-        style={{
-          width: "1.2rem",
-          height: "1.2rem",
-          color: "#F0AD4E",
-          cursor: "pointer",
-        }}
+      <Button
+        variant="plain"
         onClick={() => setOpenUpdateProfile(true)}
-      />
+        outline="none"
+        border="none"
+      >
+        <FiEdit
+          style={{
+            width: "1rem",
+            height: "1rem",
+            color: "#F2AD4E",
+            cursor: "pointer",
+          }}
+        />
+      </Button>
       <Modal
         open={openUpdateProfile}
         title="Update Profile"
@@ -113,7 +139,11 @@ const ProfileDetails = (props: Props) => {
       >
         <form onSubmit={onSubmit}>
           <Grid templateColumns="repeat(2, 1fr)" gap="4" mb="5">
-            <ProfileForm register={register} errors={errors} />
+            <ProfileForm
+              register={register}
+              errors={errors}
+              getValues={getValues}
+            />
           </Grid>
           <PrimaryButton
             text={"Update"}

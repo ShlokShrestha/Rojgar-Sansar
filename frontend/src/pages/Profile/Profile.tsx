@@ -32,7 +32,6 @@ const Profile = () => {
 
   const handleUpdateUserProfileSubmit = async (data: IProfileValue) => {
     const formData = new FormData();
-    console.log(data.resume[0], "data");
     formData.append("fullName", data.fullName);
     formData.append("email", data.email);
     formData.append("bio", data.bio);
