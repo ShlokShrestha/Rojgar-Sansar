@@ -3,6 +3,7 @@ import {
   deleteUser,
   getAllUser,
   getSingleUser,
+  updatePassword,
   updateProfile,
   updateProfileImage,
   updateUser,
@@ -24,6 +25,7 @@ userRoutes.put(
   uploadImageMiddleWare.single("profileImage"),
   updateProfileImage
 );
+userRoutes.put("/updatePassword", updatePassword);
 
 //admin route
 userRoutes.get("/getAllUser", isAuthorizedRoles("admin"), getAllUser);

@@ -4,7 +4,7 @@ import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
 import ErrorHandler from "../utils/errorHandler";
 import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
-
+import bycrpt from "bcrypt";
 //user profile
 export const userProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
@@ -114,6 +114,33 @@ export const updateProfile = catchAsync(
     });
   }
 );
+//user update password
+export const updatePassword = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user?.id;
+    const getUser = await prisma.user.findUnique({ where: { id: userId } });
+    if (!getUser) {
+      return next(new ErrorHandler("User with email doesnot exist", 401));
+    }
+    const checkOldPassword = await bycrpt.compare(
+      oldPassword,
+      getUser?.password
+    );
+    if (!checkOldPassword) {
+      return next(new ErrorHandler("Incorrect old password", 400));
+    }
+    const newHashPassword = await bycrpt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: newHashPassword },
+    });
+    res
+      .status(200)
+      .json({ status: "success", message: "Successfully update password" });
+  }
+);
+
 //Get all user detail - Admin
 export const getAllUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -174,7 +201,6 @@ export const updateUser = catchAsync(
     });
   }
 );
-
 //admin delete user  - Admin
 export const deleteUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
