@@ -20,6 +20,7 @@ import ResetPassword from "../components/auth/ResetPassword";
 import PrivateRoute from "./PrivateRoute";
 import Unauthorized from "../pages/Unauthorized";
 import Profile from "../pages/Profile/Profile";
+import UpdatePassword from "../pages/Profile/UpdatePassword";
 
 const AllRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const AllRoutes = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/jobpage" element={<JobPage />} />
+        <Route path="/update-password" element={<UpdatePassword />} />
         <Route
           path="/profile-setting"
           element={

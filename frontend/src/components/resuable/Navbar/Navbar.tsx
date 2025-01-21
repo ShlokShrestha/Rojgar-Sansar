@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
-import { Link, replace, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import defaultUser from "../../../assets/defaultUser.svg";
 
 const Navbar = () => {
@@ -115,7 +115,7 @@ const Navbar = () => {
                   Update Password
                 </Link>
               </MenuItem>
-              <MenuItem value="new-file" onClick={() => handleLogout}>
+              <MenuItem value="new-file" onClick={() => handleLogout()}>
                 Logout
               </MenuItem>
             </MenuContent>

@@ -90,7 +90,7 @@ const DashboardNavbar = () => {
                   outline="none"
                   textDecoration="none"
                   cursor="pointer"
-                  onClick={() => handleLogout}
+                  onClick={() => handleLogout()}
                 >
                   Logout
                 </MenuItem>

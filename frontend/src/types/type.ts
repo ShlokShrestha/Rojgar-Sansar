@@ -80,6 +80,10 @@ export interface IResetPasswordValues {
   token: string;
   password: string;
 }
+export interface IChangePasswordValues {
+  oldPassword: string;
+  newPassword: string;
+}
 export interface IReactFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;

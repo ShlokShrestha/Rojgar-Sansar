@@ -20,6 +20,7 @@ const APIS = {
   UPDATEJOB: "/job/updateJob/",
   USERPROFILE: "/user/profile",
   UPDATEUSERPROFILE: "/user/updateProfile",
+  UPDATEUSERPASSWORD: "/user/updatePassword",
 };
 
 export default APIS;

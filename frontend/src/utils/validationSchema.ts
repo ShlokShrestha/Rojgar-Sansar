@@ -108,3 +108,11 @@ export const resetPasswordValidationSchema = Yup.object().shape({
     .min(8, "Password must have atleast 8 Charaters.")
     .required("Password field is required"),
 });
+export const updatePasswordValidationSchema = Yup.object().shape({
+  oldPassword: Yup.string()
+    .min(8, "Password must have atleast 8 Charaters.")
+    .required("Password field is required"),
+  newPassword: Yup.string()
+    .min(8, "Password must have atleast 8 Charaters.")
+    .required("Password field is required"),
+});

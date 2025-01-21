@@ -8,12 +8,7 @@ import {
   putApiData,
 } from "../helpers/axiosInstance";
 
-const useGetHook = ({
-  queryKey,
-  url,
-  params,
-  isEnabled = true,
-}: any) => {
+const useGetHook = ({ queryKey, url, params, isEnabled = true }: any) => {
   const { isLoading, isError, data, isSuccess } = useQuery({
     queryKey: [queryKey],
     queryFn: async () => {
@@ -98,14 +93,14 @@ const usePutHook = ({
     mutationFn: putApiData,
     onSuccess: (data) => {
       if (data.status === 201 || data.status === 200) {
-        toast.success("Items is successfully updated");
+        toast.success(data.data.message ?? "Items is successfully updated");
         if (navigateURL) {
           navigate(navigateURL);
         }
       }
     },
     onError: (error: any) => {
-      const errorCheck = error.data.name[0];
+      const errorCheck = error.data.message;
       toast.error(errorCheck || "Something went wrong");
     },
     onSettled: () => {
@@ -136,7 +131,7 @@ const useDeleteHook = ({ queryKey }: { queryKey: string[] }) => {
       toast.success("Item deleted successfully");
     },
     onError: (error: any) => {
-      toast.error("Error");
+      toast.error(error.data.message ?? "something went wrong");
     },
     onSettled: () => {
       if (queryKey && Array.isArray(queryKey)) {
