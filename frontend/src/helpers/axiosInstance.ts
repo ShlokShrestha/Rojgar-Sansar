@@ -27,12 +27,15 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error.status === 500);
-    // if (error.status === 400) {
-    //   window.location.href = "/login";
-    //   removeLocalKey("token");
-    //   removeLocalKey("userInfo");
-    // }
+    if (error.response) {
+      if (error.response.status === 401) {
+        if (error.response.data?.message === "Token expired") {
+          window.location.href = "/login";
+          removeLocalKey("token");
+          removeLocalKey("userInfo");
+        }
+      }
+    }
     return Promise.reject(error);
   }
 );
@@ -41,11 +44,15 @@ formDataInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    // if (error.status === 400) {
-    //   window.location.href = "/login";
-    //   removeLocalKey("token");
-    //   removeLocalKey("userInfo");
-    // }
+    if (error.response) {
+      if (error.response.status === 401) {
+        if (error.response.data?.message === "Token expired") {
+          window.location.href = "/login";
+          removeLocalKey("token");
+          removeLocalKey("userInfo");
+        }
+      }
+    }
     return Promise.reject(error);
   }
 );
@@ -69,7 +76,7 @@ export const getApiData = async (url, param = null) => {
       ],
     });
   } catch (e) {
-    return e.response;
+    throw e.response;
   }
   return response;
 };
@@ -142,7 +149,7 @@ export const putApiData = async (data) => {
     });
   } catch (e) {
     const error = e.response || {};
-    return error;
+    throw error;
   }
   return response;
 };
@@ -167,7 +174,7 @@ export const putApiFormData = async (data) => {
     });
   } catch (e) {
     const error = e.response || {};
-    return error;
+    throw error;
   }
   return response;
 };
@@ -175,14 +182,19 @@ export const putApiFormData = async (data) => {
 //delete data
 export const deleteApiData = async ({ url }) => {
   let response;
-  response = await instance({
-    method: "DELETE",
-    url: url,
-    // params: param,
-    headers: {
-      Authorization: `JWT ${getAccessToken()}`,
-    },
-  });
+  try {
+    response = await instance({
+      method: "DELETE",
+      url: url,
+      // params: param,
+      headers: {
+        Authorization: `JWT ${getAccessToken()}`,
+      },
+    });
+  } catch (e) {
+    const error = e.response || {};
+    throw error;
+  }
   return response;
 };
 

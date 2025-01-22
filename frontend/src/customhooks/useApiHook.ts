@@ -93,7 +93,7 @@ const usePutHook = ({
     mutationFn: putApiData,
     onSuccess: (data) => {
       if (data.status === 201 || data.status === 200) {
-        toast.success(data.data.message ?? "Items is successfully updated");
+        toast.success(data.data.message ??"Items is successfully updated");
         if (navigateURL) {
           navigate(navigateURL);
         }

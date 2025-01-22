@@ -1,11 +1,11 @@
+import { useNavigate } from "react-router";
 import UpdatePasswordComponent from "../../components/Profile/UpdatePassword";
 import APIS from "../../constants/EndPoint";
 import { usePutHook } from "../../customhooks/useApiHook";
 import { IChangePasswordValues } from "../../types/type";
 
-type Props = {};
-
-const UpdatePassword = (props: Props) => {
+const UpdatePassword = () => {
+  const navigate = useNavigate();
   const { mutateAsync: updatePassword } = usePutHook({
     queryKey: ["updatePassword"],
     navigateURL: "/profile-setting",
@@ -17,13 +17,18 @@ const UpdatePassword = (props: Props) => {
         url: `${APIS.UPDATEUSERPASSWORD}/`,
         formData: data,
       });
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      navigate("/login", { replace: true });
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <div>
-      <UpdatePasswordComponent handleUpdatePasswordSubmit={handleUpdatePasswordSubmit} />
+      <UpdatePasswordComponent
+        handleUpdatePasswordSubmit={handleUpdatePasswordSubmit}
+      />
     </div>
   );
 };
