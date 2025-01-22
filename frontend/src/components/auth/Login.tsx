@@ -27,7 +27,7 @@ const Login = () => {
   const { setAuth } = useAuth() as AuthContextType;
   const navigate = useNavigate();
   const { mutateAsync: login } = usePostHook({
-    queryKey: ["login"],
+    queryKey: [""],
     navigateURL: "",
   });
   const {
