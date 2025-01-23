@@ -208,7 +208,7 @@ export const getAllJobs = catchAsync(
       },
       skip: skipInt,
       take: takeInt,
-      include: { company: true, jobCategory: true, application: true },
+      include: { company: true, jobCategory: true },
     });
     res.status(201).json({
       status: "success",
@@ -317,15 +317,56 @@ export const appliedJob = catchAsync(
       where: { id: jobId },
       include: { company: true, jobCategory: true },
     });
+    if (!getSingleJob) {
+      return next(new ErrorHandler("No job found", 400));
+    }
     const userId = req.user?.id ?? "";
+    const getUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        resumeUrl: true,
+      },
+    });
+    if (!getUser?.resumeUrl) {
+      return next(new ErrorHandler("Please add resume first", 400));
+    }
     const appliedJob = await prisma.application.create({
       data: {
         jobId: jobId,
         userId: userId,
+        resumeUrl: getUser?.resumeUrl ?? "",
         companyTitle: getSingleJob?.company?.title ?? "",
         jobTitle: getSingleJob?.title ?? "",
       },
     });
     res.status(200).json({ status: "success", data: appliedJob });
+  }
+);
+export const getJobApplicant = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const allCompany = await prisma.application.findMany({
+      where: { jobId: id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            fullName: true,
+            email: true,
+            phone: true,
+          },
+        },
+      },
+    });
+    if (!allCompany) {
+      return next(new ErrorHandler("job doesnot exist", 400));
+    }
+    res.status(201).json({
+      status: "success",
+      data: allCompany,
+    });
   }
 );

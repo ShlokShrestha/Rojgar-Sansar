@@ -16,6 +16,7 @@ import {
   getSingleCompany,
   getSingleJob,
   appliedJob,
+  getJobApplicant,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -103,6 +104,12 @@ jobRoute.post(
   createJob
 );
 jobRoute.get("/getAllJobs", getAllJobs);
+jobRoute.get(
+  "/getJobApplicant/:id",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  getJobApplicant
+);
 jobRoute.put(
   "/updatejob/:id",
   isAuthenitcatedUser,
