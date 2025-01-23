@@ -28,12 +28,10 @@ instance.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      if (error.response.status === 401) {
-        if (error.response.data?.message === "Token expired") {
-          window.location.href = "/login";
-          removeLocalKey("token");
-          removeLocalKey("userInfo");
-        }
+      if (error.response.data?.message === "jwt expired") {
+        window.location.href = "/login";
+        removeLocalKey("token");
+        removeLocalKey("userInfo");
       }
     }
     return Promise.reject(error);
@@ -45,12 +43,10 @@ formDataInstance.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
-      if (error.response.status === 401) {
-        if (error.response.data?.message === "Token expired") {
-          window.location.href = "/login";
-          removeLocalKey("token");
-          removeLocalKey("userInfo");
-        }
+      if (error.response.data?.message === "jwt expired") {
+        window.location.href = "/login";
+        removeLocalKey("token");
+        removeLocalKey("userInfo");
       }
     }
     return Promise.reject(error);
