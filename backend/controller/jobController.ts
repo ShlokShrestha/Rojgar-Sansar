@@ -348,8 +348,21 @@ export const appliedJob = catchAsync(
 export const getApplicant = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
+    const { skip, take, search } = req.query;
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
     const getApplicant = await prisma.application.findMany({
-      where: { jobId: id },
+      where: {
+        jobId: id,
+        user: {
+          fullName: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        },
+      },
+      skip: skipInt,
+      take: takeInt,
       include: {
         user: {
           select: {

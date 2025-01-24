@@ -15,7 +15,11 @@ const JobViewApplicant = (props: Props) => {
   const { data: jobViewApplicantData, isLoading } = useGetHook({
     queryKey: ["joblistpage", offset, pageSize, searchQuery],
     url: `${APIS.VIEWJOBAPPLICANT}${id}`,
-    params: {},
+    params: {
+      offset: offset,
+      limit: pageSize,
+      ...(searchParams && { search: searchQuery }),
+    },
   });
 
   const { mutateAsync: updateApplicantStatus } = usePutHook({
