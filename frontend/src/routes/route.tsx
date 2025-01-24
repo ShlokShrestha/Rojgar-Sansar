@@ -21,6 +21,7 @@ import PrivateRoute from "./PrivateRoute";
 import Unauthorized from "../pages/Unauthorized";
 import Profile from "../pages/Profile/Profile";
 import UpdatePassword from "../pages/Profile/UpdatePassword";
+import JobViewApplicant from "../pages/Dashboard/JobList/JobViewApplicant";
 
 const AllRoutes = () => {
   return (
@@ -60,6 +61,10 @@ const AllRoutes = () => {
         <Route path="/dashboard/job" element={<JobListPage />} />
         <Route path="/dashboard/job/add" element={<JobAdd />} />
         <Route path="/dashboard/job/edit/:id" element={<JobEdit />} />
+        <Route
+          path="/dashboard/job/view-applicants/:id"
+          element={<JobViewApplicant />}
+        />
       </Route>
     </Routes>
   );

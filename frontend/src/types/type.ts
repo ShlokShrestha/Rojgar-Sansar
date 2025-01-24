@@ -5,6 +5,7 @@ export interface IActionButtonsProps {
   value: string;
   deleteFunction?: (value: string) => void;
   deleteLoading?: boolean;
+  viewPageLink?: string;
 }
 export interface ITableProps {
   setOffset: React.Dispatch<React.SetStateAction<number>>;

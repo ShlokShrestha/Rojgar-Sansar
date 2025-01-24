@@ -72,6 +72,7 @@ const JobListComp: React.FC<ICategoryProps> = (props) => {
               deleteFunction={handleDeleteJob}
               deleteLoading={false}
               editPageLink={`/dashboard/job/edit/${props.row?.original?.id}`}
+              viewPageLink={`/dashboard/job/view-applicants/${props.row?.original?.id}`}
             />
           </>
         );

@@ -4,9 +4,11 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { IActionButtonsProps } from "../../../types/type";
 import ConfirmDialog from "../ConfirmDialog";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const ActionButtons: React.FC<IActionButtonsProps> = (props) => {
-  const { editPageLink, deleteFunction, value, deleteLoading } = props;
+  const { editPageLink, deleteFunction, value, deleteLoading, viewPageLink } =
+    props;
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false);
   const handleDelete = () => {
     deleteFunction && deleteFunction(value);
@@ -39,6 +41,18 @@ const ActionButtons: React.FC<IActionButtonsProps> = (props) => {
         {editPageLink && (
           <Link to={editPageLink}>
             <FiEdit
+              style={{
+                width: "1.2rem",
+                height: "1.2rem",
+                color: "#F0AD4E",
+                cursor: "pointer",
+              }}
+            />
+          </Link>
+        )}
+        {viewPageLink && (
+          <Link to={viewPageLink}>
+            <AiOutlineEye
               style={{
                 width: "1.2rem",
                 height: "1.2rem",
