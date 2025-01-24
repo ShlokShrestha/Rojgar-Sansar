@@ -345,10 +345,10 @@ export const appliedJob = catchAsync(
     res.status(200).json({ status: "success", data: appliedJob });
   }
 );
-export const getJobApplicant = catchAsync(
+export const getApplicant = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const allCompany = await prisma.application.findMany({
+    const getApplicant = await prisma.application.findMany({
       where: { jobId: id },
       include: {
         user: {
@@ -361,12 +361,43 @@ export const getJobApplicant = catchAsync(
         },
       },
     });
-    if (!allCompany) {
+    if (!getApplicant) {
       return next(new ErrorHandler("job doesnot exist", 400));
     }
     res.status(201).json({
       status: "success",
-      data: allCompany,
+      data: getApplicant,
+    });
+  }
+);
+export const updateApplicantStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id, status } = req.body;
+    const getSingleApplicant = await prisma.application.findUnique({
+      where: { id: id },
+    });
+    if (!getSingleApplicant) {
+      return next(new ErrorHandler("applicant doesnot exist", 400));
+    }
+    const getApplicant = await prisma.application.update({
+      where: { id: id },
+      data: {
+        status: status,
+        jobId: getSingleApplicant.jobId,
+        userId: getSingleApplicant.userId,
+        jobTitle: getSingleApplicant.jobTitle,
+        companyTitle: getSingleApplicant.companyTitle,
+        resumeUrl: getSingleApplicant.resumeUrl,
+      },
+    });
+    if (!getApplicant) {
+      return next(
+        new ErrorHandler("application doesnot exist and update", 400)
+      );
+    }
+    res.status(201).json({
+      status: "success",
+      message: "Status update successful",
     });
   }
 );
