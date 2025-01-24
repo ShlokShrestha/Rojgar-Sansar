@@ -19,6 +19,12 @@ enum status {
   rejected
 }
 
+enum workType {
+  fullTime
+  partTime
+  hybrid
+}
+
 model user {
   id                  String        @id @default(uuid())
   fullName            String
@@ -62,8 +68,9 @@ model job {
   id            String        @id @default(uuid())
   title         String
   description   String
-  location      String
   salary        String
+  numberOfHires Int
+  workType      workType      @default(fullTime)
   createdBy     user          @relation(fields: [createdId], references: [id], onDelete: Cascade)
   createdId     String
   jobCategory   jobCategory?  @relation(fields: [jobCategoryId], references: [id], onDelete: SetNull)

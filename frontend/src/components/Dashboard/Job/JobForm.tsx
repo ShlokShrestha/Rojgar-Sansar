@@ -77,15 +77,38 @@ const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
         </NativeSelectRoot>
       </Field>
       <Field
-        label="Location"
-        invalid={!!errors.location}
-        errorText={errors.location?.message}
+        label="Number of hires"
+        invalid={!!errors.numberOfHires}
+        errorText={errors.numberOfHires?.message}
       >
         <Input
-          {...register("location")}
-          type="text"
-          placeholder="Enter location"
+          {...register("numberOfHires")}
+          type="number"
+          placeholder="Enter number of hires"
         />
+      </Field>
+      <Field
+        label="Work Type"
+        invalid={!!errors.workType}
+        errorText={errors.workType?.message}
+      >
+        <NativeSelectRoot>
+          <NativeSelectField {...register("workType")}>
+            <option disabled value="">
+              Select work type
+            </option>
+            <option value="fullTime">FullTime</option>
+            <option value="partTime">PartTime</option>
+            <option value="hybrid">Hybrid</option>
+          </NativeSelectField>
+        </NativeSelectRoot>
+      </Field>
+      <Field
+        label="Salary"
+        invalid={!!errors.salary}
+        errorText={errors.salary?.message}
+      >
+        <Input {...register("salary")} type="text" placeholder="Enter salary" />
       </Field>
       <Field
         label="Description"
@@ -97,13 +120,6 @@ const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
           type="text"
           placeholder="Enter description"
         />
-      </Field>
-      <Field
-        label="Salary"
-        invalid={!!errors.salary}
-        errorText={errors.salary?.message}
-      >
-        <Input {...register("salary")} type="text" placeholder="Enter salary" />
       </Field>
     </Grid>
   );

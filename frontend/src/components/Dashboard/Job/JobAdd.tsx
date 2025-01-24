@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { JobValidationSchema } from "../../../utils/validationSchema";
 
 interface IJobProps {
-  handleAddJobSubmit: (data: any) => void;
+  handleAddJobSubmit: (data: IJobValues) => void;
 }
 const JobAdd = (props: IJobProps) => {
   const { handleAddJobSubmit } = props;
@@ -19,10 +19,11 @@ const JobAdd = (props: IJobProps) => {
     defaultValues: {
       title: "",
       description: "",
-      location: "",
       salary: "",
       jobCategoryId: "",
       companyId: "",
+      numberOfHires: 1,
+      workType: "",
     },
     resolver: yupResolver(JobValidationSchema),
   });

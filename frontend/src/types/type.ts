@@ -46,14 +46,30 @@ export interface IUserProfileProps {
     };
   };
 }
+export interface IJobData {
+  status: string;
+  data: {
+    id?: string;
+    title: string;
+    description: string;
+    location: string;
+    salary: string;
+    jobCategoryId: string;
+    companyId: string;
+    level: string;
+    numberOfHires: number;
+    workType: string;
+  };
+}
 export interface IJobValues {
-  id?: any;
+  id?: string;
   title: string;
   description: string;
-  location: string;
   salary: string;
   jobCategoryId: string;
   companyId: string;
+  numberOfHires: number;
+  workType: string;
 }
 export interface ILoginValues {
   email: string;

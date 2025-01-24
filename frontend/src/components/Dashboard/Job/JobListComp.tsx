@@ -5,13 +5,13 @@ import { IJobValues, ITableProps } from "../../../types/type";
 import PrimaryButton from "../../resuable/Button/PrimaryButton";
 import { useNavigate } from "react-router";
 
-interface ICategoryProps extends ITableProps {
+interface IJobProps extends ITableProps {
   joblistData: IJobValues;
   handleDeleteJob: (value: any) => void;
   isLoading: boolean;
 }
 
-const JobListComp: React.FC<ICategoryProps> = (props) => {
+const JobListComp: React.FC<IJobProps> = (props) => {
   const {
     setOffset,
     pageSize,

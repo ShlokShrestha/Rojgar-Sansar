@@ -72,14 +72,13 @@ export const JobValidationSchema = Yup.object().shape({
     .required("Job Name field is required")
     .min(3, "Job Name  must be at least 3 characters"),
   description: Yup.string()
-    .required("Job Name field is required")
-    .min(15, "Job Name  must be at least 3 characters"),
-  location: Yup.string()
-    .required("Job Name field is required")
-    .min(3, "Job Name  must be at least 3 characters"),
+    .required("Description field is required")
+    .min(15, "Description must be at least 3 characters"),
   salary: Yup.string().required("Salary field is required"),
   jobCategoryId: Yup.string().required("Job Category field is required"),
   companyId: Yup.string().required("Company field is required"),
+  numberOfHires: Yup.number().required("Number of hires field is required"),
+  workType: Yup.string().required("WorkType field is required"),
 });
 export const loginValidationSchema = Yup.object().shape({
   email: Yup.string().required("Email field is required"),

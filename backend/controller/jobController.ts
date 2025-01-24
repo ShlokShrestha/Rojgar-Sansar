@@ -199,20 +199,30 @@ export const getAllJobs = catchAsync(
     const { skip, take, search } = req.query;
     const skipInt = skip ? parseInt(skip as string, 10) : 0;
     const takeInt = take ? parseInt(take as string, 10) : 10;
-    const allCompany = await prisma.job.findMany({
-      where: {
-        title: {
-          contains: search as string,
-          mode: "insensitive",
-        },
+    const filterOptions: any = {
+      title: {
+        contains: search as string,
+        mode: "insensitive",
       },
+    };
+    const allCompany = await prisma.job.findMany({
+      where: filterOptions,
       skip: skipInt,
       take: takeInt,
       include: { company: true, jobCategory: true },
     });
+    const totalRecords = await prisma.job.count({ where: filterOptions });
+    const hasNextPage = skipInt * takeInt + takeInt < totalRecords;
+    const hasPrevPage = skipInt > 0;
     res.status(201).json({
       status: "success",
       data: allCompany,
+      pagination: {
+        currentPage: Math.floor(skipInt / takeInt) + 1,
+        hasPrevPage,
+        hasNextPage,
+        totalRecords,
+      },
     });
   }
 );
@@ -230,15 +240,23 @@ export const getSingleJob = catchAsync(
 );
 export const createJob = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const { title, description, location, salary, jobCategoryId, companyId } =
-      req.body;
+    const {
+      title,
+      description,
+      salary,
+      jobCategoryId,
+      companyId,
+      numberOfHires,
+      workType,
+    } = req.body;
     if (
       !title &&
       !description &&
-      !location &&
       !salary &&
       !jobCategoryId &&
-      !companyId
+      !companyId &&
+      !numberOfHires &&
+      !workType
     ) {
       return next(new ErrorHandler("Please add required field", 400));
     }
@@ -247,11 +265,12 @@ export const createJob = catchAsync(
       data: {
         title: title,
         description: description,
-        location: location,
         salary: salary,
         createdId: createdId,
         jobCategoryId: jobCategoryId,
         companyId: companyId,
+        numberOfHires: numberOfHires,
+        workType: workType,
       },
     });
     if (!newJob) {
@@ -265,8 +284,15 @@ export const createJob = catchAsync(
 export const updateJob = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const { title, description, location, salary, jobCategoryId, companyId } =
-      req.body;
+    const {
+      title,
+      description,
+      salary,
+      jobCategoryId,
+      companyId,
+      numberOfHires,
+      workType,
+    } = req.body;
     const job = await prisma.job.findUnique({ where: { id: id } });
     if (!job) {
       return next(new ErrorHandler("job doesnot exist", 400));
@@ -277,11 +303,12 @@ export const updateJob = catchAsync(
       data: {
         title: title,
         description: description,
-        location: location,
         salary: salary,
         createdId: createdId,
         jobCategoryId: jobCategoryId,
         companyId: companyId,
+        numberOfHires: numberOfHires,
+        workType: workType,
       },
     });
     if (!updateJob) {

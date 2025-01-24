@@ -4,7 +4,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { IActionButtonsProps } from "../../../types/type";
 import ConfirmDialog from "../ConfirmDialog";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 
 const ActionButtons: React.FC<IActionButtonsProps> = (props) => {
   const { editPageLink, deleteFunction, value, deleteLoading, viewPageLink } =

@@ -21,10 +21,11 @@ const JobEdit = (props: IJobProps) => {
     defaultValues: {
       title: singleJobData.title ?? "",
       description: singleJobData.description ?? "",
-      location: singleJobData.location ?? "",
       salary: singleJobData?.salary ?? "",
       jobCategoryId: singleJobData?.jobCategoryId ?? "",
       companyId: singleJobData?.companyId ?? "",
+      numberOfHires: singleJobData?.numberOfHires ?? "",
+      workType: singleJobData?.workType ?? "",
     },
     resolver: yupResolver(JobValidationSchema),
   });
