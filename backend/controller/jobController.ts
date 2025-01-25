@@ -226,6 +226,19 @@ export const getAllJobs = catchAsync(
     });
   }
 );
+export const getSingleDetailJob = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const getSingleDetailJob = await prisma.job.findUnique({
+      where: { id: id },
+      include: { company: true, jobCategory: true, application: true },
+    });
+    res.status(200).json({
+      status: "success",
+      data: getSingleDetailJob,
+    });
+  }
+);
 export const getSingleJob = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -369,7 +382,9 @@ export const appliedJob = catchAsync(
         jobTitle: getSingleJob?.title ?? "",
       },
     });
-    res.status(200).json({ status: "success", data: appliedJob });
+    res
+      .status(200)
+      .json({ status: "success", message: "Successful applied job" });
   }
 );
 export const getApplicant = catchAsync(
@@ -437,7 +452,7 @@ export const updateApplicantStatus = catchAsync(
     }
     res.status(201).json({
       status: "success",
-      message: "Status update successful",
+      message: "Applicant status update successful",
     });
   }
 );
