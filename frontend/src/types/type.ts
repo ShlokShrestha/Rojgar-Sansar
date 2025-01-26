@@ -52,11 +52,9 @@ export interface IJobData {
     id?: string;
     title: string;
     description: string;
-    location: string;
     salary: string;
     jobCategoryId: string;
     companyId: string;
-    level: string;
     numberOfHires: number;
     workType: string;
   };
@@ -70,6 +68,18 @@ export interface IJobValues {
   companyId: string;
   numberOfHires: number;
   workType: string;
+}
+export interface IApplicantValues {
+  id?: string;
+  appliedAt: string;
+  status: string;
+  job: IJobValues;
+  jobId: string;
+  user: any;
+  userId: string;
+  jobTitle: string;
+  companyTitle: string;
+  resumeUrl: string;
 }
 export interface ILoginValues {
   email: string;

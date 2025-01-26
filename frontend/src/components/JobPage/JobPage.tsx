@@ -9,19 +9,18 @@ import {
   HStack,
   SimpleGrid,
   Stack,
+  Image,
 } from "@chakra-ui/react";
 import CheckBox from "../resuable/Forms/CheckBox";
+import { IJobData, IJobValues, ITableProps } from "../../types/type";
+import { Link } from "react-router";
 
-const JobPage = () => {
-
-  const jobData = Array(9).fill({
-    title: "Full Stack Developer",
-    location: "California",
-    level: "Senior level",
-    description:
-      "You will be responsible for frontend and backend development tasks. You will work closely with our team.",
-  });
-
+interface IJobProps extends ITableProps {
+  joblistData: IJobData;
+  isLoading: boolean;
+}
+const JobPage = (props: IJobProps) => {
+  const { joblistData, isLoading, setOffset, pageSize, setPageSize } = props;
   const categories = [
     { name: "Programming", count: 24 },
     { name: "Marketing", count: 41 },
@@ -30,16 +29,9 @@ const JobPage = () => {
     { name: "Analytics", count: 41 },
   ];
 
-  const locations = [
-    { name: "Bangalore", count: 24 },
-    { name: "Hyderabad", count: 41 },
-    { name: "Mumbai", count: 5 },
-    { name: "Chennai", count: 22 },
-  ];
   return (
     <Box p={6}>
       <Flex flexDirection={{ base: "column", lg: "row" }} gap={8}>
-        {/* Sidebar Filters */}
         <VStack
           align="start"
           gap={6}
@@ -76,53 +68,76 @@ const JobPage = () => {
           <Text fontSize="sm" color="gray.600" mb={6}>
             Get your desired job from top companies
           </Text>
-
           <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={6}>
-            {jobData.map((job, index) => (
-              <Box
-                key={index}
-                p={4}
-                bg="white"
-                boxShadow="md"
-                borderRadius="md"
-                border="1px solid"
-                borderColor="gray.200"
-              >
-                <Flex alignItems="center" mb={4}>
-                  <Box
-                    boxSize={10}
-                    bg="gray.100"
-                    borderRadius="full"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    {/* Replace this with a real logo */}
-                    <Text fontSize="xl" fontWeight="bold">
-                      S
-                    </Text>
-                  </Box>
-                  <Text ml={3} fontSize="lg" fontWeight="bold">
+            {Array.isArray(joblistData?.data) &&
+              joblistData?.data?.map((job: any, index: number) => (
+                <Box
+                  key={index}
+                  p={4}
+                  bg="white"
+                  boxShadow="md"
+                  borderRadius="md"
+                  border="1px solid"
+                  borderColor="gray.200"
+                >
+                  <Flex alignItems="center" mb={4}>
+                    <Box
+                      boxSize={10}
+                      bg="gray.100"
+                      borderRadius="full"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Image
+                        fontSize="xl"
+                        fontWeight="bold"
+                        src={job?.company?.logoUrl}
+                        alt={job?.company?.title}
+                      />
+                    </Box>
+                    <Box>
+                      <Text ml={3} fontSize="lg" fontWeight="bold">
+                        {job.company.title}
+                      </Text>
+                      <Text ml={3} fontSize="xs">
+                        {job.company.location}
+                      </Text>
+                    </Box>
+                  </Flex>
+                  <Text fontSize="lg" fontWeight="bold">
                     {job.title}
                   </Text>
-                </Flex>
-                <HStack gap={2} mb={2}>
-                  <Badge colorScheme="blue">{job.location}</Badge>
-                  <Badge colorScheme="purple">{job.level}</Badge>
-                </HStack>
-                <Text fontSize="sm" color="gray.600" mb={4}>
-                  {job.description}
-                </Text>
-                <Flex gap={2}>
-                  <Button colorScheme="blue" size="sm">
-                    Apply Now
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    Learn More
-                  </Button>
-                </Flex>
-              </Box>
-            ))}
+                  <Text>{job.description.slice(0, 100)}...</Text>
+                  <HStack gap={2} my={3}>
+                    <Badge color="purple.700" fontSize="sm">
+                      {job.numberOfHires} positions
+                    </Badge>
+                    <Badge
+                      color="red.600"
+                      textTransform="capitalize"
+                      fontSize="sm"
+                    >
+                      {job.workType}
+                    </Badge>
+                    <Badge colorScheme="purple" fontSize="sm">
+                      {job.salary} Npr
+                    </Badge>
+                  </HStack>
+                  <Flex gap={2} mt={6}>
+                    <Link to={`/jobpage/${job.id}`}>
+                      <Button
+                        colorScheme="blue"
+                        size="sm"
+                        bgColor="purple.600"
+                        color={"white"}
+                      >
+                        View Details
+                      </Button>
+                    </Link>
+                  </Flex>
+                </Box>
+              ))}
           </SimpleGrid>
 
           {/* Pagination */}
