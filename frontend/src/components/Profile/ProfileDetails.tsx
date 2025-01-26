@@ -43,7 +43,7 @@ const ProfileDetails = (props: Props) => {
     },
     resolver: yupResolver(profileValidationSchema),
   });
-  const skills = userData?.skills.split(",");
+  const skills = userData?.skills?.split(",");
   const onSubmit = handleSubmit((data) => handleUpdateUserProfileSubmit(data));
 
   return (
