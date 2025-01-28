@@ -8,23 +8,35 @@ const JobPage = () => {
   const { offset, setOffset, pageSize, setPageSize } = usePaginationHook();
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.getAll("categories") || "";
   const { data: joblistData, isLoading } = useGetHook({
-    queryKey: ["joblistpage", offset, pageSize, searchQuery],
+    queryKey: ["joblistpage", offset, pageSize, searchQuery, categoryQuery],
     url: `${APIS.JOBLISTS}`,
     params: {
       skip: offset,
       take: pageSize,
       ...(searchParams && { search: searchQuery }),
+      category: categoryQuery,
+    },
+  });
+  const { data: categoryData, isLoading: categoryLoading } = useGetHook({
+    queryKey: ["category", offset, pageSize, searchQuery],
+    url: `${APIS.CATEGORYLIST}`,
+    params: {
+      skip: offset,
+      take: pageSize,
+      search: searchQuery,
     },
   });
   return (
     <>
       <JobPageComponent
-        setPageSize={setPageSize}
-        pageSize={pageSize}
         setOffset={setOffset}
         joblistData={joblistData}
         isLoading={isLoading}
+        categoryData={categoryData}
+        categoryLoading={categoryLoading}
+        offset={offset}
       />
     </>
   );

@@ -9,12 +9,13 @@ export interface IActionButtonsProps {
 }
 export interface ITableProps {
   setOffset: React.Dispatch<React.SetStateAction<number>>;
-  pageSize: number;
-  setPageSize: React.Dispatch<React.SetStateAction<number>>;
+  pageSize?: number;
+  offset?: number;
+  setPageSize?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface ICategoryValues {
-  id?: string;
+  id: string;
   title: string;
 }
 export interface ICompanyValues {
