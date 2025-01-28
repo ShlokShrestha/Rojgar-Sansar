@@ -196,7 +196,7 @@ export const deleteCompany = catchAsync(
 //CRUD job -- User / Admin /Recuiter
 export const getAllJobs = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const { skip, take, search } = req.query;
+    const { skip, take, search, category = "" } = req.query;
     const skipInt = skip ? parseInt(skip as string, 10) : 0;
     const takeInt = take ? parseInt(take as string, 10) : 10;
     const filterOptions: any = {
@@ -205,9 +205,25 @@ export const getAllJobs = catchAsync(
         mode: "insensitive",
       },
     };
+    if (category && Array.isArray(category)) {
+      filterOptions.jobCategory = {
+        title: {
+          in: category.map((cat: any) => cat.trim()),
+          mode: "insensitive",
+        },
+      };
+    } else if (category) {
+      filterOptions.jobCategory = {
+        title: {
+          contains: category as string,
+          mode: "insensitive",
+        },
+      };
+    }
+
     const allCompany = await prisma.job.findMany({
       where: filterOptions,
-      skip: skipInt,
+      skip: skipInt * takeInt,
       take: takeInt,
       include: { company: true, jobCategory: true },
     });
