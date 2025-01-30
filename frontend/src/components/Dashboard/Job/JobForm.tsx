@@ -23,7 +23,7 @@ const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
   });
   const { data: categoryData } = useGetHook({
     queryKey: ["category"],
-    url: `${APIS.CATEGORYLIST}`,
+    url: `${APIS.MYCATEGORYLIST}`,
     params: {},
   });
 

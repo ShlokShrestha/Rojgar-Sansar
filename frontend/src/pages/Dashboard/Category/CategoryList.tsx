@@ -12,7 +12,7 @@ const CategoryList = () => {
 
   const { data: categoryData, isLoading } = useGetHook({
     queryKey: ["category", offset, pageSize, searchQuery],
-    url: `${APIS.CATEGORYLIST}`,
+    url: `${APIS.MYCATEGORYLIST}`,
     params: {
       skip: offset,
       take: pageSize,

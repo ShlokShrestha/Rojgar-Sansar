@@ -16,14 +16,13 @@ export const removeLocalKey = (key: string) => {
 
 export const getAccessToken = () => {
   if (localStorage.getItem("token")) {
-    let token = localStorage.getItem("token")
+    let token = localStorage.getItem("token");
     if (token) {
-      return token
+      return token;
     }
-    return
   }
-}
+};
 
 export const permissions = () => {
-  return ["list of all the assing permission"]
-}
+  return ["list of all the assing permission"];
+};

@@ -8,12 +8,15 @@ import { ExpressResponse } from "../middleware/PaginationFilterMiddleware";
 
 //CRUD JobCategory -- Admin /Recuiter
 export const createJobCategory = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
     const { title } = req.body;
     if (!title) {
       return next(new ErrorHandler("Please add category name", 400));
     }
-    const newJobCategory = await prisma.jobCategory.create({ data: { title } });
+    const userId = req.user?.id ?? "";
+    const newJobCategory = await prisma.jobCategory.create({
+      data: { title, userId: userId },
+    });
     if (!newJobCategory) {
       return next(new ErrorHandler("create category unsuccesful", 400));
     }
@@ -23,6 +26,16 @@ export const createJobCategory = catchAsync(
   }
 );
 export const getJobCategory = catchAsync(
+  async (req: Request, res: ExpressResponse, next: NextFunction) => {
+    const { data, pagination } = res.paginatedResult;
+    res.status(200).json({
+      status: "success",
+      data: data,
+      pagination: pagination,
+    });
+  }
+);
+export const getMyJobCategory = catchAsync(
   async (req: Request, res: ExpressResponse, next: NextFunction) => {
     const { data, pagination } = res.paginatedResult;
     res.status(200).json({
@@ -78,6 +91,16 @@ export const deletejobCategory = catchAsync(
 
 //CRUD company category -- User / Admin /Recuiter
 export const getCompany = catchAsync(
+  async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
+    const { data, pagination } = res.paginatedResult;
+    res.status(200).json({
+      status: "success",
+      data: data,
+      pagination: pagination,
+    });
+  }
+);
+export const getMyCompany = catchAsync(
   async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
     const { data, pagination } = res.paginatedResult;
     res.status(200).json({
@@ -316,13 +339,13 @@ export const createJob = catchAsync(
     ) {
       return next(new ErrorHandler("Please add required field", 400));
     }
-    const createdId = req.user?.id ?? "";
+    const userId = req.user?.id ?? "";
     const newJob = await prisma.job.create({
       data: {
         title: title,
         description: description,
         salary: salary,
-        createdId: createdId,
+        userId: userId,
         jobCategoryId: jobCategoryId,
         companyId: companyId,
         numberOfHires: numberOfHires,
@@ -353,14 +376,14 @@ export const updateJob = catchAsync(
     if (!job) {
       return next(new ErrorHandler("job doesnot exist", 400));
     }
-    const createdId = req.user?.id ?? "";
+    const userId = req.user?.id ?? "";
     const updateJob = await prisma.job.update({
       where: { id: id },
       data: {
         title: title,
         description: description,
         salary: salary,
-        createdId: createdId,
+        userId: userId,
         jobCategoryId: jobCategoryId,
         companyId: companyId,
         numberOfHires: numberOfHires,

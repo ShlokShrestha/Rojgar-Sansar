@@ -44,6 +44,7 @@ model user {
   phone               String?
   resumeUrl           String?
   resumeId            String?
+  jobCategory         jobCategory[]
 }
 
 model profile {
@@ -72,8 +73,8 @@ model job {
   salary        String
   numberOfHires Int
   workType      workType      @default(fullTime)
-  createdBy     user          @relation(fields: [createdId], references: [id], onDelete: Cascade)
-  createdId     String
+  user          user          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
   jobCategory   jobCategory?  @relation(fields: [jobCategoryId], references: [id], onDelete: SetNull)
   jobCategoryId String?
   application   application[]
@@ -82,9 +83,11 @@ model job {
 }
 
 model jobCategory {
-  id    String @id @default(uuid())
-  title String
-  jobs  job[]
+  id     String @id @default(uuid())
+  title  String
+  user   user   @relation(fields: [userId], references: [id])
+  userId String
+  jobs   job[]
 }
 
 model application {

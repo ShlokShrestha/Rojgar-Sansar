@@ -19,6 +19,8 @@ import {
   getApplicant,
   updateApplicantStatus,
   getSingleDetailJob,
+  getMyCompany,
+  getMyJobCategory,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -47,7 +49,7 @@ jobRoute.get(
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
   paginationFilterMiddleWare(prisma.company),
-  getCompany
+  getMyCompany
 );
 jobRoute.get(
   "/singleCompany/:id",
@@ -81,6 +83,13 @@ jobRoute.get(
   "/jobCategory",
   paginationFilterMiddleWare(prisma.jobCategory),
   getJobCategory
+);
+jobRoute.get(
+  "/myJobCategory",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  paginationFilterMiddleWare(prisma.jobCategory),
+  getMyJobCategory
 );
 jobRoute.get(
   "/singleCategory/:id",
