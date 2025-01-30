@@ -1,31 +1,13 @@
 import { Box, Text } from "@chakra-ui/react";
-import { useSearchParams } from "react-router";
 
 type Props = {
   label: string;
+  handleFilter: (data: string) => void;
+  selected: any;
 };
 
 const CheckBox = (props: Props) => {
-  const { label } = props;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const selectedCategories = searchParams.getAll("categories");
-
-  const handleCategoriesFilter = (category: string) => {
-    let updatedCategories = [...selectedCategories];
-
-    if (updatedCategories.includes(category)) {
-      updatedCategories = updatedCategories.filter(
-        (oldCategory: string) => oldCategory !== category
-      );
-    } else {
-      updatedCategories.push(category);
-    }
-    const newSearchParams = new URLSearchParams();
-    updatedCategories.forEach((cat) =>
-      newSearchParams.append("categories", cat)
-    );
-    setSearchParams(newSearchParams);
-  };
+  const { label, handleFilter, selected } = props;
 
   return (
     <Box as="label" display="flex" alignItems="center" cursor="pointer" mb={4}>
@@ -46,8 +28,8 @@ const CheckBox = (props: Props) => {
         _focus={{
           outline: "none",
         }}
-        checked={selectedCategories.includes(label)}
-        onChange={() => handleCategoriesFilter(label)}
+        checked={selected.includes(label)}
+        onChange={() => handleFilter(label)}
       />
       <Text>{label}</Text>
     </Box>

@@ -11,17 +11,17 @@ import {
   Stack,
   Image,
 } from "@chakra-ui/react";
-import { IJobData, ITableProps } from "../../types/type";
+import { ICategoryValues, ICompanyValues, ITableProps } from "../../types/type";
 import { Link } from "react-router";
 import FilteSidebar from "../resuable/FilterSidebar";
 import DataSpinner from "../resuable/Spinner";
-import { useState } from "react";
 
 interface IJobProps extends ITableProps {
   joblistData: any;
   isLoading: boolean;
   categoryLoading: boolean;
-  categoryData: any;
+  categoryData: ICategoryValues[];
+  companyData: ICompanyValues[];
 }
 const JobPage = (props: IJobProps) => {
   const {
@@ -31,6 +31,7 @@ const JobPage = (props: IJobProps) => {
     setOffset,
     categoryLoading,
     categoryData,
+    companyData,
   } = props;
 
   const totalPages: any = Math.ceil(joblistData?.pagination?.totalRecords / 10);
@@ -38,8 +39,9 @@ const JobPage = (props: IJobProps) => {
     <Box p={6}>
       <Flex flexDirection={{ base: "column", lg: "row" }} gap={8}>
         <FilteSidebar
-          categoryData={categoryData?.data}
+          categoryData={categoryData}
           categoryLoading={categoryLoading}
+          companyData={companyData}
         />
         {/* Job Cards */}
         <Box flexGrow={1}>

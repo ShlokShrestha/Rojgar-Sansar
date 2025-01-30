@@ -196,14 +196,26 @@ export const deleteCompany = catchAsync(
 //CRUD job -- User / Admin /Recuiter
 export const getAllJobs = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {
-    const { skip, take, search, category = "" } = req.query;
+    const { skip, take, search, category = "", location } = req.query;
     const skipInt = skip ? parseInt(skip as string, 10) : 0;
     const takeInt = take ? parseInt(take as string, 10) : 10;
     const filterOptions: any = {
-      title: {
-        contains: search as string,
-        mode: "insensitive",
-      },
+      OR: [
+        {
+          title: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        },
+        {
+          company: {
+            title: {
+              contains: search as string,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
     };
     if (category && Array.isArray(category)) {
       filterOptions.jobCategory = {
@@ -216,6 +228,21 @@ export const getAllJobs = catchAsync(
       filterOptions.jobCategory = {
         title: {
           contains: category as string,
+          mode: "insensitive",
+        },
+      };
+    }
+    if (location && Array.isArray(location)) {
+      filterOptions.company = {
+        location: {
+          in: location.map((cat: any) => cat.trim()),
+          mode: "insensitive",
+        },
+      };
+    } else if (location) {
+      filterOptions.company = {
+        location: {
+          contains: location as string,
           mode: "insensitive",
         },
       };
