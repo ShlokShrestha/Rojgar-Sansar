@@ -26,7 +26,7 @@
 
 - **Frontend:**
   - HTML
-  - CSS (Bootstrap, Tailwind CSS)
+  - CSS (ChakraUi)
   - JavaScript (React.js)
   
 - **Backend:**
@@ -36,10 +36,10 @@
   - PostgreSQL
   
 - **Authentication:**
-  - JWT (JSON Web Tokens) or OAuth for secure user authentication.
+  - JWT (JSON Web Tokens) for secure user authentication.
   
 - **File Storage:**
-  - Cloudinary for storing user-uploaded files such as resumes and company logos.
+  - Imagekits for storing user-uploaded files such as resumes and company logos.
   
 - **Version Control:**
   - Git and GitHub for source control and collaboration.
