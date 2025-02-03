@@ -16,6 +16,7 @@ const APIS = {
   DELETECOMPANY: "/job/deleteCompany/",
   ADDJOBS: "/job/createJob/",
   JOBLISTS: "/job/getAllJobs/",
+  MYJOBS: "/job/myJobs/",
   DELETEJOBS: "/job/deleteJob/",
   SINGLEJOB: "/job/singleJob/",
   UPDATEJOB: "/job/updateJob/",

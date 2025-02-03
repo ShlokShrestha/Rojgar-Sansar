@@ -4,7 +4,7 @@ import ErrorHandler from "../utils/errorHandler";
 import prisma from "../prisma/prismaClient";
 import { ExpressRequest } from "../middleware/authMiddleware";
 import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
-import { ExpressResponse } from "../middleware/PaginationFilterMiddleware";
+import { paginationFilterHelper } from "../helpers/paginationFilterHelper";
 
 //CRUD JobCategory -- Admin /Recuiter
 export const createJobCategory = catchAsync(
@@ -26,8 +26,26 @@ export const createJobCategory = catchAsync(
   }
 );
 export const getJobCategory = catchAsync(
-  async (req: Request, res: ExpressResponse, next: NextFunction) => {
-    const { data, pagination } = res.paginatedResult;
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { skip, take, search } = req.query;
+
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
+
+    const filterOptions = search
+      ? {
+          title: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        }
+      : {};
+    const { data, pagination } = await paginationFilterHelper(
+      prisma.jobCategory,
+      filterOptions,
+      skipInt,
+      takeInt
+    );
     res.status(200).json({
       status: "success",
       data: data,
@@ -36,8 +54,25 @@ export const getJobCategory = catchAsync(
   }
 );
 export const getMyJobCategory = catchAsync(
-  async (req: Request, res: ExpressResponse, next: NextFunction) => {
-    const { data, pagination } = res.paginatedResult;
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { skip, take, search } = req.query;
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
+    const filterOptions = search
+      ? {
+          title: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        }
+      : {};
+    const userId = req?.user?.id ?? "";
+    const { data, pagination } = await paginationFilterHelper(
+      prisma.jobCategory,
+      { ...filterOptions, userId: userId },
+      skipInt,
+      takeInt
+    );
     res.status(200).json({
       status: "success",
       data: data,
@@ -91,8 +126,26 @@ export const deletejobCategory = catchAsync(
 
 //CRUD company category -- User / Admin /Recuiter
 export const getCompany = catchAsync(
-  async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
-    const { data, pagination } = res.paginatedResult;
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { skip, take, search } = req.query;
+
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
+
+    const filterOptions = search
+      ? {
+          title: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        }
+      : {};
+    const { data, pagination } = await paginationFilterHelper(
+      prisma.company,
+      filterOptions,
+      skipInt,
+      takeInt
+    );
     res.status(200).json({
       status: "success",
       data: data,
@@ -101,8 +154,25 @@ export const getCompany = catchAsync(
   }
 );
 export const getMyCompany = catchAsync(
-  async (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
-    const { data, pagination } = res.paginatedResult;
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { skip, take, search } = req.query;
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
+    const filterOptions = search
+      ? {
+          title: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        }
+      : {};
+    const userId = req?.user?.id ?? "";
+    const { data, pagination } = await paginationFilterHelper(
+      prisma.company,
+      { ...filterOptions, userId: userId },
+      skipInt,
+      takeInt
+    );
     res.status(200).json({
       status: "success",
       data: data,
@@ -289,6 +359,33 @@ export const getAllJobs = catchAsync(
         hasNextPage,
         totalRecords,
       },
+    });
+  }
+);
+export const myAllJobs = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const { skip, take, search } = req.query;
+    const skipInt = skip ? parseInt(skip as string, 10) : 0;
+    const takeInt = take ? parseInt(take as string, 10) : 10;
+    const filterOptions = search
+      ? {
+          title: {
+            contains: search as string,
+            mode: "insensitive",
+          },
+        }
+      : {};
+    const userId = req?.user?.id ?? "";
+    const { data, pagination } = await paginationFilterHelper(
+      prisma.job,
+      { ...filterOptions, userId: userId },
+      skipInt,
+      takeInt
+    );
+    res.status(200).json({
+      status: "success",
+      data: data,
+      pagination: pagination,
     });
   }
 );

@@ -21,14 +21,13 @@ import {
   getSingleDetailJob,
   getMyCompany,
   getMyJobCategory,
+  myAllJobs,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
   isAuthorizedRoles,
 } from "../middleware/authMiddleware";
 import { uploadImageMiddleWare } from "../middleware/uploadMiddleware";
-import prisma from "../prisma/prismaClient";
-import { paginationFilterMiddleWare } from "../middleware/PaginationFilterMiddleware";
 const jobRoute = express.Router();
 
 //Route for Company
@@ -39,16 +38,11 @@ jobRoute.post(
   uploadImageMiddleWare.single("companyLogo"),
   createCompany
 );
-jobRoute.get(
-  "/getCompany",
-  paginationFilterMiddleWare(prisma.company),
-  getCompany
-);
+jobRoute.get("/getCompany", getCompany);
 jobRoute.get(
   "/myCompany",
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
-  paginationFilterMiddleWare(prisma.company),
   getMyCompany
 );
 jobRoute.get(
@@ -79,16 +73,11 @@ jobRoute.post(
   isAuthorizedRoles("admin", "recruiter"),
   createJobCategory
 );
-jobRoute.get(
-  "/jobCategory",
-  paginationFilterMiddleWare(prisma.jobCategory),
-  getJobCategory
-);
+jobRoute.get("/jobCategory", getJobCategory);
 jobRoute.get(
   "/myJobCategory",
   isAuthenitcatedUser,
   isAuthorizedRoles("admin", "recruiter"),
-  paginationFilterMiddleWare(prisma.jobCategory),
   getMyJobCategory
 );
 jobRoute.get(
@@ -118,6 +107,12 @@ jobRoute.post(
   createJob
 );
 jobRoute.get("/getAllJobs", getAllJobs);
+jobRoute.get(
+  "/myJobs",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("admin", "recruiter"),
+  myAllJobs
+);
 jobRoute.get("/singleJobDetail/:id", getSingleDetailJob);
 jobRoute.put(
   "/updatejob/:id",

@@ -11,8 +11,8 @@ const JobListPage = () => {
   const searchQuery = searchParams.get("search") || "";
 
   const { data: joblistData, isLoading } = useGetHook({
-    queryKey: ["joblistpage", offset, pageSize, searchQuery],
-    url: `${APIS.JOBLISTS}`,
+    queryKey: ["MYJOBS", offset, pageSize, searchQuery],
+    url: `${APIS.MYJOBS}`,
     params: {
       skip: offset,
       take: pageSize,
