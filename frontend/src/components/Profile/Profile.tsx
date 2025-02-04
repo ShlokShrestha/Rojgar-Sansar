@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import ProfileDetails from "./ProfileDetails";
 import { IProfileValue, ITableProps } from "../../types/type";
 import AppliedJobList from "./AppliedJobList";
@@ -25,7 +25,7 @@ const Profile = (props: IProfile) => {
   } = props;
   return (
     <>
-      <Box display="flex" justifyContent="center" mt="10">
+      <Center mt="10">
         <Box width={{ base: "90%", md: "75%", lg: "50%" }}>
           <Box
             bg="white"
@@ -53,7 +53,7 @@ const Profile = (props: IProfile) => {
             />
           </Box>
         </Box>
-      </Box>
+      </Center>
     </>
   );
 };

@@ -12,7 +12,7 @@ const CompanyList = () => {
 
   const { data: companyData, isLoading } = useGetHook({
     queryKey: ["company", offset, pageSize, searchQuery],
-    url: `${APIS.COMPANYLIST}`,
+    url: `${APIS.MYCOMPANY}`,
     params: {
       skip: offset,
       take: pageSize,

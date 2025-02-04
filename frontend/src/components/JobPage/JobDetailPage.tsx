@@ -63,7 +63,9 @@ const JobDetailPage = (props: JobDetailPageProps) => {
               </Text>
             </Box>
           </Flex>
-          {isAlreadyApplied ? (
+          {["admin", "recruiter"].includes(auth.role) ? (
+            ""
+          ) : isAlreadyApplied ? (
             <Button size="sm" bgColor="purple.600" mt={1}>
               Already Applied
             </Button>
