@@ -2,6 +2,7 @@ import { Box, Center } from "@chakra-ui/react";
 import ProfileDetails from "./ProfileDetails";
 import { IProfileValue, ITableProps } from "../../types/type";
 import AppliedJobList from "./AppliedJobList";
+import { useAuth } from "../../context/authContext";
 
 interface IProfile extends ITableProps {
   isLoading: boolean;
@@ -23,6 +24,7 @@ const Profile = (props: IProfile) => {
     handleUpdateUserProfileSubmit,
     updateLoading,
   } = props;
+  const { auth } = useAuth() as any;
   return (
     <>
       <Center mt="10">
@@ -43,15 +45,17 @@ const Profile = (props: IProfile) => {
               updateLoading={updateLoading}
             />
           </Box>
-          <Box mt="10px" bg="white" p="4" rounded="lg" shadow="lg">
-            <AppliedJobList
-              setOffset={setOffset}
-              pageSize={pageSize}
-              setPageSize={setPageSize}
-              isLoading={false}
-              userData={userData?.data?.applications}
-            />
-          </Box>
+          {auth.role === "user" && (
+            <Box mt="10px" bg="white" p="4" rounded="lg" shadow="lg">
+              <AppliedJobList
+                setOffset={setOffset}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+                isLoading={false}
+                userData={userData?.data?.applications}
+              />
+            </Box>
+          )}
         </Box>
       </Center>
     </>

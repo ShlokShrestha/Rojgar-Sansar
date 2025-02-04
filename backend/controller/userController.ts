@@ -5,6 +5,7 @@ import { ExpressRequest } from "../middleware/authMiddleware";
 import ErrorHandler from "../utils/errorHandler";
 import { deleteImageKit, uploadImageKit } from "../utils/imageKitUpload";
 import bycrpt from "bcrypt";
+
 //user profile
 export const userProfile = catchAsync(
   async (req: ExpressRequest, res: Response, next: NextFunction) => {

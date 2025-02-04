@@ -87,34 +87,38 @@ const ProfileDetails = (props: Props) => {
         </Box>
 
         {/* Skills Section */}
-        <Box my="4">
-          <Text fontWeight="bold" textDecoration="underline">
-            Skills
-          </Text>
-          <Box display="flex" gap="2" mt="2" flexWrap="wrap">
-            {skills?.map((item: string, index: number) => (
-              <Text
-                key={index}
-                bg="black"
-                color="white"
-                px="2"
-                py="1"
-                rounded="md"
-              >
-                {item}
-              </Text>
-            ))}
+        {skills && (
+          <Box my="4">
+            <Text fontWeight="bold" textDecoration="underline">
+              Skills
+            </Text>
+            <Box display="flex" gap="2" mt="2" flexWrap="wrap">
+              {skills?.map((item: string, index: number) => (
+                <Text
+                  key={index}
+                  bg="black"
+                  color="white"
+                  px="2"
+                  py="1"
+                  rounded="md"
+                >
+                  {item}
+                </Text>
+              ))}
+            </Box>
           </Box>
-        </Box>
-        <Box my="4">
-          <Text fontWeight="bold" textDecoration="underline">
-            Resume
-          </Text>
-          <Link href={userData?.resumeUrl} target="_black" outline="none">
-            View my resume
-            <LuExternalLink />
-          </Link>
-        </Box>
+        )}
+        {userData?.resumeUrl && (
+          <Box my="4">
+            <Text fontWeight="bold" textDecoration="underline">
+              Resume
+            </Text>
+            <Link href={userData?.resumeUrl} target="_black" outline="none">
+              View my resume
+              <LuExternalLink />
+            </Link>
+          </Box>
+        )}
       </Box>
       <Button
         variant="plain"

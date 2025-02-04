@@ -96,9 +96,6 @@ const Navbar = () => {
               </Button>
             </MenuTrigger>
             <MenuContent position={"absolute"} right={0} top={11} width={200}>
-              <MenuItem value="new-txt" textSizeAdjust={"24px"}>
-                Account Name
-              </MenuItem>
               <MenuItem value="new-file">
                 <Link
                   to={"/profile-setting"}

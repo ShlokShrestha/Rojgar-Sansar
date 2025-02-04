@@ -588,6 +588,38 @@ export const getApplicant = catchAsync(
     });
   }
 );
+export const dashBoardApplicantList = catchAsync(
+  async (req: ExpressRequest, res: Response, next: NextFunction) => {
+    const userId = req?.user?.id ?? "";
+
+    const applications = await prisma.application.findMany({
+      where: {
+        job: {
+          userId: userId,
+        },
+      },
+    });
+    const groupedByDate = applications.reduce((acc: any, item: any) => {
+      const appliedDate: any = item.appliedAt.toISOString().split("T")[0];
+      if (!acc[appliedDate]) {
+        acc[appliedDate] = 1;
+      } else {
+        acc[appliedDate]++;
+      }
+      return acc;
+    }, {});
+
+    const formattedData = Object.keys(groupedByDate).map((date) => ({
+      date,
+      count: groupedByDate[date],
+    }));
+    
+    res.status(200).json({
+      status: "success",
+      data: formattedData,
+    });
+  }
+);
 export const updateApplicantStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id, status } = req.body;

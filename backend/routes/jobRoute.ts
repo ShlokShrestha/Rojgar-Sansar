@@ -22,6 +22,7 @@ import {
   getMyCompany,
   getMyJobCategory,
   myAllJobs,
+  dashBoardApplicantList,
 } from "../controller/jobController";
 import {
   isAuthenitcatedUser,
@@ -136,13 +137,13 @@ jobRoute.delete(
 jobRoute.post(
   "/appliedJob",
   isAuthenitcatedUser,
-  isAuthorizedRoles("user", "recruiter"),
+  isAuthorizedRoles("user"),
   appliedJob
 );
 jobRoute.get(
   "/getJobApplicant/:id",
   isAuthenitcatedUser,
-  isAuthorizedRoles("admin", "recruiter"),
+  isAuthorizedRoles("recruiter"),
   getApplicant
 );
 jobRoute.put(
@@ -151,5 +152,10 @@ jobRoute.put(
   isAuthorizedRoles("user", "recruiter"),
   updateApplicantStatus
 );
-
+jobRoute.get(
+  "/dashBoardApplicantList",
+  isAuthenitcatedUser,
+  isAuthorizedRoles("recruiter"),
+  dashBoardApplicantList
+);
 export default jobRoute;
