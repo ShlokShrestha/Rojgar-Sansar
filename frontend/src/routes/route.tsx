@@ -3,7 +3,7 @@ import Home from "../pages/Home/Home";
 import MainLayout from "../Layout/MainLayout";
 import JobPage from "../pages/JobPage/JobPage";
 import DashboardLayout from "../Layout/DashboardLayout";
-import Dashboard from "../pages/Dashboard/Dashboard";
+import Dashboard from "../pages/Dashboard/Dashboard/Dashboard";
 import JobListPage from "../pages/Dashboard/JobList/JobListPage";
 import CompanyList from "../pages/Dashboard/Company/CompanyList";
 import CompanyAdd from "../pages/Dashboard/Company/CompanyAdd";

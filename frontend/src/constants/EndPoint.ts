@@ -24,6 +24,7 @@ const APIS = {
   SINGLEJOBDETAIL: "/job/singleJobDetail/",
   APPLYJOB: "/job/appliedJob/",
   VIEWJOBAPPLICANT: "/job/getJobApplicant/",
+  DASHBOARDJOBAPPLICANT: "/job/dashBoardApplicantList/",
   UPDATEAPPLICANTSTATUS: "/job/updateApplicantStatus/",
   USERPROFILE: "/user/profile",
   UPDATEUSERPROFILE: "/user/updateProfile",
