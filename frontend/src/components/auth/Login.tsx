@@ -30,6 +30,7 @@ const Login = () => {
     queryKey: [""],
     navigateURL: "",
   });
+
   const {
     register,
     handleSubmit,
@@ -41,6 +42,7 @@ const Login = () => {
     },
     resolver: yupResolver(loginValidationSchema),
   });
+  
   const onSubmit = handleSubmit(async (data: ILoginValues) => {
     try {
       const response = await login({
