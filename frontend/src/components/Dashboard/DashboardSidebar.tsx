@@ -38,7 +38,7 @@ const DashboardSidebar = () => {
           textAlign={"center"}
           color="purple.500"
         >
-          Dashboard
+          Dashboards
         </Text>
         <VStack align="start" gap={4}>
           {recuiterRouter?.map((item: NavigateValue, index: number) => (
