@@ -52,7 +52,7 @@ To run **Rojgar Sansar** locally on your machine, follow these steps:
 ### Prerequisites
 
 - **Node.js** (version 14 or higher)
-- **MongoDB** (or another database of your choice)
+- **Postgres** (or another database of your choice)
 - **Git** (for version control)
 
 ### Steps to Set Up Locally
