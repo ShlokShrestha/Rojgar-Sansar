@@ -19,7 +19,7 @@ interface JobDetailPageProps {
 }
 const JobDetailPage = (props: JobDetailPageProps) => {
   const { singleJobDetailData, handleApplyJob } = props;
-  const numberOfApplicants = singleJobDetailData?.application?.length;
+  const numberOfApplicants = singleJobDetailData?._count?.application ?? 0;
   const { auth } = useAuth() as any;
   const isAlreadyApplied = singleJobDetailData?.application?.some(
     (item: IApplicantValues) => {

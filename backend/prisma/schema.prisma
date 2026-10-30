@@ -13,19 +13,23 @@ enum Role {
   admin
 }
 
-enum status {
+enum ApplicationStatus {
   pending
   accepted
   rejected
+
+  @@map("status")
 }
 
-enum workType {
+enum WorkType {
   fullTime
   partTime
   hybrid
+
+  @@map("workType")
 }
 
-model user {
+model User {
   id                  String        @id @default(uuid())
   fullName            String
   email               String        @unique
@@ -35,70 +39,92 @@ model user {
   resetPasswordExpire DateTime?
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
-  profile             profile?
-  jobPosts            job[]
-  applications        application[]
-  company             company[]
   bio                 String?
   skills              String?
   phone               String?
   resumeUrl           String?
   resumeId            String?
-  jobCategory         jobCategory[]
+  profile             Profile?
+  jobPosts            Job[]
+  applications        Application[]
+  company             Company[]
+  jobCategory         JobCategory[]
+
+  @@index([resetPasswordToken])
+  @@map("user")
 }
 
-model profile {
+model Profile {
   profileUrl String
   profileId  String
-  user       user   @relation(fields: [userId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String @unique
+
+  @@map("profile")
 }
 
-model company {
+model Company {
   id       String @id @default(uuid())
   title    String
   location String
   logoUrl  String
   logoId   String
-  jobs     job[]
-  user     user   @relation(fields: [userId], references: [id])
+  jobs     Job[]
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
+
+  @@index([userId])
+  @@map("company")
 }
 
-model job {
+model Job {
   id            String        @id @default(uuid())
   createdAt     DateTime      @default(now())
   title         String
   description   String
   salary        String
   numberOfHires Int
-  workType      workType      @default(fullTime)
-  user          user          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workType      WorkType      @default(fullTime)
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
-  jobCategory   jobCategory?  @relation(fields: [jobCategoryId], references: [id], onDelete: SetNull)
+  jobCategory   JobCategory?  @relation(fields: [jobCategoryId], references: [id], onDelete: SetNull)
   jobCategoryId String?
-  application   application[]
-  company       company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  application   Application[]
+  company       Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId     String
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([jobCategoryId])
+  @@index([createdAt])
+  @@map("job")
 }
 
-model jobCategory {
+model JobCategory {
   id     String @id @default(uuid())
   title  String
-  user   user   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  jobs   job[]
+  jobs   Job[]
+
+  @@index([userId])
+  @@map("jobCategory")
 }
 
-model application {
-  id           String   @id @default(uuid())
-  appliedAt    DateTime @default(now())
-  status       status   @default(pending)
-  job          job      @relation(fields: [jobId], references: [id])
+model Application {
+  id           String            @id @default(uuid())
+  appliedAt    DateTime          @default(now())
+  status       ApplicationStatus @default(pending)
+  job          Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
   jobId        String
-  user         user     @relation(fields: [userId], references: [id])
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
+  // Snapshot of the job at apply time, so history survives later edits.
   jobTitle     String
   companyTitle String
   resumeUrl    String
+
+  @@unique([jobId, userId])
+  @@index([userId])
+  @@map("application")
 }

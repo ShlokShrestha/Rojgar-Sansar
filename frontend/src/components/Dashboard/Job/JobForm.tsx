@@ -17,14 +17,14 @@ import APIS from "../../../constants/EndPoint";
 const JobForm: React.FC<IReactFormProps<IJobValues>> = (props) => {
   const { errors, register } = props;
   const { data: companyData } = useGetHook({
-    queryKey: ["company"],
-    url: `${APIS.COMPANYLIST}`,
-    params: {},
+    queryKey: ["myCompanyOptions"],
+    url: `${APIS.MYCOMPANY}`,
+    params: { take: 100 },
   });
   const { data: categoryData } = useGetHook({
-    queryKey: ["category"],
+    queryKey: ["myCategoryOptions"],
     url: `${APIS.MYCATEGORYLIST}`,
-    params: {},
+    params: { take: 100 },
   });
 
   return (

@@ -63,3 +63,47 @@ Clone the GitHub repository to your local machine:
 
 ```bash
 git clone https://github.com/your-username/rojgar-sansar.git
+```
+
+#### 2. Set Up the Backend
+
+```bash
+cd backend
+cp .env.example .env      # then fill in DATABASE_URL, JWT_SECRET_KEY, ImageKit and SMTP values
+yarn install              # also runs `prisma generate`
+yarn prisma:deploy        # apply database migrations
+yarn dev                  # starts the API on http://localhost:5000
+```
+
+Other scripts: `yarn build` / `yarn start` (production), `yarn typecheck`.
+
+#### 3. Set Up the Frontend
+
+```bash
+cd frontend
+yarn install
+yarn dev                  # http://localhost:5173
+```
+
+## Backend Structure
+
+```
+backend/
+├── prisma/                 # schema.prisma + migrations
+└── src/
+    ├── server.ts           # starts the HTTP server, graceful shutdown
+    ├── app.ts              # express app: security middleware, routes, error handling
+    ├── config/env.ts       # validated environment variables (fails fast if missing)
+    ├── lib/                # prisma client, file storage (ImageKit), mailer
+    ├── middleware/         # auth, validation (zod), uploads, rate limiting, errors
+    ├── utils/              # AppError, pagination, ownership checks, tokens, shared schemas
+    ├── templates/          # email templates
+    ├── routes/index.ts     # mounts every module under /api/v1
+    └── modules/            # one folder per feature
+        ├── auth/           #   *.routes.ts      URL → middleware → controller
+        ├── user/           #   *.controller.ts  HTTP in/out only
+        ├── company/        #   *.service.ts     business logic + database access
+        ├── category/       #   *.schema.ts      zod request validation
+        ├── job/
+        └── application/
+```
